@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AccessibilityPage } from './components/pages/Acessibility';
 // import { Header } from './components/ui'
 import { ThemeProvider } from './context/themeContext'
