@@ -1,5 +1,5 @@
 // pages/Home.tsx
-import React, { useCallback } from 'react';
+import React from 'react';
 // import { Header } from '../ui/header';
 // import { Hero } from '../sections/Hero';
 // import { Profile } from '../sections/Profile';
@@ -272,7 +272,6 @@ export const Home_figma: React.FC = () => {
 
 import { useEffect, useRef, useState } from 'react';
 import { Application } from '@splinetool/runtime';
-import Spline from '@splinetool/react-spline';
 
 
 export const Home: React.FC = () => {
