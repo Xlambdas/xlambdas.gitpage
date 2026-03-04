@@ -90,7 +90,6 @@ export const Home_figma: React.FC = () => {
                             borderRadius: '30px',
                             border: '1px solid #9C88D9',
                             background: '#18112D',
-
                         }}
                     >
                         <a
@@ -274,11 +273,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Application } from '@splinetool/runtime';
 
 
-export const Home: React.FC = () => {
+export const Home_save: React.FC = () => {
     const navigate = useNavigate();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const appRef = useRef<Application | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const [animationsEnabled, setAnimationsEnabled] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [section, setSection] = useState(0);
     const sectionRef = useRef(0);
@@ -294,9 +294,13 @@ export const Home: React.FC = () => {
 
             try {
                 const canvas = canvasRef.current;
-                const dpr = window.devicePixelRatio || 1;
+                const dpr = animationsEnabled
+                    ? Math.min(window.devicePixelRatio || 1, 1.5)
+                    : 1;
+
                 canvas.width = window.innerWidth * dpr;
                 canvas.height = window.innerHeight * dpr;
+
                 canvas.style.width = `${window.innerWidth}px`;
                 canvas.style.height = `${window.innerHeight}px`;
 
@@ -304,7 +308,11 @@ export const Home: React.FC = () => {
                 appRef.current = app;
                 await app.load(`${import.meta.env.BASE_URL}brain.splinecode`);
                 console.log('✅ Spline loaded successfully');
-                setIsLoading(false);
+                app.setVariable('section', 0);
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 200);
 
                 const animate = () => {
                     requestAnimationFrame(animate);
@@ -320,6 +328,7 @@ export const Home: React.FC = () => {
         initSpline();
 
         const handleWheel = (e: WheelEvent) => {
+            if (!animationsEnabled) return;
             e.preventDefault();
             if (isAnimating.current) return;
 
@@ -333,7 +342,13 @@ export const Home: React.FC = () => {
             sectionRef.current = next;
             setSection(next);
 
-            appRef.current?.setVariable('section', next);
+            if (appRef.current) {
+                try {
+                    appRef.current.setVariable('section', next);
+                } catch (e) {
+                    console.warn("Spline variable update failed", e);
+                }
+            }
 
             setTimeout(() => {
                 isAnimating.current = false;
@@ -343,13 +358,17 @@ export const Home: React.FC = () => {
         window.addEventListener('wheel', handleWheel, { passive: false });
 
         const handleResize = () => {
-            if (canvasRef.current) {
-                const dpr = window.devicePixelRatio || 1;
-                canvasRef.current.width = window.innerWidth * dpr;
-                canvasRef.current.height = window.innerHeight * dpr;
-                canvasRef.current.style.width = `${window.innerWidth}px`;
-                canvasRef.current.style.height = `${window.innerHeight}px`;
-            }
+            if (!canvasRef.current) return;
+
+            const dpr = animationsEnabled
+                ? Math.min(window.devicePixelRatio || 1, 1.5)
+                : 1;
+
+            canvasRef.current.width = window.innerWidth * dpr;
+            canvasRef.current.height = window.innerHeight * dpr;
+
+            canvasRef.current.style.width = `${window.innerWidth}px`;
+            canvasRef.current.style.height = `${window.innerHeight}px`;
         };
 
         window.addEventListener('resize', handleResize);
@@ -361,6 +380,13 @@ export const Home: React.FC = () => {
                 appRef.current = null;
             }
         };
+    }, []);
+
+    useEffect(() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        if (prefersReducedMotion.matches) {
+            setAnimationsEnabled(false);
+        }
     }, []);
 
     return (
@@ -377,12 +403,13 @@ export const Home: React.FC = () => {
                 top: 0, left: 0,
                 width: '100%',
                 height: '100vh',
-                zIndex: 0
+                zIndex: 0,
+                display: animationsEnabled ? 'block' : 'none',
             }}>
                 <canvas
                     ref={canvasRef}
                     onMouseMove={(e) => {
-                        if (!containerRef.current) return;
+                        if (!containerRef.current || !animationsEnabled) return;
 
                         const rect = containerRef.current.getBoundingClientRect();
                         const x = (e.clientX - rect.left) / rect.width;
@@ -467,10 +494,11 @@ export const Home: React.FC = () => {
                     alignItems: 'center',
                     gap: '0.625rem',
                     height: '100%',
-                    maxWidth: '1400px',
+                    maxWidth: '1800px',
                     margin: '0 auto',
                 }}>
                     <h1 style={{
+                        alignSelf: 'stretch',
                         color: '#9C88D9',
                         fontFamily: 'Montserrat',
                         fontSize: '2.25rem',
@@ -482,11 +510,32 @@ export const Home: React.FC = () => {
                         XLS.studio
                     </h1>
                     <button
+                        onClick={() => setAnimationsEnabled(prev => !prev)}
+                        style={{
+                            width: 120,
+                            height: 30,
+                            borderRadius: 20,
+                            border: '1px solid #9C88D9',
+                            background: animationsEnabled ? '#9C88D9' : '#18112D',
+                            color: animationsEnabled ? '#18112D' : '#9C88D9',
+                            fontFamily: 'Inter',
+                            fontSize: '0.8rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease'
+                        }}
+                    >
+                        {animationsEnabled ? "Animations ON" : "Animations OFF"}
+                    </button>
+                    <button
                         className="hide-below-500"
                         onClick={() => navigate('/accessibility')}
                         style={{
+                            display: 'flex',
                             height: '30px',
                             minWidth: '180px',
+                            maxWidth: '302px',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                             borderRadius: '30px',
                             border: '1px solid #9C88D9',
                             background: '#18112D',
@@ -503,7 +552,24 @@ export const Home: React.FC = () => {
                             (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
                         }}
                     >
-                        Accessibility
+                        <a
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                flex: '1 0 0',
+                                alignSelf: 'stretch',
+                                color: '#9C88D9',
+                                textAlign: 'center',
+                                fontFamily: 'Inter',    //'JetBrains Mono',
+                                fontSize: '0.875rem',
+                                fontStyle: 'italic',
+                                fontWeight: 100,
+                                lineHeight: 'normal',
+                            }}
+                        >
+                            Accessibility
+                        </a>
                     </button>
                     <button style={{
                         width: 50,
@@ -540,7 +606,9 @@ export const Home: React.FC = () => {
                         height: '300vh',
                         width: '100%',
                         transform: `translateY(-${section * 100}vh)`,
-                        transition: 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)',
+                        transition: animationsEnabled
+                            ? 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)'
+                            : 'none',
                     }}
                 >
                     {/* SECTION 1 */}
@@ -1032,17 +1100,70 @@ export const Home: React.FC = () => {
     );
 };
 
-
-export const Home_test: React.FC = () => {
+export const Home: React.FC = () => {
     const navigate = useNavigate();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const appRef = useRef<Application | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const [animationsEnabled, setAnimationsEnabled] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [section, setSection] = useState(0);
     const sectionRef = useRef(0);
     const MAX_SECTION = 2;
     const isAnimating = useRef(false);
+    const dprRef = useRef(1.2);
+    const frameCount = useRef(0);
+    const lastTime = useRef(performance.now());
+
+
+    const monitorPerformance = () => {
+        frameCount.current++;
+
+        const now = performance.now();
+        const delta = now - lastTime.current;
+
+        if (delta > 1000) {
+            const fps = (frameCount.current * 1000) / delta;
+
+            let newDpr = dprRef.current;
+
+            if (fps < 40) newDpr -= 0.1;
+            if (fps > 55) newDpr += 0.05;
+
+            newDpr = Math.max(0.8, Math.min(newDpr, 1.5));
+
+            // only update if difference is meaningful
+            if (Math.abs(newDpr - dprRef.current) > 0.05) {
+                dprRef.current = newDpr;
+                updateCanvasResolution();
+            }
+
+            frameCount.current = 0;
+            lastTime.current = now;
+        }
+
+        requestAnimationFrame(monitorPerformance);
+    };
+
+    const updateCanvasResolution = () => {
+        if (!canvasRef.current) return;
+
+        const canvas = canvasRef.current;
+
+        // clamp DPR so it never goes crazy
+        const dpr = animationsEnabled
+            ? Math.max(0.8, Math.min(dprRef.current, 1.5))
+            : 1;
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+    };
 
     useEffect(() => {
         const initSpline = async () => {
@@ -1053,17 +1174,19 @@ export const Home_test: React.FC = () => {
 
             try {
                 const canvas = canvasRef.current;
-                // const dpr = window.devicePixelRatio || 1;
-                // canvas.width = window.innerWidth * dpr;
-                // canvas.height = window.innerHeight * dpr;
-                // canvas.style.width = `${window.innerWidth}px`;
-                // canvas.style.height = `${window.innerHeight}px`;
+
+                updateCanvasResolution();
 
                 const app = new Application(canvas);
                 appRef.current = app;
-                await app.load('/brain_final_v8.splinecode');
+                await app.load(`${import.meta.env.BASE_URL}brain.splinecode`);
+                monitorPerformance();
                 console.log('✅ Spline loaded successfully');
-                setIsLoading(false);
+                app.setVariable('section', 0);
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 200);
 
                 const animate = () => {
                     requestAnimationFrame(animate);
@@ -1079,6 +1202,7 @@ export const Home_test: React.FC = () => {
         initSpline();
 
         const handleWheel = (e: WheelEvent) => {
+            if (!animationsEnabled) return;
             e.preventDefault();
             if (isAnimating.current) return;
 
@@ -1092,7 +1216,13 @@ export const Home_test: React.FC = () => {
             sectionRef.current = next;
             setSection(next);
 
-            appRef.current?.setVariable('section', next);
+            if (appRef.current) {
+                try {
+                    appRef.current.setVariable('section', next);
+                } catch (e) {
+                    console.warn("Spline variable update failed", e);
+                }
+            }
 
             setTimeout(() => {
                 isAnimating.current = false;
@@ -1101,20 +1231,24 @@ export const Home_test: React.FC = () => {
 
         window.addEventListener('wheel', handleWheel, { passive: false });
 
-        // const handleResize = () => {
-        //     if (canvasRef.current) {
-        //         const dpr = window.devicePixelRatio || 1;
-        //         canvasRef.current.width = window.innerWidth * dpr;
-        //         canvasRef.current.height = window.innerHeight * dpr;
-        //         canvasRef.current.style.width = `${window.innerWidth}px`;
-        //         canvasRef.current.style.height = `${window.innerHeight}px`;
-        //     }
-        // };
+        const handleResize = () => {
+            if (!canvasRef.current) return;
 
-        // window.addEventListener('resize', handleResize);
+            const dpr = animationsEnabled
+                ? Math.min(window.devicePixelRatio || 1, 1.5)
+                : 1;
+
+            canvasRef.current.width = window.innerWidth * dpr;
+            canvasRef.current.height = window.innerHeight * dpr;
+
+            canvasRef.current.style.width = `${window.innerWidth}px`;
+            canvasRef.current.style.height = `${window.innerHeight}px`;
+        };
+
+        window.addEventListener('resize', handleResize);
 
         return () => {
-            // window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleResize);
             window.removeEventListener('wheel', handleWheel);
             if (appRef.current) {
                 appRef.current = null;
@@ -1122,11 +1256,17 @@ export const Home_test: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        if (prefersReducedMotion.matches) {
+            setAnimationsEnabled(false);
+        }
+    }, []);
+
+
     return (
         // Full page container
-        <div 
-            ref={containerRef}
-        style={{
+        <div style={{
             // height: '200vh', // 2x viewport for 2 sections
             backgroundColor: '#0B0E16',
             position: 'relative',
@@ -1138,12 +1278,13 @@ export const Home_test: React.FC = () => {
                 top: 0, left: 0,
                 width: '100%',
                 height: '100vh',
-                zIndex: 0
+                zIndex: 0,
+                display: animationsEnabled ? 'block' : 'none',
             }}>
                 <canvas
                     ref={canvasRef}
                     onMouseMove={(e) => {
-                        if (!containerRef.current) return;
+                        if (!containerRef.current || !animationsEnabled) return;
 
                         const rect = containerRef.current.getBoundingClientRect();
                         const x = (e.clientX - rect.left) / rect.width;
@@ -1202,6 +1343,16 @@ export const Home_test: React.FC = () => {
                 </div>
             )}
 
+            <style>{`
+                @keyframes loading {
+                    0% { transform: translateX(-100%); }
+                    50% { transform: translateX(233%); }
+                    100% { transform: translateX(-100%); }
+                }
+                html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+                .section { scroll-snap-align: start; min-height: 100vh; }
+            `}</style>
+
             {/* FIXED Header - always on top */}
             <div style={{
                 position: 'fixed',
@@ -1218,10 +1369,11 @@ export const Home_test: React.FC = () => {
                     alignItems: 'center',
                     gap: '0.625rem',
                     height: '100%',
-                    maxWidth: '1400px',
+                    maxWidth: '1800px',
                     margin: '0 auto',
                 }}>
                     <h1 style={{
+                        alignSelf: 'stretch',
                         color: '#9C88D9',
                         fontFamily: 'Montserrat',
                         fontSize: '2.25rem',
@@ -1233,11 +1385,32 @@ export const Home_test: React.FC = () => {
                         XLS.studio
                     </h1>
                     <button
+                        onClick={() => setAnimationsEnabled(prev => !prev)}
+                        style={{
+                            width: 120,
+                            height: 30,
+                            borderRadius: 20,
+                            border: '1px solid #9C88D9',
+                            background: animationsEnabled ? '#9C88D9' : '#18112D',
+                            color: animationsEnabled ? '#18112D' : '#9C88D9',
+                            fontFamily: 'Inter',
+                            fontSize: '0.8rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease'
+                        }}
+                    >
+                        {animationsEnabled ? "Animations ON" : "Animations OFF"}
+                    </button>
+                    <button
                         className="hide-below-500"
                         onClick={() => navigate('/accessibility')}
                         style={{
+                            display: 'flex',
                             height: '30px',
                             minWidth: '180px',
+                            maxWidth: '302px',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                             borderRadius: '30px',
                             border: '1px solid #9C88D9',
                             background: '#18112D',
@@ -1254,7 +1427,24 @@ export const Home_test: React.FC = () => {
                             (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
                         }}
                     >
-                        Accessibility
+                        <a
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                flex: '1 0 0',
+                                alignSelf: 'stretch',
+                                color: '#9C88D9',
+                                textAlign: 'center',
+                                fontFamily: 'Inter',    //'JetBrains Mono',
+                                fontSize: '0.875rem',
+                                fontStyle: 'italic',
+                                fontWeight: 100,
+                                lineHeight: 'normal',
+                            }}
+                        >
+                            Accessibility
+                        </a>
                     </button>
                     <button style={{
                         width: 50,
@@ -1273,8 +1463,6 @@ export const Home_test: React.FC = () => {
                         }} />
                 </div>
             </div>
-
-
             {/* fig_corps1 - Section 1 */}
             <div
                 style={{
@@ -1291,7 +1479,9 @@ export const Home_test: React.FC = () => {
                         height: '300vh',
                         width: '100%',
                         transform: `translateY(-${section * 100}vh)`,
-                        transition: 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)',
+                        transition: animationsEnabled
+                            ? 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)'
+                            : 'none',
                     }}
                 >
                     {/* SECTION 1 */}
@@ -1395,390 +1585,224 @@ export const Home_test: React.FC = () => {
                     {/* SECTION 2 */}
                     <div style={{ height: '100vh' }}>
                         <div className="section" style={{ paddingTop: '70px', paddingBottom: '70px' }}>
+                            {/* frame 22 */}
                             <div style={{
                                 display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
+                                height: '854px',
+                                padding: '40px',
+                                justifyContent: 'space-between',
                                 alignItems: 'flex-end',
-                                gap: '90px',
-                                minHeight: 'calc(100vh - 140px)',
-                                maxWidth: '1400px',
-                                margin: '0 auto',
-                                pointerEvents: 'none',
                             }}>
+                                {/* frame 18 */}
                                 <div style={{
                                     display: 'flex',
-                                    padding: '0 90px 113px 121px',
+                                    width: '868px',
                                     flexDirection: 'column',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    gap: '100px',
-                                    width: '100%',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'flex-start',
+                                    alignSelf: 'stretch',
                                 }}>
-                                    <div style={{
-                                        display: 'flex',
-                                        height: '223px',
-                                        flexDirection: 'column',
-                                        alignItems: 'flex-end',
-                                        width: '100%',
-                                    }}>
-                                        <div style={{
-                                            height: 124,
+                                    {/* title */}
+                                    <h1
+                                        style={{
+                                            display: 'flex',
+                                            height: '208.323px',
+                                            flexDirection: 'column',
+                                            justifyContent: 'center',
+                                            alignSelf: 'stretch',
                                             color: '#9C88D9',
-                                            textAlign: 'right',
                                             fontFamily: 'Montserrat',
-                                            fontSize: 96,
+                                            fontSize: 80,
                                             fontStyle: 'italic',
                                             fontWeight: 500,
                                             lineHeight: 'normal',
-                                            pointerEvents: 'none',
-                                        }}>
-                                            WELCOME
-                                        </div>
-                                        <div style={{
-                                            color: '#9C88D9',
-                                            fontFamily: 'JetBrains Mono',
-                                            fontSize: 32,
-                                            fontStyle: 'italic',
-                                            fontWeight: 500,
-                                            lineHeight: 'normal',
-                                            minWidth: 372,
-                                            pointerEvents: 'none',
-                                        }}>
-                                            Explore cognitive science, quizzes & projects
-                                        </div>
-                                    </div>
+                                        }}
+                                    >
+                                        FROM KNOWLEDGE TO SYSTEMS
+                                    </h1>
+                                    {/* frame 19 */}
                                     <div style={{
                                         display: 'flex',
-                                        height: '64px',
                                         justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        width: '100%',
+                                        alignItems: 'flex-start',
+                                        alignSelf: 'stretch',
                                     }}>
-                                        <div style={{ width: '435px', height: '45px' }} />
-                                        <div style={{ width: 310, height: 64, pointerEvents: 'auto' }}>
-                                            <button
-                                                style={{
-                                                    width: '310px',
-                                                    height: '64px',
-                                                    borderRadius: '40px',
-                                                    border: '2px solid #9C88D9',
-                                                    background: '#18112D',
-                                                    color: '#9C88D9',
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 24,
-                                                    fontWeight: 200,
-                                                    cursor: 'pointer',
-                                                    transition: 'all 0.3s ease',
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 20px rgba(156, 136, 217, 0.4)';
-                                                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(24, 17, 45, 0.8)';
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
-                                                    (e.currentTarget as HTMLButtonElement).style.background = '#18112D';
-                                                }}
-                                            >
-                                                Enter the system
-                                            </button>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            flex: '1 0 0',
+                                        }}>
+                                            <p style={{
+                                                width: '552px',
+                                                height: '500px',
+                                                color: '#9C88D9',
+                                                textAlign: 'justify',
+                                                fontFamily: '"JetBrains Mono"',
+                                                fontSize: '36px',
+                                                fontStyle: 'normal',
+                                                fontWeight: 400,
+                                                lineHeight: 'normal',
+                                            }}>
+                                                I design structured digital environments that transform complex knowledge into interactive tools.
+                                                From cognitive science to UI systems, each project is built to explore how humans think, learn and interact.
+                                            </p>
+                                            <div style={{
+                                                width: '181px',
+                                                height: '281px',
+                                            }}>
+                                            </div>
                                         </div>
-                                        <div style={{ width: 49, height: 45 }} />
                                     </div>
+                                </div>
+                                {/* frame 21 */}
+                                <div style={{
+                                    display: 'flex',
+                                    height: '193px',
+                                    padding: '20px 80px 60px 20px',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'flex-end',
+                                    flex: '0 0 auto',
+                                }}>
+                                    <button style={{
+                                        display: 'flex',
+                                        width: '321px',
+                                        height: '47px',
+                                        maxWidth: '321px',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        flexShrink: 0,
+                                        borderRadius: '40px',
+                                        border: '2px solid #9C88D9',
+                                        background: '#18112D',
+                                    }}>
+                                        <a style={{
+                                            display: 'flex',
+                                            width: '321px',
+                                            height: '47px',
+                                            flexDirection: 'column',
+                                            justifyContent: 'center',
+                                            color: '#9C88D9',
+                                            textAlign: 'center',
+                                            fontFamily: 'Montserrat',
+                                            fontSize: '24px',
+                                            fontStyle: 'normal',
+                                            fontWeight: 200,
+                                            lineHeight: 'normal',
+                                        }}>My Projects</a>
+                                    </button>
+                                    <button style={{
+                                        height: '46.848px',
+                                        flexShrink: 0,
+                                        alignSelf: 'stretch',
+                                        width: '453px',
+                                        borderRadius: '30px',
+                                        border: '2px solid #9C88D9',
+                                        background: '#18112D',
+                                    }}>
+                                        <a style={{
+                                            display: 'flex',
+                                            width: '453px',
+                                            height: '46.848px',
+                                            flexDirection: 'column',
+                                            justifyContent: 'center',
+                                            color: '#9C88D9',
+                                            textAlign: 'center',
+                                            fontFamily: 'Montserrat',
+                                            fontSize: '24px',
+                                            fontStyle: 'normal',
+                                            fontWeight: 200,
+                                            lineHeight: 'normal',
+                                        }}>My Portfolio</a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* SECTION 2 */}
+                    {/* SECTION 3 */}
                     <div style={{ height: '100vh' }}>
                         <div className="section" style={{ paddingTop: '70px', paddingBottom: '70px' }}>
+
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
-                                alignItems: 'flex-end',
-                                gap: '90px',
+                                alignItems: 'flex-start',
                                 minHeight: 'calc(100vh - 140px)',
                                 maxWidth: '1400px',
                                 margin: '0 auto',
+                                paddingLeft: '120px',
+                                gap: '40px',
                                 pointerEvents: 'none',
                             }}>
+
+                                {/* TITLE */}
                                 <div style={{
-                                    display: 'flex',
-                                    padding: '0 90px 113px 121px',
-                                    flexDirection: 'column',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    gap: '100px',
-                                    width: '100%',
+                                    color: '#9C88D9',
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 96,
+                                    fontStyle: 'italic',
+                                    fontWeight: 500,
+                                    lineHeight: '1',
+                                    pointerEvents: 'none',
                                 }}>
-                                    <div style={{
-                                        display: 'flex',
-                                        height: '223px',
-                                        flexDirection: 'column',
-                                        alignItems: 'flex-end',
-                                        width: '100%',
-                                    }}>
-                                        <div style={{
-                                            height: 124,
-                                            color: '#9C88D9',
-                                            textAlign: 'right',
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 96,
-                                            fontStyle: 'italic',
-                                            fontWeight: 500,
-                                            lineHeight: 'normal',
-                                            pointerEvents: 'none',
-                                        }}>
-                                            WELCOME
-                                        </div>
-                                        <div style={{
-                                            color: '#9C88D9',
-                                            fontFamily: 'JetBrains Mono',
-                                            fontSize: 32,
-                                            fontStyle: 'italic',
-                                            fontWeight: 500,
-                                            lineHeight: 'normal',
-                                            minWidth: 372,
-                                            pointerEvents: 'none',
-                                        }}>
-                                            Explore cognitive science, quizzes & projects
-                                        </div>
-                                    </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        height: '64px',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        width: '100%',
-                                    }}>
-                                        <div style={{ width: '435px', height: '45px' }} />
-                                        <div style={{ width: 310, height: 64, pointerEvents: 'auto' }}>
-                                            <button
-                                                style={{
-                                                    width: '310px',
-                                                    height: '64px',
-                                                    borderRadius: '40px',
-                                                    border: '2px solid #9C88D9',
-                                                    background: '#18112D',
-                                                    color: '#9C88D9',
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 24,
-                                                    fontWeight: 200,
-                                                    cursor: 'pointer',
-                                                    transition: 'all 0.3s ease',
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 20px rgba(156, 136, 217, 0.4)';
-                                                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(24, 17, 45, 0.8)';
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
-                                                    (e.currentTarget as HTMLButtonElement).style.background = '#18112D';
-                                                }}
-                                            >
-                                                Enter the system
-                                            </button>
-                                        </div>
-                                        <div style={{ width: 49, height: 45 }} />
-                                    </div>
+                                    THE SANDBOX
                                 </div>
+
+                                {/* DESCRIPTION */}
+                                <div style={{
+                                    color: '#9C88D9',
+                                    fontFamily: 'JetBrains Mono',
+                                    fontSize: 32,
+                                    fontStyle: 'italic',
+                                    fontWeight: 500,
+                                    maxWidth: '520px',
+                                    lineHeight: '1.4',
+                                    pointerEvents: 'none',
+                                    textAlign: 'center',
+                                }}>
+                                    A controlled environment for experimentation,
+                                    iteration, and structured exploration.
+                                </div>
+
+                                {/* BUTTON */}
+                                <div style={{ pointerEvents: 'auto' }}>
+                                    <button
+                                        style={{
+                                            width: '310px',
+                                            height: '64px',
+                                            borderRadius: '40px',
+                                            border: '2px solid #9C88D9',
+                                            background: '#18112D',
+                                            color: '#9C88D9',
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 24,
+                                            fontWeight: 200,
+                                            cursor: 'pointer',
+                                            transition: 'all 0.3s ease',
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                                                '0 0 20px rgba(156, 136, 217, 0.4)';
+                                            (e.currentTarget as HTMLButtonElement).style.background =
+                                                'rgba(24, 17, 45, 0.8)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
+                                            (e.currentTarget as HTMLButtonElement).style.background = '#18112D';
+                                        }}
+                                    >
+                                        Discover more
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* <div className="section" style={{ paddingTop: '70px', paddingBottom: '70px' }}>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
-                    gap: '90px',
-                    minHeight: 'calc(100vh - 140px)',
-                    maxWidth: '1400px',
-                    margin: '0 auto',
-                    pointerEvents: 'none',
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        padding: '0 90px 113px 121px',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '100px',
-                        width: '100%',
-                    }}>
-                        <div style={{
-                            display: 'flex',
-                            height: '223px',
-                            flexDirection: 'column',
-                            alignItems: 'flex-end',
-                            width: '100%',
-                        }}>
-                            <div style={{
-                                height: 124,
-                                color: '#9C88D9',
-                                textAlign: 'right',
-                                fontFamily: 'Montserrat',
-                                fontSize: 96,
-                                fontStyle: 'italic',
-                                fontWeight: 500,
-                                lineHeight: 'normal',
-                                pointerEvents: 'none',
-                            }}>
-                                WELCOME
-                            </div>
-                            <div style={{
-                                color: '#9C88D9',
-                                fontFamily: 'JetBrains Mono',
-                                fontSize: 32,
-                                fontStyle: 'italic',
-                                fontWeight: 500,
-                                lineHeight: 'normal',
-                                minWidth: 372,
-                                pointerEvents: 'none',
-                            }}>
-                                Explore cognitive science, quizzes & projects
-                            </div>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            height: '64px',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            width: '100%',
-                        }}>
-                            <div style={{ width: '435px', height: '45px' }} />
-                            <div style={{ width: 310, height: 64, pointerEvents: 'auto' }}>
-                                <button
-                                    style={{
-                                        width: '310px',
-                                        height: '64px',
-                                        borderRadius: '40px',
-                                        border: '2px solid #9C88D9',
-                                        background: '#18112D',
-                                        color: '#9C88D9',
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 24,
-                                        fontWeight: 200,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease',
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 20px rgba(156, 136, 217, 0.4)';
-                                        (e.currentTarget as HTMLButtonElement).style.background = 'rgba(24, 17, 45, 0.8)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
-                                        (e.currentTarget as HTMLButtonElement).style.background = '#18112D';
-                                    }}
-                                >
-                                    Enter the system
-                                </button>
-                            </div>
-                            <div style={{ width: 49, height: 45 }} />
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
-            {/* fig_corps2 - Section 2 (identical content) */}
-            {/* <div className="section" style={{ paddingTop: '70px', paddingBottom: '70px' }}>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
-                    gap: '90px',
-                    minHeight: 'calc(100vh - 140px)',
-                    maxWidth: '1400px',
-                    margin: '0 auto',
-                    pointerEvents: 'none',
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        padding: '0 90px 113px 121px',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '100px',
-                        width: '100%',
-                    }}>
-                        <div style={{
-                            display: 'flex',
-                            height: '223px',
-                            flexDirection: 'column',
-                            alignItems: 'flex-end',
-                            width: '100%',
-                        }}>
-                            <div style={{
-                                height: 124,
-                                color: '#9C88D9',
-                                textAlign: 'right',
-                                fontFamily: 'Montserrat',
-                                fontSize: 96,
-                                fontStyle: 'italic',
-                                fontWeight: 500,
-                                lineHeight: 'normal',
-                                pointerEvents: 'none',
-                            }}>
-                                WELCOME
-                            </div>
-                            <div style={{
-                                color: '#9C88D9',
-                                fontFamily: 'JetBrains Mono',
-                                fontSize: 32,
-                                fontStyle: 'italic',
-                                fontWeight: 500,
-                                lineHeight: 'normal',
-                                minWidth: 372,
-                                pointerEvents: 'none',
-                            }}>
-                                Explore cognitive science, quizzes & projects
-                            </div>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            height: '64px',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            width: '100%',
-                        }}>
-                            <div style={{ width: '435px', height: '45px' }} />
-                            <div style={{ width: 310, height: 64, pointerEvents: 'auto' }}>
-                                <button
-                                    style={{
-                                        width: '310px',
-                                        height: '64px',
-                                        borderRadius: '40px',
-                                        border: '2px solid #9C88D9',
-                                        background: '#18112D',
-                                        color: '#9C88D9',
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 24,
-                                        fontWeight: 200,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease',
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 20px rgba(156, 136, 217, 0.4)';
-                                        (e.currentTarget as HTMLButtonElement).style.background = 'rgba(24, 17, 45, 0.8)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
-                                        (e.currentTarget as HTMLButtonElement).style.background = '#18112D';
-                                    }}
-                                >
-                                    Enter the system
-                                </button>
-                            </div>
-                            <div style={{ width: 49, height: 45 }} />
-                        </div>
-                    </div>
-                </div>
-            </div> */}
         </div>
     );
 };
