@@ -1,0 +1,1 @@
+export { EquipCard } from "./equip-card";

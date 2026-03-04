@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Your design tokens here (no tailwind.config.js needed) */
+@theme {
+
+
+
+    /* default  */
+    --color-primary: #444A23;
+    --color-primary-light: #B2B18F;
+    --color-primary-dark: #363C18;
+    --color-text-dark: #363C18;
+    --color-text-light: #B2B18F;
+
+
+    /* Destructive for buttons */
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: white;
+
+    /* Equip-card specific */
+    --color-card-bg: var(--color-primary-light);
+    --color-card-shadow: 0 4px 6px -1px rgba(54, 60, 24, 0.15);
+
+    --radius-xl: 12px;
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+    /* -------------- */
+    /* new parameters */
+    --color-purple: #9C88D9;      /* Main accent */
+    --color-dark: #18112D;        /* Backgrounds */
+    --radius-2xl: 30px;             /* Large buttons */
+}
+
+
+/* Optional: Rare component layer for complex base styles */
+@layer components {
+  .card-image {
+    @apply w-64 h-64 rounded-lg object-cover shrink-0 mb-6 md:mb-0;
+  }
+  
+  .card-content {
+    @apply flex flex-col flex-1 min-w-0;
+  }
+}
+
+
+.hide-below-500 {
+    display: flex; /* default shown */
+  }
+  
+  /* hide when viewport width is less than 500px */
+  @media (max-width: 499px) {
+    .hide-below-500 {
+      display: none !important;
+    }
+  }
