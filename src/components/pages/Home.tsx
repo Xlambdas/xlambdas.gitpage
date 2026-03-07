@@ -1016,22 +1016,22 @@ export const Home: React.FC = () => {
                 return;
             }
 
-            if (isTouchDevice) {
-                console.log("📱 Touch device detected — Spline disabled, touch scroll enabled");
-                setAnimationsEnabled(false);
-                setIsLoading(false);
-                return;
-            }
-
             try {
                 const canvas = canvasRef.current;
 
                 const deviceDpr = window.devicePixelRatio || 1;
 
                 // choose a stable DPR depending on device
-                if (deviceDpr > 2) dprRef.current = 1.2;
-                else if (deviceDpr > 1.5) dprRef.current = 1.1;
-                else dprRef.current = 1;
+                if (isTouchDevice) {
+                    // Lower DPR on mobile for better performance
+                    dprRef.current = 0.8;
+                    console.log("📱 Touch device detected — Spline enabled with touch navigation");
+                } else {
+                    // Desktop DPR settings
+                    if (deviceDpr > 2) dprRef.current = 1.2;
+                    else if (deviceDpr > 1.5) dprRef.current = 1.1;
+                    else dprRef.current = 1;
+                }
 
                 updateCanvasResolution();
 
@@ -1103,7 +1103,7 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
         const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        if (prefersReducedMotion.matches || isTouchDevice) {
+        if (prefersReducedMotion.matches && !isTouchDevice) {
             setAnimationsEnabled(false);
         }
     }, []);
@@ -1125,13 +1125,13 @@ export const Home: React.FC = () => {
                 height: '100vh',
                 zIndex: 0,
                 display: animationsEnabled ? 'block' : 'none',
-                touchAction: isTouchDevice ? 'none' : 'auto',
+                touchAction: 'none',
                 pointerEvents: isTouchDevice ? 'none' : 'auto',
             }}>
                 <canvas
                     ref={canvasRef}
                     onMouseMove={(e) => {
-                        if (!containerRef.current || !animationsEnabled) return;
+                        if (!containerRef.current || !animationsEnabled || isTouchDevice) return;
 
                         const rect = containerRef.current.getBoundingClientRect();
                         const x = (e.clientX - rect.left) / rect.width;
