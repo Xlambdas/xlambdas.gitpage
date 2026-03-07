@@ -1279,7 +1279,7 @@ export const Home: React.FC = () => {
             // height: '200vh', // 2x viewport for 2 sections
             backgroundColor: '#0B0E16',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: isTouchDevice ? 'auto' : 'hidden',
         }}>
             {/* Fixed canvas - full viewport */}
             <div style={{
@@ -1386,8 +1386,8 @@ export const Home: React.FC = () => {
                     style={{
                         height: '300vh',
                         width: '100%',
-                        transform: `translateY(-${section * 100}vh)`,
-                        transition: animationsEnabled
+                        transform: isTouchDevice ? 'none' : `translateY(-${section * 100}vh)`,
+                        transition: isTouchDevice ? 'none' : animationsEnabled
                             ? 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)'
                             : 'none',
                     }}
@@ -1404,7 +1404,7 @@ export const Home: React.FC = () => {
                                 minHeight: 'calc(100vh - 140px)',
                                 maxWidth: '1400px',
                                 margin: '0 auto',
-                                pointerEvents: 'none',
+                                pointerEvents: isTouchDevice ? 'auto' : 'none',
                             }}>
                                 <div style={{
                                     display: 'flex',
@@ -1503,6 +1503,7 @@ export const Home: React.FC = () => {
                                 width: '100%',
                                 height: '100%',
                                 padding: '0 clamp(20px,4vw,60px) clamp(30px,6vh,80px)',
+                                pointerEvents: isTouchDevice ? 'auto' : 'none',
                             }}>
                                 {/* title */}
                                 <h1
@@ -1651,7 +1652,7 @@ export const Home: React.FC = () => {
                                 paddingLeft: 'clamp(20px,6vw,120px)',
                                 paddingRight: 'clamp(20px,6vw,120px)',
                                 gap: 'clamp(30px,6vh,100px)',
-                                pointerEvents: 'none',
+                                pointerEvents: isTouchDevice ? 'auto' : 'none',
                             }}>
 
                                 {/* TITLE */}
