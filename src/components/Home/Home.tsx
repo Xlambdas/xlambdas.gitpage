@@ -159,7 +159,7 @@ export const Home: React.FC = () => {
                         alignItems: 'flex-end',
                         width: '100%',
                         height: '100%',
-                        // minHeight: 'calc(100vh - 140px)',
+                        minHeight: '100%',
                         maxWidth: '1800px',
                         padding: '0 clamp(20px,4vw,60px)',
                         boxSizing: 'border-box',

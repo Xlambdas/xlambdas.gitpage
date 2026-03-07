@@ -8,7 +8,7 @@ export const ScrollContainer: React.FC<ScrollContainerProps> = ({
     <div
         style={{
             position: 'relative',
-            height: '100%',
+            height: '100vh',
             width: '100%',
             overflow: 'hidden',
             pointerEvents: 'none',
