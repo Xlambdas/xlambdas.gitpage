@@ -77,7 +77,6 @@
   .flex-direction {
     flex-direction: column;
     align-items: center;
-    gap: 40px;
   }
 }
 
@@ -91,3 +90,12 @@
     }
 }
 
+.responsive-button {
+    width: clamp(260px, 40vw, 450px);
+    height: clamp(44px, 7vh, 64px);
+}
+
+.primary-button {
+    width: clamp(200px,30vw,310px);
+    height: clamp(44px,7vh,64px);
+}
