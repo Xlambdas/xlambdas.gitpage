@@ -18,7 +18,7 @@ export const FONTS = {
 } as const;
 
 export const PADDING = {
-    horizontal: 'clamp(20px,6vw,120px)',
+    horizontal: 'clamp(10px,6vw,80px)',
     verticalSection: '70px',
 } as const;
 
@@ -29,7 +29,7 @@ export const baseTextStyle = {
 export const baseButtonStyle = {
     borderRadius: '40px',
     border: `2px solid ${COLORS.primary}`,
-    padding: '10px 20px',
+    padding: '5px 15px',
     background: COLORS.darkButton,
     color: COLORS.primary,
     fontFamily: FONTS.montserrat,
@@ -38,4 +38,7 @@ export const baseButtonStyle = {
     cursor: 'pointer',
     transition: 'all 0.3s ease',
     pointerEvents: 'auto',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
 } as const;

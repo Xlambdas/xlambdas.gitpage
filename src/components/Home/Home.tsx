@@ -157,19 +157,21 @@ export const Home: React.FC = () => {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'flex-end',
-                        gap: '90px',
+                        width: '100%',
+                        height: '100%',
                         minHeight: 'calc(100vh - 140px)',
-                        maxWidth: '1400px',
-                        margin: '0 auto',
+                        maxWidth: '1800px',
+                        padding: '0 clamp(20px,4vw,60px)',
+                        boxSizing: 'border-box',
                         pointerEvents: 'none',
                     }}>
                         <div style={{
                             display: 'flex',
-                            padding: `0 ${PADDING.horizontal} clamp(40px,8vh,113px) ${PADDING.horizontal}`,
+                            padding: `0 ${PADDING.horizontal}`,
                             flexDirection: 'column',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            gap: 'clamp(30px,6vh,100px)',
+                            gap: 'clamp(80px,6vh,120px)',
                             width: '100%',
                         }}>
                             <div style={{
@@ -192,7 +194,7 @@ export const Home: React.FC = () => {
                                     fontFamily: FONTS.jetbrains,
                                     fontSize: 'clamp(16px,2.5vw,32px)',
                                     maxWidth: 'clamp(260px,50vw,720px)',
-                                    minWidth: 'clamp(372px,60vw,450px)',
+                                    minWidth: 'clamp(240px,60vw,450px)',
                                     textAlign: 'right',
                                     fontWeight: 500,
                                     ...baseTextStyle,
@@ -206,12 +208,13 @@ export const Home: React.FC = () => {
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
                                 width: '100%',
+                                padding: '0 0 0 clamp(0px, 20vw, 320px)',
                             }}>
-                                <div style={{ width: '435px', height: '45px' }} />
+                                <div></div>
                                 <div style={{ pointerEvents: 'auto' }}>
                                     <PrimaryButton>Enter the system</PrimaryButton>
                                 </div>
-                                <div style={{ width: '49px', height: '45px' }} />
+                                <div></div>
                             </div>
                         </div>
                     </div>
@@ -222,21 +225,23 @@ export const Home: React.FC = () => {
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'space-between',
                         alignItems: 'flex-start',
                         width: '100%',
                         height: '100%',
-                        padding: '0 clamp(20px,4vw,60px) clamp(30px,6vh,80px)',
+                        padding: '0px clamp(20px,4vw,60px)',
+                        boxSizing: 'border-box',
+                        overflow: 'hidden',
                     }}>
                         {/* title */}
                         <h2
                             style={{
                                 marginTop: 'clamp(10px, 6vh, 20px)',
                                 width: '75vw',
-                                fontSize: 'clamp(48px,5vw,80px)',
+                                fontSize: 'clamp(10px, 6vw, 60px)',
                                 fontFamily: FONTS.montserrat,
                                 fontStyle: 'italic',
                                 fontWeight: 500,
+                                flex: '1 1 0%',
                                 ...baseTextStyle,
                             }}
                         >
@@ -246,8 +251,7 @@ export const Home: React.FC = () => {
                         <div
                             className='flex-direction'
                             style={{
-                                marginTop: 'clamp(10px, 10vh, 70px)',
-                                padding: '0 clamp(20px,4vw,40px)',
+                                padding: 'clamp(15px, 8vw, 180px) clamp(10px, 4vw, 40px)',
                                 width: '100%',
                                 height: 'auto',
                             }}
@@ -256,14 +260,12 @@ export const Home: React.FC = () => {
                             <div
                                 className='sect2-descr'
                                 style={{
-                                    // display: 'flex',
-                                    paddingBottom: 'clamp(20px, 6vh, 70px)',
-                                    // alignItems: 'center',
+                                    paddingBottom: 'clamp(30px, 15vh, 150px)',
                                     flex: '1 0 0',
                                 }}>
                                 <p style={{
-                                    width: 'clamp(360px,50vw,500px)',
-                                    fontSize: 'clamp(22px,2vw,36px)',
+                                    width: 'clamp(300px,50vw,500px)',
+                                    fontSize: 'clamp(18px, 2vw, 36px)',
                                     textAlign: 'justify',
                                     hyphens: 'auto',
                                     fontFamily: FONTS.jetbrains,
