@@ -231,20 +231,24 @@ export const Home: React.FC = () => {
                         padding: '0px clamp(20px,4vw,60px)',
                         boxSizing: 'border-box',
                         overflow: 'hidden',
+                        justifyContent: 'center',
+                        gap: 'clamp(15px,6vh,100px)',
                     }}>
                         {/* title */}
                         <h2
                             style={{
-                                marginTop: 'clamp(10px, 10vh, 80px)',  // Changed from clamp(10px, 6vh, 20px)
+                                // marginTop: 'clamp(10px, 10vh, 80px)',  // Changed from clamp(10px, 6vh, 20px)
                                 width: '75vw',
                                 fontSize: 'clamp(10px, 6vw, 60px)',
                                 fontFamily: FONTS.montserrat,
                                 fontStyle: 'italic',
                                 fontWeight: 500,
-                                flex: '1 1 0%',
-                                position: 'relative',  // Add this
-                                zIndex: 10,  // Add this
+                                flex: '0 0 auto',
+                                position: 'relative',
+                                // zIndex: 10,
                                 ...baseTextStyle,
+                                // minHeight: 'auto',
+                                height: 'fit-content',
                             }}
                         >
                             FROM KNOWLEDGE TO SYSTEMS
@@ -253,16 +257,19 @@ export const Home: React.FC = () => {
                         <div
                             className='flex-direction'
                             style={{
-                                padding: 'clamp(15px, 8vw, 180px) clamp(10px, 4vw, 40px)',
+                                padding: '0 clamp(10px, 4vw, 40px)',
                                 width: '100%',
                                 height: 'auto',
+                                justifyContent: 'space-between',
+                                gap: 'clamp(15px,8vh,100px)',
+                                display: 'flex',
                             }}
                         >
                             {/* frame 20 */}
                             <div
                                 className='sect2-descr'
                                 style={{
-                                    paddingBottom: 'clamp(30px, 15vh, 150px)',
+                                    // paddingBottom: 'clamp(30px, 15vh, 150px)',
                                     flex: '1 0 0',
                                 }}>
                                 <p style={{
@@ -291,6 +298,7 @@ export const Home: React.FC = () => {
                                 <PrimaryButton style={{ width: 'clamp(260px,40vw,453px)' }}>My Portfolio</PrimaryButton>
                             </div>
                         </div>
+                        <div></div>
                     </div>
                 </Section>
 
