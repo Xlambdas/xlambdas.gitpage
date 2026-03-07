@@ -1114,6 +1114,10 @@ export const Home: React.FC = () => {
     const dprRef = useRef(1.2);
     const frameCount = useRef(0);
     const lastTime = useRef(performance.now());
+    const scrollAccumulator = useRef(0);
+    const SCROLL_THRESHOLD = 120;
+    const lastScrollTime = useRef(0);
+    const SCROLL_COOLDOWN = 900;
 
     const isTouchDevice =
         typeof window !== "undefined" &&
@@ -1207,17 +1211,23 @@ export const Home: React.FC = () => {
         initSpline();
 
         const handleWheel = (e: WheelEvent) => {
-            if (!animationsEnabled) return;
+            if (!animationsEnabled || isTouchDevice) return;
             e.preventDefault();
-            if (isAnimating.current) return;
+            const now = Date.now();
+            if (now - lastScrollTime.current < SCROLL_COOLDOWN) return;
+            const delta = e.deltaY;
+            if (Math.abs(delta) < 30) return;
+            // if (isAnimating.current) return;
 
-            const direction = e.deltaY > 0 ? 1 : -1;
+            const direction = delta > 0 ? 1 : -1;
+
             const current = sectionRef.current;
             const next = current + direction;
 
             if (next < 0 || next > MAX_SECTION) return;
+            lastScrollTime.current = now;
 
-            isAnimating.current = true;
+            // isAnimating.current = true;
             sectionRef.current = next;
             setSection(next);
 
@@ -1234,7 +1244,9 @@ export const Home: React.FC = () => {
             }, 800);
         };
 
-        window.addEventListener('wheel', handleWheel, { passive: false });
+        if (!isTouchDevice){
+            window.addEventListener('wheel', handleWheel, { passive: false });
+        }
 
         const handleResize = () => {
             updateCanvasResolution();
@@ -1244,7 +1256,9 @@ export const Home: React.FC = () => {
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            window.removeEventListener('wheel', handleWheel);
+            if (!isTouchDevice) {
+                window.addEventListener('wheel', handleWheel, { passive: false });
+            }
             if (appRef.current) {
                 appRef.current = null;
             }
@@ -1275,6 +1289,8 @@ export const Home: React.FC = () => {
                 height: '100vh',
                 zIndex: 0,
                 display: animationsEnabled ? 'block' : 'none',
+                touchAction: isTouchDevice ? 'none' : 'auto',
+                pointerEvents: isTouchDevice ? 'none' : 'auto',
             }}>
                 <canvas
                     ref={canvasRef}
