@@ -1,7 +1,7 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { AccessibilityPage } from './components/pages/Acessibility';
+import { AccessibilityPage } from './pages/Acessibility';
 // import { Header } from './components/ui'
-import { ThemeProvider } from './context/themeContext'
+import { ThemeProvider } from './context/ThemeContext'
 import { Home } from './components/Home/Home';
 
 function App() {

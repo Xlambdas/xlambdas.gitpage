@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../../context/themeContext';
+import { useTheme } from '../context/ThemeContext';
 
 export const AccessibilityPage: React.FC = () => {
     const navigate = useNavigate();

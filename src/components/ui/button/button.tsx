@@ -25,7 +25,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, Var
     // ← children is now included automatically from ButtonHTMLAttributes
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button_old = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant, size, ...props }, ref) => {
         return (
             <button
@@ -36,7 +36,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         );
     }
 );
-Button.displayName = "Button";
+Button_old.displayName = "Button_old";
 
 
 interface PrimaryButtonProps {
@@ -97,4 +97,4 @@ const baseButtonStyle = {
 
 
 
-export { Button };
+export { Button_old as Button };

@@ -1,6 +1,6 @@
 // components/sections/MainSection1.tsx
 import React from 'react';
-import { useTheme } from '../../context/themeContext';
+import { useTheme } from '../../context/ThemeContext';
 
 export const Hero: React.FC = () => {
     const { theme } = useTheme();

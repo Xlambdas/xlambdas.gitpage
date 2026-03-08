@@ -35,6 +35,10 @@ export const Home: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [section, setSection] = useState(0);
 
+    const { theme } = useTheme();
+    // const colors = getColors(theme);
+    const textStyle = getBaseTextStyle(theme);
+
     const isTouchDevice =
         typeof window !== 'undefined' &&
         ('ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -75,7 +79,6 @@ export const Home: React.FC = () => {
 
             const delta = e.deltaY;
             if (Math.abs(delta) < HOME_CONFIG.deltaThreshold) return;
-
             handleSectionChange(delta > 0 ? 1 : -1);
         };
 
@@ -103,18 +106,24 @@ export const Home: React.FC = () => {
         };
     }, []);
 
+    // useEffect(() => {
+    //     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    //     if (prefersReducedMotion.matches && !isTouchDevice) {
+    //         setAnimationsEnabled(false);
+    //     }
+    // }, []);
+
     useEffect(() => {
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        if (prefersReducedMotion.matches && !isTouchDevice) {
-            setAnimationsEnabled(false);
-        }
-    }, []);
+        // Sync OS preference into theme if not already handled by ThemeProvider
+        if (theme.reducedMotion) setAnimationsEnabled(false);
+    }, [theme.reducedMotion]);
 
     return (
         <div style={{
             backgroundColor: COLORS.dark,
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            height: '100vh',
         }}>
             {/* Canvas Layer */}
             <div style={{
@@ -151,7 +160,7 @@ export const Home: React.FC = () => {
             {/* Content */}
             <ScrollContainer section={section} animationsEnabled={animationsEnabled}>
                 {/* Section 1: Welcome */}
-                <Section>
+                <Section ariaLabel="Welcome" active={section === 0}>
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -182,22 +191,22 @@ export const Home: React.FC = () => {
                             }}>
                                 <h1 style={{
                                     fontFamily: FONTS.montserrat,
-                                    fontSize: 'clamp(36px,8vw,96px)',
+                                    fontSize: `clamp(${Math.round(36 * theme.typography.fontScale)}px, 8vw, ${Math.round(96 * theme.typography.fontScale)}px)`,
                                     fontStyle: 'italic',
                                     fontWeight: 500,
                                     lineHeight: 'normal',
-                                    ...baseTextStyle,
+                                    ...textStyle,
                                 }}>
                                     WELCOME
                                 </h1>
                                 <p style={{
                                     fontFamily: FONTS.jetbrains,
-                                    fontSize: 'clamp(16px,2.5vw,32px)',
+                                    fontSize: `clamp(${Math.round(16 * theme.typography.fontScale)}px, 2.5vw, ${Math.round(32 * theme.typography.fontScale)}px)`,
                                     maxWidth: 'clamp(260px,50vw,720px)',
                                     minWidth: 'clamp(240px,60vw,450px)',
                                     textAlign: 'right',
                                     fontWeight: 500,
-                                    ...baseTextStyle,
+                                    ...textStyle,
                                 }}>
                                     Explore cognitive science, quizzes & projects
                                 </p>
@@ -221,7 +230,7 @@ export const Home: React.FC = () => {
                 </Section>
 
                 {/* Section 2: About */}
-                <Section>
+                <Section ariaLabel="About" active={section === 1}>
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -237,18 +246,15 @@ export const Home: React.FC = () => {
                         {/* title */}
                         <h2
                             style={{
-                                // marginTop: 'clamp(10px, 10vh, 80px)',  // Changed from clamp(10px, 6vh, 20px)
                                 width: '75vw',
-                                fontSize: 'clamp(10px, 6vw, 60px)',
+                                position: 'relative',
+                                height: 'fit-content',
+                                fontSize: `clamp(${Math.round(10 * theme.typography.fontScale)}px, 6vw, ${Math.round(60 * theme.typography.fontScale)}px)`,
                                 fontFamily: FONTS.montserrat,
                                 fontStyle: 'italic',
                                 fontWeight: 500,
                                 flex: '0 0 auto',
-                                position: 'relative',
-                                // zIndex: 10,
-                                ...baseTextStyle,
-                                // minHeight: 'auto',
-                                height: 'fit-content',
+                                ...textStyle,
                             }}
                         >
                             FROM KNOWLEDGE TO SYSTEMS
@@ -269,17 +275,16 @@ export const Home: React.FC = () => {
                             <div
                                 className='sect2-descr'
                                 style={{
-                                    // paddingBottom: 'clamp(30px, 15vh, 150px)',
                                     flex: '1 0 0',
                                 }}>
                                 <p style={{
-                                    width: 'clamp(300px,50vw,500px)',
-                                    fontSize: 'clamp(18px, 2vw, 36px)',
+                                    width: 'clamp(300px,50vw,550px)',
+                                    fontSize: `clamp(${Math.round(18 * theme.typography.fontScale)}px, 2vw, ${Math.round(36 * theme.typography.fontScale)}px)`,
                                     textAlign: 'justify',
                                     hyphens: 'auto',
                                     fontFamily: FONTS.jetbrains,
                                     fontWeight: 400,
-                                    ...baseTextStyle,
+                                    ...textStyle,
                                 }}>
                                     I design structured digital environments that transform complex knowledge into interactive tools.
                                     From cognitive science to UI systems, each project is built to explore how humans think, learn and interact.
@@ -303,7 +308,7 @@ export const Home: React.FC = () => {
                 </Section>
 
                 {/* Section 3: Sandbox */}
-                <Section>
+                <Section ariaLabel="The Sandbox" active={section === 2}>
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -311,7 +316,6 @@ export const Home: React.FC = () => {
                         alignItems: 'flex-start',
                         width: '100%',
                         height: '100%',
-                        // minHeight: 'calc(100vh - 140px)',
                         maxWidth: '1400px',
                         margin: '0 auto',
                         padding: `0 ${PADDING.horizontal}`,
@@ -321,11 +325,11 @@ export const Home: React.FC = () => {
                         {/* TITLE */}
                         <h2 style={{
                             fontFamily: FONTS.montserrat,
-                            fontSize: 'clamp(42px,8vw,96px)',
+                            fontSize: `clamp(${Math.round(42 * theme.typography.fontScale)}px, 8vw, ${Math.round(96 * theme.typography.fontScale)}px)`,
                             fontStyle: 'italic',
                             fontWeight: 500,
                             lineHeight: '1',
-                            ...baseTextStyle,
+                            ...textStyle,
                         }}>
                             THE SANDBOX
                         </h2>
@@ -340,7 +344,7 @@ export const Home: React.FC = () => {
                             {/* DESCRIPTION */}
                             <p style={{
                                 fontFamily: FONTS.jetbrains,
-                                fontSize: 'clamp(16px,2.5vw,32px)',
+                                fontSize: `clamp(${Math.round(16 * theme.typography.fontScale)}px, 2.5vw, ${Math.round(32 * theme.typography.fontScale)}px)`,
                                 maxWidth: 'clamp(260px,60vw,520px)',
                                 fontStyle: 'italic',
                                 fontWeight: 500,
@@ -359,6 +363,276 @@ export const Home: React.FC = () => {
                         </div>
                     </div>
                 </Section>
+            </ScrollContainer>
+        </div>
+    );
+};
+
+
+import React from 'react';
+import { useTheme } from '../../context/ThemeContext';
+import { getBaseTextStyle, getColors } from './constants';
+
+
+export const Home_new: React.FC = () => {
+    const canvasRef = React.useRef<HTMLCanvasElement>(null) as React.RefObject<HTMLCanvasElement>;
+    const [animationsEnabled, setAnimationsEnabled] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+    const [section, setSection] = useState(0);
+
+    const { theme } = useTheme();
+    const colors = getColors(theme);
+    const textStyle = getBaseTextStyle(theme);
+
+    const isTouchDevice =
+        typeof window !== 'undefined' &&
+        ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+    const { appRef, dprRef, initSpline } = useSplineSetup(
+        canvasRef,
+        animationsEnabled,
+        isTouchDevice,
+        () => setIsLoading(false),
+    );
+
+    const { handleSectionChange, handleCanvasClick } = useScrollNavigation({
+        maxSection: HOME_CONFIG.maxSection,
+        onSectionChange: setSection,
+        onSplineUpdate: (s) => updateSplineSection(appRef.current, s),
+    });
+
+    const { handleTouchStart, handleTouchEnd } = useTouchNavigation({
+        onSwipe: handleSectionChange,
+    });
+
+    const { monitorPerformance } = usePerformanceMonitor();
+
+    useEffect(() => {
+        initSpline();
+        monitorPerformance();
+
+        const handleWheel = (e: WheelEvent) => {
+            if (!animationsEnabled || isTouchDevice) return;
+            e.preventDefault();
+            const delta = e.deltaY;
+            if (Math.abs(delta) < HOME_CONFIG.deltaThreshold) return;
+            handleSectionChange(delta > 0 ? 1 : -1);
+        };
+
+        const handleResize = () => {
+            updateCanvasResolution(canvasRef, dprRef.current, animationsEnabled);
+        };
+
+        if (!isTouchDevice) {
+            window.addEventListener('wheel', handleWheel, { passive: false });
+        } else {
+            window.addEventListener('touchstart', handleTouchStart, { passive: true });
+            window.addEventListener('touchend', handleTouchEnd, { passive: true });
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            if (!isTouchDevice) window.removeEventListener('wheel', handleWheel);
+            if (isTouchDevice) {
+                window.removeEventListener('touchstart', handleTouchStart);
+                window.removeEventListener('touchend', handleTouchEnd);
+            }
+            appRef.current = null;
+        };
+    }, []);
+
+    useEffect(() => {
+        // Sync OS preference into theme if not already handled by ThemeProvider
+        if (theme.reducedMotion) setAnimationsEnabled(false);
+    }, [theme.reducedMotion]);
+
+    return (
+        <div style={{ backgroundColor: colors.dark, position: 'fixed', overflow: 'hidden' }}>
+            {/* Canvas Layer */}
+            <div style={{
+                position: 'fixed',
+                top: 0, left: 0,
+                width: '100%',
+                height: '100vh',
+                zIndex: 0,
+                display: animationsEnabled ? 'block' : 'none',
+                touchAction: 'none',
+                pointerEvents: isTouchDevice ? 'none' : 'auto',
+            }}>
+                <canvas
+                    ref={canvasRef}
+                    onClick={handleCanvasClick}
+                    style={getCanvasStyle(isTouchDevice)}
+                />
+            </div>
+
+            {isLoading && <LoadingIndicator />}
+
+            <style>{KEYFRAMES}</style>
+
+            {/* Content */}
+            <ScrollContainer section={section} animationsEnabled={animationsEnabled}>
+
+                {/* Section 1 – Welcome */}
+                <Section ariaLabel="Welcome" active={section === 0}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'flex-end',
+                        width: '100%',
+                        height: '100%',
+                        maxWidth: '1800px',
+                        padding: `0 clamp(20px,4vw,60px)`,
+                        boxSizing: 'border-box',
+                        pointerEvents: 'none',
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            padding: `0 ${PADDING.horizontal}`,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: 'clamp(80px,6vh,120px)',
+                            width: '100%',
+                        }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%' }}>
+                                <h1 style={{
+                                    fontFamily: FONTS.montserrat,
+                                    fontSize: `clamp(${Math.round(36 * theme.typography.fontScale)}px, 8vw, ${Math.round(96 * theme.typography.fontScale)}px)`,
+                                    fontStyle: 'italic',
+                                    fontWeight: 500,
+                                    lineHeight: 'normal',
+                                    ...textStyle,
+                                }}>
+                                    WELCOME
+                                </h1>
+                                <p style={{
+                                    fontFamily: theme.typography.secondaryFontFamily,
+                                    fontSize: `clamp(${Math.round(16 * theme.typography.fontScale)}px, 2.5vw, ${Math.round(32 * theme.typography.fontScale)}px)`,
+                                    maxWidth: 'clamp(260px,50vw,720px)',
+                                    minWidth: 'clamp(240px,60vw,450px)',
+                                    textAlign: 'right',
+                                    fontWeight: 500,
+                                    ...textStyle,
+                                }}>
+                                    Explore cognitive science, quizzes & projects
+                                </p>
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                height: '64px',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: '100%',
+                                padding: '0 0 0 clamp(0px,20vw,320px)',
+                            }}>
+                                <div />
+                                <div style={{ pointerEvents: 'auto' }}>
+                                    <PrimaryButton>Enter the system</PrimaryButton>
+                                </div>
+                                <div />
+                            </div>
+                        </div>
+                    </div>
+                </Section>
+
+                {/* Section 2 – About */}
+                <Section ariaLabel="About" active={section === 1}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        width: '100%',
+                        height: '100%',
+                        padding: `0 clamp(20px,4vw,60px)`,
+                        boxSizing: 'border-box',
+                        overflow: 'hidden',
+                        justifyContent: 'center',
+                        gap: 'clamp(15px,6vh,100px)',
+                    }}>
+                        <h2 style={{
+                            width: '75vw',
+                            fontSize: `clamp(${Math.round(10 * theme.typography.fontScale)}px, 6vw, ${Math.round(60 * theme.typography.fontScale)}px)`,
+                            fontFamily: FONTS.montserrat,
+                            fontStyle: 'italic',
+                            fontWeight: 500,
+                            ...textStyle,
+                        }}>
+                            FROM KNOWLEDGE TO SYSTEMS
+                        </h2>
+                        <div style={{ padding: '0 clamp(10px,4vw,40px)', width: '100%', display: 'flex', justifyContent: 'space-between', gap: 'clamp(15px,8vh,100px)' }}>
+                            <div style={{ flex: '1 0 0' }}>
+                                <p style={{
+                                    width: 'clamp(300px,50vw,500px)',
+                                    fontSize: `clamp(${Math.round(18 * theme.typography.fontScale)}px, 2vw, ${Math.round(36 * theme.typography.fontScale)}px)`,
+                                    textAlign: 'justify',
+                                    hyphens: 'auto',
+                                    fontFamily: theme.typography.secondaryFontFamily,
+                                    fontWeight: 400,
+                                    ...textStyle,
+                                }}>
+                                    I design structured digital environments that transform complex knowledge into interactive tools.
+                                    From cognitive science to UI systems, each project is built to explore how humans think, learn and interact.
+                                </p>
+                            </div>
+                            <div style={{ display: 'flex', width: 'clamp(320px,40vw,569px)', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end', gap: 'clamp(10px,2vh,20px)' }}>
+                                <PrimaryButton style={{ width: 'clamp(200px,30vw,321px)' }}>My Projects</PrimaryButton>
+                                <PrimaryButton style={{ width: 'clamp(260px,40vw,453px)' }}>My Portfolio</PrimaryButton>
+                            </div>
+                        </div>
+                        <div />
+                    </div>
+                </Section>
+
+                {/* Section 3 – Sandbox */}
+                <Section ariaLabel="The Sandbox" active={section === 2}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                        width: '100%',
+                        height: '100%',
+                        maxWidth: '1400px',
+                        margin: '0 auto',
+                        padding: `0 ${PADDING.horizontal}`,
+                        gap: 'clamp(30px,6vh,100px)',
+                        pointerEvents: 'none',
+                    }}>
+                        <h2 style={{
+                            fontFamily: FONTS.montserrat,
+                            fontSize: `clamp(${Math.round(42 * theme.typography.fontScale)}px, 8vw, ${Math.round(96 * theme.typography.fontScale)}px)`,
+                            fontStyle: 'italic',
+                            fontWeight: 500,
+                            lineHeight: '1',
+                            ...textStyle,
+                        }}>
+                            THE SANDBOX
+                        </h2>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 'clamp(30px,6vh,100px)' }}>
+                            <p style={{
+                                fontFamily: theme.typography.secondaryFontFamily,
+                                fontSize: `clamp(${Math.round(16 * theme.typography.fontScale)}px, 2.5vw, ${Math.round(32 * theme.typography.fontScale)}px)`,
+                                maxWidth: 'clamp(260px,60vw,520px)',
+                                fontStyle: 'italic',
+                                fontWeight: 500,
+                                lineHeight: '1.4',
+                                textAlign: 'center',
+                                ...textStyle,
+                            }}>
+                                A controlled environment for experimentation,
+                                iteration, and structured exploration.
+                            </p>
+                            <div style={{ pointerEvents: 'auto' }}>
+                                <PrimaryButton>Discover more</PrimaryButton>
+                            </div>
+                        </div>
+                    </div>
+                </Section>
+
             </ScrollContainer>
         </div>
     );

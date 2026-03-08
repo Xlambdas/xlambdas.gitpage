@@ -18,10 +18,25 @@ export const HOME_CONFIG = {
     deltaThreshold: 30,
 } as const;
 
-export const KEYFRAMES = `
-    @keyframes loading {
-        0% { transform: translateX(-100%); }
-        50% { transform: translateX(233%); }
-        100% { transform: translateX(-100%); }
-    }
-`;
+export const HOME_CONFIG_new = {
+    /** Total number of scroll sections (0-indexed max) */
+    maxSection: 2,
+
+    /** Minimum wheel delta to register as an intentional scroll */
+    deltaThreshold: 30,
+
+    /** Debounce delay (ms) between section transitions */
+    sectionDebounce: 800,
+
+    /** Minimum swipe distance (px) to register as intentional on touch */
+    minSwipeDistance: 50,
+
+    /** Target FPS below which animations are disabled automatically */
+    fpsCriticalThreshold: 20,
+
+    /** FPS warning level – logged but animations kept on */
+    fpsWarningThreshold: 40,
+
+    /** How often (ms) the performance monitor samples FPS */
+    fpsMonitorInterval: 3000,
+} as const;

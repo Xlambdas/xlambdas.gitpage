@@ -1,6 +1,6 @@
 // components/sections/MainSection2.tsx
 import React from 'react';
-import { useTheme } from '../../context/themeContext';
+import { useTheme } from '../../context/ThemeContext';
 
 export const Profile: React.FC = () => {
     const { theme } = useTheme();

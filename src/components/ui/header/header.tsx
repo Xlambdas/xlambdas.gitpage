@@ -152,7 +152,7 @@ export const Header: React.FC<HeaderProps> = ({
 
 
 
-import { useTheme } from "../../../context/themeContext";
+import { useTheme } from "../../../context/ThemeContext";
 
 interface HeaderProps_old {
     className?: string;
