@@ -1,44 +1,15 @@
 /* src/components/common/LoadingIndicator/loading-indicator.css */
 
-.loading-overlay {
-
-    position: fixed;
-    inset: 0;
-
-    z-index: 9999;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    gap: 16px;
-
-    background: var(--color-dark);
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    animation: spin 0.9s linear infinite;
 }
 
 .loading-overlay[data-reduced-motion="true"] .loading-spinner {
     animation: none;
-}
-
-.loading-spinner {
-    width: 48px;
-    height: 48px;
-
-    border-radius: 50%;
-
-    border: 3px solid transparent;
-    border-top: 3px solid var(--color-primary);
-    border-right: 3px solid var(--color-primary-transparent);
-
-    animation: spin 0.9s linear infinite;
-}
-
-.loading-text {
-    color: var(--color-primary);
-
-    font-family: var(--font-secondary);
-    font-size: calc(1rem * var(--font-scale));
 }
 
 @keyframes spin {
@@ -46,9 +17,3 @@
         transform: rotate(360deg);
     }
 }
-
-/* @media (prefers-reduced-motion: reduce) {
-    .loading-spinner {
-        animation: none;
-    }
-} */

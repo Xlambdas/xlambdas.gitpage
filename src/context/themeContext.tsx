@@ -8,7 +8,6 @@ import React, {
 import { type AppTheme } from '../theme/theme.types';
 import { DEFAULT_THEME } from '../theme/theme.defaults.ts';
 
-
 // =========
 // Context shape
 // =========
@@ -49,6 +48,19 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     }, []);
 
+    // Apply CSS variables to root element
+    useEffect(() => {
+        const root = document.documentElement;
+        root.style.setProperty('--color-primary', theme.colors.primary);
+        root.style.setProperty('--color-primary-glow', theme.colors.primaryGlow);
+        root.style.setProperty('--color-secondary', theme.colors.secondary);
+        root.style.setProperty('--color-background', theme.colors.background);
+        root.style.setProperty('--font-primary', theme.typography.primaryFontFamily);
+        root.style.setProperty('--font-secondary', theme.typography.secondaryFontFamily);
+        root.style.setProperty('--font-scale', String(theme.typography.fontScale));
+        root.style.setProperty('--button-scale', String(theme.buttonScale));
+    }, [theme]);
+
     // Persist to localStorage whenever theme changes
     useEffect(() => {
         try {
@@ -67,22 +79,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         localStorage.removeItem(STORAGE_KEY);
     }, []);
 
-    const cssVariables = {
-        "--color-primary": theme.colors.primary,
-        "--color-primary-glow": theme.colors.primaryGlow,
-        "--color-secondary": theme.colors.secondary,
-        "--color-background": theme.colors.background,
-
-        "--font-primary": theme.typography.primaryFontFamily,
-        "--font-secondary": theme.typography.secondaryFontFamily,
-
-        "--font-scale": theme.typography.fontScale,
-        "--button-scale": theme.buttonScale,
-    } as React.CSSProperties;
-
     return (
         <ThemeContext.Provider value={{ theme, updateTheme, resetTheme }}>
-            <div style={cssVariables}>{children}</div>
+            {children}
         </ThemeContext.Provider>
     );
 };
@@ -90,7 +89,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 // =========
 // Hook
 // =========
-
 export function useTheme(): ThemeContextValue {
     const ctx = useContext(ThemeContext);
     if (!ctx) throw new Error('useTheme must be used inside <ThemeProvider>');

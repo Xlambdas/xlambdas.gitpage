@@ -11,8 +11,6 @@ export interface ThemeColors {
 }
 
 export interface ThemeTypography {
-    heading: { size: number; family: string };
-    button: { size: number; family: string };
     /** Text scale multiplier. 0.85 | 1 | 1.2 | 1.5 */
     fontScale: number;
     /** Active font family. 'Arial' is the dyslexia-safe fallback */

@@ -1,6 +1,6 @@
+// src/components/Home/components/Section.tsx
 import React from 'react';
 import { type SectionProps } from '../constants';
-import "./container.css";
 
 export const Section: React.FC<SectionProps> = ({
     children,
@@ -10,9 +10,14 @@ export const Section: React.FC<SectionProps> = ({
 
     return (
         <section
-            inert={!active ? true : undefined} // For better accessibility, non-active sections are inert
+            inert={!active ? true : undefined}
             aria-label={ariaLabel}
-            className="home-section"
+            className="w-full h-screen flex"
+            style={{
+                paddingTop: 'var(--vertical-section-padding)',
+                paddingBottom: 'var(--vertical-section-padding)',
+                boxSizing: 'border-box'
+            }}
         >
             {children}
         </section>

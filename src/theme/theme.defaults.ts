@@ -12,8 +12,6 @@ export const DEFAULT_THEME: AppTheme = {
         darkButtonTransparent: 'rgba(24, 17, 45, 0.8)',
     },
     typography: {
-        heading: { size: 36, family: 'Montserrat' },
-        button: { size: 40, family: 'Inter' },
         fontScale: 1,
         primaryFontFamily: 'Montserrat',
         secondaryFontFamily: 'JetBrains Mono',

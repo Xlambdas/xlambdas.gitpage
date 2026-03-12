@@ -1,6 +1,7 @@
+// src/components/Home/components/ScrollContainer.tsx
 import { type ScrollContainerProps } from '../constants';
 import React from 'react';
-import "./container.css";
+
 
 export const ScrollContainer: React.FC<ScrollContainerProps> = ({
     section,
@@ -11,10 +12,10 @@ export const ScrollContainer: React.FC<ScrollContainerProps> = ({
     const totalSections = React.Children.count(children);
 
     return (
-        <div className="scroll-container">
+        <div className="fixed h-screen w-full overflow-hidden pointer-events-none z-1">
             <div
-                className="scroll-container-inner"
                 style={{
+                    width: '100%',
                     height: `${totalSections * 100}vh`,
                     transform: `translateY(-${section * 100}vh)`,
                     transition: animationsEnabled

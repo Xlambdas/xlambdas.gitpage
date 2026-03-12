@@ -2,16 +2,5 @@
 
 /* Optional: Rare component layer for complex base styles */
 @layer components {
-    .card-image {
-        @apply w-64 h-64 rounded-lg object-cover shrink-0 mb-6 md:mb-0;
-    }
-
-    .card-content {
-        @apply flex flex-col flex-1 min-w-0;
-    }
-}
-
-.primary-button {
-    width: clamp(200px, 30vw, 310px);
-    height: clamp(44px, 7vh, 64px);
+    /* ... */
 }
