@@ -35,6 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
                         e.preventDefault();
                         navigate('/');
                     }}
+                    className="transition-opacity hover:opacity-70"
                     style={{
                         flex: 1,
                         textDecoration: 'none',
@@ -52,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({
                 {type === "main" && setAnimationsEnabled && (
                     <button
                         onClick={() => setAnimationsEnabled(prev => !prev)}
-                        className={`header-toggle hide-below-600 ${animationsEnabled ? "active" : ""}`}
+                        className={`header-toggle transition-opacity hover:opacity-70 hide-below-600 ${animationsEnabled ? "active" : ""}`}
                         style={{
                             fontFamily: theme.typography.secondaryFontFamily,
                             color: animationsEnabled ? theme.colors.secondary : theme.colors.primary,
@@ -66,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
 
                 <button
                     onClick={() => navigate("/accessibility")}
-                    className="header-button"
+                    className="header-button transition-opacity hover:opacity-70"
                     style={{
                         fontFamily: theme.typography.secondaryFontFamily,
                         color: theme.colors.primary,

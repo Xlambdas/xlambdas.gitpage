@@ -16,15 +16,6 @@ export interface LoadingIndicatorProps {
     message?: string;
 }
 
-
-
-// to delete :
-
-export interface PrimaryButtonProps_old {
+export interface CarouselProps {
     children: React.ReactNode;
-    style?: React.CSSProperties;
-    onClick?: () => void;
-    /** Accessible label when button text is not descriptive enough */
-    ariaLabel?: string;
-    disabled?: boolean;
 }

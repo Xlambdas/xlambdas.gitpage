@@ -2,8 +2,10 @@
 import React from "react";
 import { PrimaryButton } from "../../common";
 import { type AppTheme } from "../../../theme";
+import { useNavigate } from "react-router-dom";
 
 export const AboutSection: React.FC<{ theme: AppTheme }> = ({ theme }) => {
+    const navigate = useNavigate();
 
     return (
         <div
@@ -62,7 +64,7 @@ export const AboutSection: React.FC<{ theme: AppTheme }> = ({ theme }) => {
                     }}
                 >
 
-                    <PrimaryButton variant="small">
+                    <PrimaryButton variant="small" onClick={() => navigate('/projects')}>
                         My Projects
                     </PrimaryButton>
 
