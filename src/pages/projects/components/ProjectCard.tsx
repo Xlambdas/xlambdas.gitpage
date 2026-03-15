@@ -19,7 +19,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
     return (
         <div
-            className="shrink-0 lg:w-[calc(50%-1rem)] snap-start p-6 sm:p-8 rounded-xl border-2 flex flex-col h-full w-full min-h-[60vh] sm:min-h-[70vh]"
+            className="shrink-0 lg:w-[calc(50%-1rem)] snap-start p-6 sm:p-8 rounded-xl border-2 flex flex-col h-full w-full" // w-full
             style={{
                 borderColor: theme.colors.primary,
                 backgroundColor: theme.colors.secondary,
@@ -66,7 +66,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             {/* DESCRIPTION */}
             <p
-                className="text-sm sm:text-base leading-relaxed mb-4 text-justify"
+                className="text-sm sm:text-base leading-relaxed mb-4 text-justify hide-on-small-height"
                 style={{
                     color: theme.colors.primary,
                     fontFamily: theme.typography.secondaryFontFamily,
@@ -79,7 +79,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             {/* FLEXIBLE IMAGE AREA */}
             {img && (
-                <div className="flex-1 flex items-center justify-center overflow-hidden rounded-lg">
+                <div className="flex-1 flex items-center justify-center overflow-hidden rounded-lg hide-on-small-height">
                     <img
                         src={img}
                         alt={title}

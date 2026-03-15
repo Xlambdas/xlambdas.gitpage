@@ -37,7 +37,7 @@ export const Carousel: React.FC<CarouselProps> = ({ children }) => {
     }, []);
 
     return (
-        <div className="relative w-full h-full">
+        <div className="relative h-full">
             {canScrollLeft && (
                 <button
                     onClick={scrollLeft}

@@ -15,3 +15,10 @@ body,
 body {
     margin: 0;
 }
+
+
+@media (max-height: 700px) {
+    .hide-on-small-height {
+        display: none;
+    }
+}
