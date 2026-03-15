@@ -48,7 +48,7 @@ export const ScrollContainer: React.FC<ScrollContainerProps> = ({
                 style={{
                     width: '100%',
                     height: `${totalSections * 100}vh`,
-                    transform: `translateY(calc(-${section * 100}vh + ${(dragOffset / window.innerHeight) * 100}%))`,
+                    transform: `translateY(calc(-${section * 100}vh - ${(dragOffset / window.innerHeight) * 100}%))`,
                     transition: dragOffset === 0 && animationsEnabled
                         ? "transform 0.65s cubic-bezier(0.22,1,0.36,1)"
                         : "none",
