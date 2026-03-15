@@ -19,7 +19,7 @@ export const ScrollContainer: React.FC<ScrollContainerProps> = ({
                     height: `${totalSections * 100}vh`,
                     transform: `translateY(-${section * 100}vh)`,
                     transition: animationsEnabled
-                        ? "transform 0.8s cubic-bezier(0.77,0,0.175,1)"
+                        ? "transform 0.65s cubic-bezier(0.22,1,0.36,1)"
                         : "none",
                 }}
             >

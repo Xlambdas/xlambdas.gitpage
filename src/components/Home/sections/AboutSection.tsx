@@ -68,7 +68,7 @@ export const AboutSection: React.FC<{ theme: AppTheme }> = ({ theme }) => {
                         My Projects
                     </PrimaryButton>
 
-                    <PrimaryButton variant="large">
+                    <PrimaryButton variant="large" disabled={true}>
                         My Portfolio
                     </PrimaryButton>
                 </div>

@@ -27,18 +27,13 @@
     justify-content: center;
 }
 
-.primary-button:hover {
+.primary-button:not(:disabled):hover {
     box-shadow: 0 0 20px var(--color-primary-glow);
 }
 
 .primary-button:focus-visible {
     outline: 3px solid var(--color-primary);
     outline-offset: 3px;
-}
-
-.primary-button:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
 }
 
 /* Variants */
@@ -58,4 +53,12 @@
 .primary-button--cta {
     width: clamp(260px, 40vw, 450px);
     height: clamp(44px, 7vh, 64px);
+}
+
+/* disable button style */
+
+.primary-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
 }

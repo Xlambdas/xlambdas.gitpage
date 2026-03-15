@@ -58,7 +58,7 @@ export const WelcomeSection: React.FC<{ theme: AppTheme }> = ({ theme }) => {
                     <div />
 
                     <div className="pointer-events-auto">
-                        <PrimaryButton variant="cta">
+                        <PrimaryButton variant="cta" disabled={true}>
                             Enter the system
                         </PrimaryButton>
                     </div>
