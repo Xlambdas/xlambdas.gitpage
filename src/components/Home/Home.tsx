@@ -282,7 +282,7 @@ export const Home: React.FC = () => {
             window.addEventListener('wheel', handleWheel, { passive: true });
         } else {
             window.addEventListener('touchstart', handleTouchStart, { passive: true });
-            window.addEventListener('touchmove', handleTouchMove, { passive: false });
+            window.addEventListener('touchmove', handleTouchMove, { passive: true });
             window.addEventListener('touchend', handleTouchEnd, { passive: true });
         }
 
@@ -308,10 +308,15 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
         if (!isTouchDevice) return;
-        const animationFrame = setInterval(() => {
+
+        let frameId: number;
+        const loop = () => {
             setDragOffset(getDragOffset());
-        }, 16);
-        return () => clearInterval(animationFrame);
+            frameId = requestAnimationFrame(loop);
+        };
+        frameId = requestAnimationFrame(loop);
+
+        return () => cancelAnimationFrame(frameId);
     }, [isTouchDevice, getDragOffset]);
 
     useEffect(() => {

@@ -42,13 +42,17 @@ export const ScrollContainer: React.FC<ScrollContainerProps> = ({
 
     const totalSections = React.Children.count(children);
 
+    const offsetPercent = (dragOffset / window.innerHeight) * 100;
+    const clampedOffset = Math.max(-100, Math.min(100, offsetPercent)); // prevent huge jumps
+
+
     return (
         <div className="fixed h-screen w-full overflow-hidden pointer-events-none z-1">
             <div
                 style={{
                     width: '100%',
                     height: `${totalSections * 100}vh`,
-                    transform: `translateY(calc(-${section * 100}vh - ${(dragOffset / window.innerHeight) * 100}%))`,
+                    transform: `translateY(calc(-${section * 100}vh - ${clampedOffset}%))`,
                     transition: dragOffset === 0 && animationsEnabled
                         ? "transform 0.65s cubic-bezier(0.22,1,0.36,1)"
                         : "none",
