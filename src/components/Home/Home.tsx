@@ -308,15 +308,10 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
         if (!isTouchDevice) return;
-
-        let frameId: number;
-        const loop = () => {
+        const animationFrame = setInterval(() => {
             setDragOffset(getDragOffset());
-            frameId = requestAnimationFrame(loop);
-        };
-        frameId = requestAnimationFrame(loop);
-
-        return () => cancelAnimationFrame(frameId);
+        }, 16);
+        return () => clearInterval(animationFrame);
     }, [isTouchDevice, getDragOffset]);
 
     useEffect(() => {
