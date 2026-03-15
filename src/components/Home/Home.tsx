@@ -25,6 +25,8 @@ import { HOME_CONFIG } from '../../constants/home.config.ts';
 import { useTheme } from "../../context/themeContext";
 import { WelcomeSection, AboutSection, SandboxSection } from "./sections";
 
+import { useSnapScroll } from './hooks';
+
 export const Home_save: React.FC = () => {
     // const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -223,8 +225,21 @@ export const Home: React.FC = () => {
         onSplineUpdate: (section) => updateSplineSection(appRef.current, section),
     });
 
-    const { handleTouchStart, handleTouchEnd } = useTouchNavigation({
-        onSwipe: handleSectionChange,
+    const [dragOffset, setDragOffset] = useState(0);
+
+    const {
+        handleTouchStart,
+        handleTouchMove,
+        handleTouchEnd,
+        getDragOffset,
+        setCurrentSection,
+    } = useSnapScroll({
+        maxSection: HOME_CONFIG.maxSection,
+        onSectionChange: (newSection) => {
+            setSection(newSection);
+            updateSplineSection(appRef.current, newSection);
+        },
+        onSplineUpdate: (section) => updateSplineSection(appRef.current, section),
     });
 
     const { monitorPerformance } = usePerformanceMonitor();
@@ -267,6 +282,7 @@ export const Home: React.FC = () => {
             window.addEventListener('wheel', handleWheel, { passive: true });
         } else {
             window.addEventListener('touchstart', handleTouchStart, { passive: true });
+            window.addEventListener('touchmove', handleTouchMove, { passive: false });
             window.addEventListener('touchend', handleTouchEnd, { passive: true });
         }
 
@@ -278,6 +294,7 @@ export const Home: React.FC = () => {
             if (!isTouchDevice) window.removeEventListener('wheel', handleWheel);
             if (isTouchDevice) {
                 window.removeEventListener('touchstart', handleTouchStart);
+                window.removeEventListener('touchmove', handleTouchMove);
                 window.removeEventListener('touchend', handleTouchEnd);
             }
             appRef.current = null;
@@ -288,6 +305,18 @@ export const Home: React.FC = () => {
     useEffect(() => {
         if (theme.reducedMotion) setAnimationsEnabled(false);
     }, [theme.reducedMotion]);
+
+    useEffect(() => {
+        if (!isTouchDevice) return;
+        const animationFrame = setInterval(() => {
+            setDragOffset(getDragOffset());
+        }, 16);
+        return () => clearInterval(animationFrame);
+    }, [isTouchDevice, getDragOffset]);
+
+    useEffect(() => {
+        setCurrentSection(section);
+    }, [section, setCurrentSection]);
 
     return (
         <div
@@ -352,19 +381,19 @@ export const Home: React.FC = () => {
             </div>
 
             {/* Content */}
-            <ScrollContainer section={section} animationsEnabled={animationsEnabled}>
+            <ScrollContainer section={section} animationsEnabled={animationsEnabled} dragOffset={dragOffset}>
                 {/* Section 1: Welcome */}
-                <Section ariaLabel="Welcome" active={section === 0}>
+                <Section ariaLabel="Welcome" active={section === 0} className="snap-start h-screen flex items-center justify-center">
                     <WelcomeSection theme={theme} />
                 </Section>
 
                 {/* Section 2: About */}
-                <Section ariaLabel="About" active={section === 1}>
+                <Section ariaLabel="About" active={section === 1} className="snap-start h-screen flex items-center justify-center">
                     <AboutSection theme={theme} />
                 </Section>
 
                 {/* Section 3: Sandbox */}
-                <Section ariaLabel="The Sandbox" active={section === 2}>
+                <Section ariaLabel="The Sandbox" active={section === 2} className="snap-start h-screen flex items-center justify-center">
                     <SandboxSection theme={theme} />
                 </Section>
             </ScrollContainer>

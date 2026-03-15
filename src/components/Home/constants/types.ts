@@ -28,5 +28,7 @@ export interface ScrollContainerProps {
     children: React.ReactNode;
     section: number;
     animationsEnabled: boolean;
+    dragOffset?: number;
     className?: string;
 }
+

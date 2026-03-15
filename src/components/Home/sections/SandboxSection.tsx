@@ -32,7 +32,7 @@ export const SandboxSection: React.FC<{ theme: AppTheme }> = ({ theme }) => {
             </h2>
 
             <div
-                className="flex flex-col justify-center items-center mx-auto my-0 sm:my-auto"
+                className="flex flex-col justify-center items-center" // my-0 sm:my-auto
                 style={{
                     gap: 'clamp(30px, 6vh, 100px)'
                 }}
