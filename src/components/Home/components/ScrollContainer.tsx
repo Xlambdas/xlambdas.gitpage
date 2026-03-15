@@ -42,6 +42,10 @@ export const ScrollContainer: React.FC<ScrollContainerProps> = ({
 
     const totalSections = React.Children.count(children);
 
+    const offsetPercent = (dragOffset / window.innerHeight) * 100;
+    const clampedOffset = Math.max(-100, Math.min(100, offsetPercent)); // prevent huge jumps
+
+
     return (
         <div className="fixed h-screen w-full overflow-hidden pointer-events-none z-1">
             <div
