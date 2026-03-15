@@ -8,6 +8,7 @@ export type ProjectStatus =
 export interface Project {
     id: number;
     title: string;
+    subtitle: string;
     description: string;
     status: ProjectStatus;
     link?: string;

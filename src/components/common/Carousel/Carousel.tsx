@@ -41,7 +41,7 @@ export const Carousel: React.FC<CarouselProps> = ({ children }) => {
             {canScrollLeft && (
                 <button
                     onClick={scrollLeft}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-40 text-3xl transition-opacity hover:opacity-70 hover:scale-90"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-40 text-3xl transition hover:opacity-70 hover:scale-90"
                     style={{ color: theme.colors.primary }}
                 >
                     ←
@@ -58,7 +58,7 @@ export const Carousel: React.FC<CarouselProps> = ({ children }) => {
             {canScrollRight && (
                 <button
                     onClick={scrollRight}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-40 text-3xl transition-opacity hover:opacity-70 hover:scale-90"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-40 text-3xl transition hover:opacity-70 hover:scale-90"
                     style={{ color: theme.colors.primary }}
                 >
                     →

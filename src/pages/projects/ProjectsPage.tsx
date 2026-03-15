@@ -17,7 +17,7 @@ export const ProjectsPage: React.FC = () => {
     }, [theme.reducedMotion]);
 
     return (
-        <div className="min-h-screen w-full" style={{ backgroundColor: theme.colors.background }}>
+        <div className="h-screen w-full" style={{ backgroundColor: theme.colors.background }}>
             <Header type="main" animationsEnabled={animationsEnabled} setAnimationsEnabled={setAnimationsEnabled} />
 
             <button
