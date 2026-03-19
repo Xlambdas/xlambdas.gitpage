@@ -27,7 +27,8 @@ import { WelcomeSection, AboutSection, SandboxSection } from "./sections";
 
 import { useSnapScroll } from './hooks';
 
-export const Home: React.FC = () => {
+// last correct version - but still probleme with scrolling on mobile; 19/03 13:25
+export const Home_save_: React.FC = () => {
     // const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [animationsEnabled, setAnimationsEnabled] = useState(true);
@@ -222,6 +223,383 @@ export const Home: React.FC = () => {
             </ScrollContainer>
 
             {/* DOWN ARROW */}
+            {canGoDown && (
+                <DownArrowButton
+                    onClick={goDown}
+                    color={theme.colors.primary}
+                />
+            )}
+        </div>
+    );
+};
+
+export const Home: React.FC = () => {
+    // const containerRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [animationsEnabled, setAnimationsEnabled] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+    const [section, setSection] = useState(0);
+
+    const { theme } = useTheme();
+    const colors = theme.colors;
+
+    const isTouchDevice =
+        typeof window !== 'undefined' &&
+        ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+    // Hooks
+    const { appRef, dprRef, initSpline } = useSplineSetup(
+        canvasRef,
+        animationsEnabled,
+        isTouchDevice,
+        () => setIsLoading(false)
+    );
+
+    const {
+        handleSectionChange,
+        handleCanvasClick,
+    } = useScrollNavigation({
+        maxSection: HOME_CONFIG.maxSection,
+        onSectionChange: setSection,
+        onSplineUpdate: (section) => updateSplineSection(appRef.current, section),
+    });
+
+    const { handleTouchStart, handleTouchEnd } = useTouchNavigation({
+        onSwipe: handleSectionChange,
+    });
+
+    const canGoUp = section > 0;
+    const canGoDown = section < HOME_CONFIG.maxSection;
+
+    const goUp = () => handleSectionChange(-1);
+    const goDown = () => handleSectionChange(1);
+
+    const { monitorPerformance } = usePerformanceMonitor();
+
+    const animationsEnabledRef = useRef(animationsEnabled);
+    const isTouchDeviceRef = useRef(isTouchDevice);
+
+    // sync refs
+    useEffect(() => {
+        animationsEnabledRef.current = animationsEnabled;
+        isTouchDeviceRef.current = isTouchDevice;
+    }, [animationsEnabled, isTouchDevice]);
+
+
+    // wheel effects
+    const handleWheelRef = useRef<(e: WheelEvent) => void | null>(null);
+    const handleTouchStartRef = useRef<(e: TouchEvent) => void | null>(null);
+    const handleTouchEndRef = useRef<(e: TouchEvent) => void | null>(null);
+    const handleTouchMoveRef = useRef<(e: TouchEvent) => void | null>(null);
+
+    useEffect(() => {
+        handleWheelRef.current = (e: WheelEvent) => {
+            if (!animationsEnabledRef.current || isTouchDeviceRef.current) return;
+            e.preventDefault();
+            if (Math.abs(e.deltaY) < HOME_CONFIG.deltaThreshold) return;
+            handleSectionChange(e.deltaY > 0 ? 1 : -1);
+        };
+        handleTouchMoveRef.current = (e: TouchEvent) => {
+            e.preventDefault(); // Block scroll during touch
+        };
+
+        handleTouchStartRef.current = handleTouchStart;
+        handleTouchEndRef.current = handleTouchEnd;
+    }, [handleTouchStart, handleTouchEnd, handleSectionChange]);
+
+
+    // Main effects
+    useEffect(() => {
+        initSpline();
+        monitorPerformance();
+
+        const wheelListener = (e: WheelEvent) => {
+            handleWheelRef.current?.(e);
+        };
+
+        const touchStartListener = (e: TouchEvent) => {
+            handleTouchStartRef.current?.(e);
+        };
+
+        const touchEndListener = (e: TouchEvent) => {
+            handleTouchEndRef.current?.(e);
+        };
+        const touchMoveListener = (e: TouchEvent) => {
+            handleTouchMoveRef.current?.(e);
+        };
+
+        const handleResize = () =>
+            updateCanvasResolution(canvasRef, dprRef.current, animationsEnabledRef.current);
+
+        if (!isTouchDeviceRef.current) {
+            window.addEventListener('wheel', wheelListener, { passive: false });
+        } else {
+            window.addEventListener('touchstart', touchStartListener, { passive: false });
+            window.addEventListener('touchend', touchEndListener, { passive: false });
+            window.addEventListener('touchmove', touchMoveListener, { passive: false });
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+
+            if (!isTouchDeviceRef.current) {
+                window.removeEventListener('wheel', wheelListener);
+            } else {
+                window.removeEventListener('touchstart', touchStartListener);
+                window.removeEventListener('touchend', touchEndListener);
+                window.removeEventListener('touchmove', touchMoveListener);
+            }
+
+            appRef.current = null;
+        };
+    }, []);
+
+    // Sync reduced motion preference
+    useEffect(() => {
+        if (theme.reducedMotion) setAnimationsEnabled(false);
+    }, [theme.reducedMotion]);
+
+    return (
+        <div
+            className="relative overflow-hidden h-screen"
+            style={{ backgroundColor: colors.background }}
+        >
+            {/* Canvas Layer */}
+            <div
+                className="fixed inset-0 z-0 touch-none h-screen"
+                style={{
+                    display: animationsEnabled ? 'block' : 'none',
+                    pointerEvents: isTouchDevice ? 'none' : 'auto',
+                }}>
+                <canvas
+                    ref={canvasRef}
+                    onClick={handleCanvasClick}
+                    style={getCanvasStyle(isTouchDevice)}
+                />
+            </div>
+
+            {/* Loading Indicator */}
+            {isLoading && <LoadingIndicator />}
+
+            {/* Styles */}
+            <style>{KEYFRAMES}</style>
+
+            {/* Header */}
+            <Header
+                type="main"
+                animationsEnabled={animationsEnabled}
+                setAnimationsEnabled={setAnimationsEnabled}
+            />
+
+            {/* UP ARROW */}
+            {canGoUp && (
+                <UpArrowButton
+                    onClick={goUp}
+                    color={theme.colors.primary}
+                />
+            )}
+
+            {/* SECTION INDICATOR */}
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-3">
+                {[0, 1, 2].map((i) => (
+                    <div
+                        key={i}
+                        className="w-3 h-3 rounded-full transition-all duration-300"
+                        style={{
+                            backgroundColor:
+                                section === i
+                                    ? theme.colors.primary
+                                    : theme.colors.primary + "33",
+                            transform: section === i ? "scale(1.3)" : "scale(1)",
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* Content */}
+            <ScrollContainer section={section} animationsEnabled={animationsEnabled}>
+                {/* Section 1: Welcome */}
+                <Section ariaLabel="Welcome" active={section === 0}>
+                    <WelcomeSection theme={theme} />
+                </Section>
+
+                {/* Section 2: About */}
+                <Section ariaLabel="About" active={section === 1}>
+                    <AboutSection theme={theme} />
+                </Section>
+
+                {/* Section 3: Sandbox */}
+                <Section ariaLabel="The Sandbox" active={section === 2}>
+                    <SandboxSection theme={theme} />
+                </Section>
+            </ScrollContainer>
+
+            {/* DOWN ARROW */}
+            {canGoDown && (
+                <DownArrowButton
+                    onClick={goDown}
+                    color={theme.colors.primary}
+                />
+            )}
+        </div>
+    );
+};
+
+
+export const Home_perpy_: React.FC = () => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [animationsEnabled, setAnimationsEnabled] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+    const [section, setSection] = useState(0);
+    const scrollContainerRef = useRef<HTMLDivElement>(null); // New ref for scroll detection
+
+    const { theme } = useTheme();
+    const colors = theme.colors;
+
+    const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+    // Hooks (update useScrollNavigation to use scroll position)
+    const { appRef, dprRef, initSpline } = useSplineSetup(canvasRef, animationsEnabled && !isTouchDevice, isTouchDevice, () => setIsLoading(false)); // Disable spline on touch for perf
+
+    const { handleSectionChange, handleCanvasClick } = useScrollNavigation({
+        maxSection: HOME_CONFIG.maxSection,
+        scrollRef: scrollContainerRef, // Pass ref for native scroll detection
+        onSectionChange: setSection,
+        onSplineUpdate: (section) => updateSplineSection(appRef.current, section),
+    });
+
+    const { handleTouchStart, handleTouchEnd } = useTouchNavigation({
+        onSwipe: handleSectionChange,
+        tolerance: 50, // Pixels for easier mobile swipe[web:10]
+        preventScrollOnSwipe: false, // Don't block scroll[web:10]
+    });
+
+    const canGoUp = section > 0;
+    const canGoDown = section < HOME_CONFIG.maxSection;
+    const goUp = () => handleSectionChange(-1);
+    const goDown = () => handleSectionChange(1);
+
+    const throttle = (func: Function, limit: number) => {
+        let inThrottle: boolean;
+        return function (this: any, ...args: any[]) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    };
+
+    const { monitorPerformance } = usePerformanceMonitor();
+
+    // ... (keep refs and effects, but simplify wheel/touch listeners)
+
+    // Enhanced effect: Throttle resize, disable canvas input on touch
+    useEffect(() => {
+        initSpline();
+        monitorPerformance();
+
+        const handleResize = throttle(() => updateCanvasResolution(canvasRef, dprRef.current, animationsEnabled), 100); // Throttle[web:4]
+
+        if (!isTouchDevice) {
+            window.addEventListener('wheel', (e) => {
+                if (!animationsEnabled) return;
+                e.preventDefault();
+                if (Math.abs(e.deltaY) < HOME_CONFIG.deltaThreshold) return;
+                handleSectionChange(e.deltaY > 0 ? 1 : -1);
+            }, { passive: false });
+        } else {
+            // Window-level touch for swipes without blocking
+            window.addEventListener('touchstart', handleTouchStart, { passive: true });
+            window.addEventListener('touchend', handleTouchEnd, { passive: true });
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            // Cleanup...
+        };
+    }, [handleTouchStart, handleTouchEnd, handleSectionChange]);
+
+    // Update ScrollContainer to native scroll (assumes it's a div with snap)
+    return (
+        <div className="relative h-screen" style={{ backgroundColor: colors.background }}>
+            {/* Canvas: No pointer events on touch */}
+            <div
+                className="fixed inset-0 z-0 h-screen"
+                style={{
+                    display: animationsEnabled ? 'block' : 'none',
+                    pointerEvents: isTouchDevice ? 'none' : 'auto', // Key: none on mobile[web:2]
+                }}
+            >
+                <canvas
+                    ref={canvasRef}
+                    onClick={handleCanvasClick}
+                    style={{
+                        ...getCanvasStyle(isTouchDevice),
+                        touchAction: isTouchDevice ? 'manipulation' : 'auto', // Allow tap/zoom, no pan/scroll[web:20][web:21]
+                    }}
+                />
+            </div>
+
+            {isLoading && <LoadingIndicator />}
+
+            <style>{KEYFRAMES}</style>
+            <Header type="main" animationsEnabled={animationsEnabled} setAnimationsEnabled={setAnimationsEnabled} />
+
+            {/* Larger Dots: 44px min, centered */}
+            <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-4 md:gap-3">
+                {[0, 1, 2].map((i) => (
+                    <button
+                        key={i}
+                        className="w-11 h-11 rounded-full transition-all duration-300 flex items-center justify-center" // 44px touch target[web:1]
+                        onClick={() => handleSectionChange(i - section)}
+                        style={{
+                            backgroundColor: section === i ? theme.colors.primary : theme.colors.primary + "33",
+                            transform: section === i ? "scale(1.1)" : "scale(1)",
+                        }}
+                        aria-label={`Go to section ${i + 1}`}
+                    />
+                ))}
+            </div>
+
+            {/* Hint for mobile */}
+            {isTouchDevice && (
+                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 text-xs opacity-75 z-30 text-center">
+                    Swipe to navigate ↑↓
+                </div>
+            )}
+
+            {/* Native Scroll Container */}
+            <div
+                ref={scrollContainerRef}
+                className="h-screen overflow-auto snap-y snap-mandatory scrollbar-hide"
+                style={{
+                    WebkitOverflowScrolling: 'touch', // Momentum scroll[web:24]
+                    overscrollBehavior: 'contain', // No bounce[web:16]
+                    scrollSnapType: 'y mandatory',
+                }}
+            >
+                <Section ariaLabel="Welcome" active={section === 0} className="h-screen snap-start">
+                    <WelcomeSection theme={theme} />
+                </Section>
+                <Section ariaLabel="About" active={section === 1} className="h-screen snap-start">
+                    <AboutSection theme={theme} />
+                </Section>
+                <Section ariaLabel="The Sandbox" active={section === 2} className="h-screen snap-start">
+                    <SandboxSection theme={theme} />
+                </Section>
+            </div>
+
+            {/* Larger Arrows */}
+            {canGoUp && (
+                <UpArrowButton
+                    onClick={goUp}
+                    color={theme.colors.primary} // Larger on mobile
+                />
+            )}
             {canGoDown && (
                 <DownArrowButton
                     onClick={goDown}

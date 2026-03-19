@@ -28,6 +28,6 @@ export const getCanvasStyle = (isTouchDevice: boolean) => ({
     height: '100%',
     opacity: 0.6,
     display: 'block',
-    touchAction: 'none' as const,
+    touchAction: 'manipulation' as const, // before 'none'
     cursor: isTouchDevice ? 'default' : 'pointer' as const,
 });
