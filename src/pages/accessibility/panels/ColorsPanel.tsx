@@ -17,9 +17,15 @@ interface ColorsPanelProps {
         primary: string;
         secondary: string;
         background: string;
+        colorPresetsTitle: string;
+        customColorsTitle: string;
+        presetPurpleNight: string;
+        presetOceanBlue: string;
+        presetSunset: string;
+        presetForestGreen: string;
+        presetLightMode: string;
     };
 }
-
 const COLOR_PRESETS: ColorPreset[] = [
     {
         name: 'Purple Night',
@@ -63,54 +69,127 @@ const COLOR_PRESETS: ColorPreset[] = [
     },
 ];
 
-export const ColorsPanel_save: React.FC<ColorsPanelProps> = ({ theme, onColorChange, t }) => {
+const getPresetNames = (t: ColorsPanelProps['t']) => ({
+    'Purple Night': t.presetPurpleNight,
+    'Ocean Blue': t.presetOceanBlue,
+    'Sunset': t.presetSunset,
+    'Forest Green': t.presetForestGreen,
+    'Light Mode': t.presetLightMode,
+});
+
+export const ColorsPanel: React.FC<ColorsPanelProps> = ({ theme, onColorChange, t }) => {
+    const presetNames = getPresetNames(t);
+
+    const handlePresetApply = (preset: ColorPreset) => {
+        onColorChange('primary', preset.colors.primary);
+        onColorChange('secondary', preset.colors.secondary);
+        onColorChange('background', preset.colors.background);
+    };
+
     return (
-        <div role="tabpanel" id="colors-panel" className="space-y-6 mb-12">
-            {[
-                { key: 'primary' as const, label: t.primary },
-                { key: 'secondary' as const, label: t.secondary },
-                { key: 'background' as const, label: t.background },
-            ].map(({ key, label }) => (
-                <div
-                    key={key}
-                    className="p-6 sm:p-8 rounded-xl border-2 transition-all"
-                    style={{ borderColor: 'var(--color-primary)' }}
+        <div role="tabpanel" id="colors-panel" className="space-y-8 mb-12">
+            {/* Presets Section */}
+            <div>
+                <h3
+                    className="text-lg sm:text-xl font-light italic mb-4"
+                    style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}
                 >
-                    <label
-                        className="block text-xl sm:text-2xl font-light italic mb-6"
-                        style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}
-                    >
-                        {label}
-                    </label>
-                    <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                        <input
-                            type="color"
-                            value={theme.colors[key]}
-                            onChange={(e) => onColorChange(key, e.target.value)}
-                            className="w-24 h-24 rounded-lg cursor-pointer transition-transform hover:scale-110"
-                            style={{ border: '3px solid var(--color-primary)' }}
-                        />
-                        <div className="flex-1">
-                            <p className="text-sm font-light opacity-60 mb-2">{t.primary}</p>
-                            <code
-                                className="block text-base sm:text-lg font-mono p-3 rounded-lg"
-                                style={{
-                                    backgroundColor: 'var(--color-primary-transparent)',
-                                    color: 'var(--color-primary)',
-                                }}
+                    {t.colorPresetsTitle}  {/* ← CHANGED */}
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {COLOR_PRESETS.map((preset) => (
+                        <button
+                            key={preset.name}
+                            onClick={() => handlePresetApply(preset)}
+                            className="p-4 rounded-lg border-2 transition-all hover:scale-105 active:scale-95"
+                            style={{
+                                borderColor: 'var(--color-primary)',
+                                backgroundColor: 'var(--color-background)',
+                            }}
+                        >
+                            <div className="flex gap-2 mb-2">
+                                <div
+                                    className="w-6 h-6 rounded-full"
+                                    style={{ backgroundColor: preset.colors.primary }}
+                                />
+                                <div
+                                    className="w-6 h-6 rounded-full"
+                                    style={{ backgroundColor: preset.colors.secondary }}
+                                />
+                                <div
+                                    className="w-6 h-6 rounded-full"
+                                    style={{ backgroundColor: preset.colors.background }}
+                                />
+                            </div>
+                            <p
+                                className="text-xs sm:text-sm font-light"
+                                style={{ color: 'var(--color-primary)' }}
                             >
-                                {theme.colors[key]}
-                            </code>
+                                {presetNames[preset.name as keyof typeof presetNames]}  {/* ← CHANGED */}
+                            </p>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Divider */}
+            <div style={{ borderTopWidth: '1px', borderColor: 'var(--color-primary)', opacity: 0.2 }} />
+
+            {/* Custom Colors Section */}
+            <div>
+                <h3
+                    className="text-lg sm:text-xl font-light italic mb-4"
+                    style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}
+                >
+                    {t.customColorsTitle}  {/* ← CHANGED */}
+                </h3>
+                {[
+                    { key: 'primary' as const, label: t.primary },
+                    { key: 'secondary' as const, label: t.secondary },
+                    { key: 'background' as const, label: t.background },
+                ].map(({ key, label }) => (
+                    <div
+                        key={key}
+                        className="p-6 sm:p-8 rounded-xl border-2 transition-all mb-6"
+                        style={{ borderColor: 'var(--color-primary)' }}
+                    >
+                        <label
+                            className="block text-xl sm:text-2xl font-light italic mb-6"
+                            style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}
+                        >
+                            {label}
+                        </label>
+                        <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                            <input
+                                type="color"
+                                value={theme.colors[key]}
+                                onChange={(e) => onColorChange(key, e.target.value)}
+                                className="w-24 h-24 rounded-lg cursor-pointer transition-transform hover:scale-110"
+                                style={{ border: '3px solid var(--color-primary)' }}
+                            />
+                            <div className="flex-1">
+                                <p className="text-sm font-light opacity-60 mb-2">{label}</p>
+                                <code
+                                    className="block text-base sm:text-lg font-mono p-3 rounded-lg"
+                                    style={{
+                                        backgroundColor: 'var(--color-primary-transparent)',
+                                        color: 'var(--color-primary)',
+                                    }}
+                                >
+                                    {theme.colors[key]}
+                                </code>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };
 
 
-export const ColorsPanel: React.FC<ColorsPanelProps> = ({ theme, onColorChange, t }) => {
+
+export const ColorsPanel_old: React.FC<ColorsPanelProps> = ({ theme, onColorChange, t }) => {
     const handlePresetApply = (preset: ColorPreset) => {
         onColorChange('primary', preset.colors.primary);
         onColorChange('secondary', preset.colors.secondary);
