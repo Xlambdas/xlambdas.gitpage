@@ -1,7 +1,7 @@
 // Home/utils/canvas.ts
 
 export const updateCanvasResolution = (
-    canvasRef: React.RefObject<HTMLCanvasElement>,
+    canvasRef: React.RefObject<HTMLCanvasElement | null>,
     dpr: number,
     animationsEnabled: boolean
 ) => {
