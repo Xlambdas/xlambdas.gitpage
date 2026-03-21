@@ -1,10 +1,7 @@
 // src/components/Home/hooks/useSplineSetup.ts
-import { useRef, useCallback } from 'react';
-import { initializeSpline } from '../utils';
-import { HOME_CONFIG } from '../../../constants/home.config.ts';
-import { setDPRForDevice, updateCanvasResolution } from '../utils';
-import { useEffect } from 'react';
-// import { updateSplineColors } from '../utils/splineColors';
+import { useRef, useCallback, useEffect } from 'react';
+import { initializeSpline, setDPRForDevice, updateCanvasResolution } from '../utils';
+import { HOME_CONFIG } from '../../../constants/home.config';
 
 export const useSplineSetup = (
     canvasRef: React.RefObject<HTMLCanvasElement | null>,
@@ -42,10 +39,13 @@ export const useSplineSetup = (
             const storedTheme = localStorage.getItem('app-theme');
             if (storedTheme) {
                 const theme = JSON.parse(storedTheme);
+                const { computeSplineColors } = await import('../../../styles');
+                const colors = { ...theme.colors };
+                const splineColors = computeSplineColors(colors, theme.highContrast);
                 updateSplineColors(app, {
-                    color: theme.colors.splineColor,
-                    fresnel: theme.colors.splineFresnel,
-                    lighting: theme.colors.splineLighting,
+                    color: splineColors.splineColor,
+                    fresnel: splineColors.splineFresnel,
+                    lighting: splineColors.splineLighting,
                 });
             }
 

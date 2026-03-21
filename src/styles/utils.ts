@@ -68,12 +68,12 @@ export const DarkenColor = (hex: string, percent: number) => {
     }).join('').toUpperCase();
 };
 
-export const computeSplineColors = (colors: any) => {
+export const computeSplineColors = (colors: any, highContrast: boolean = false) => {
     const result = {
-        splineColor: colors.background,
+        splineColor: highContrast ? '#121212' : colors.background !== '#F5F6FA' ? colors.background : DarkenColor(colors.primary, 30),
         // splineColor: lightenColor(colors.background, 5),
-        splineFresnel: DarkenColor(colors.primary, 20),
-        splineLighting: lightenColor(colors.secondary, 10),
+        splineFresnel: highContrast ? '#000000' : colors.background !== '#F5F6FA' ? DarkenColor(colors.primary, 20) : DarkenColor(colors.secondary, 20),
+        splineLighting: highContrast ? '#FFFFFF' : lightenColor(colors.secondary, 10),
     };
 
     console.log('computeSplineColors input:', {

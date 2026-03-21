@@ -1,6 +1,5 @@
 // src/components/Home/utils/splineColors.ts
 import type { Application } from '@splinetool/runtime';
-// import type { SplineApplication } from '../constants';
 
 export const updateSplineColors = (
     app: any,

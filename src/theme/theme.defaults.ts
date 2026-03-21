@@ -3,12 +3,15 @@ import { type AppTheme } from './theme.types';
 // import { lightenColor } from '../styles';
 
 
+const PURPLE_NIGHT = {
+    primary: '#9C88D9',
+    secondary: '#18112D',
+    background: '#0B0E16',
+};
 
 export const DEFAULT_THEME: AppTheme = {
     colors: {
-        primary: '#9C88D9',
-        secondary: '#18112D',
-        background: '#0B0E16',
+        ...PURPLE_NIGHT,
         darkButton: '#0B0E16',
         primaryTransparent: 'rgba(156, 136, 217, 0.2)',
         primaryGlow: 'rgba(156, 136, 217, 0.4)',

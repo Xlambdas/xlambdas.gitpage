@@ -5,8 +5,7 @@ import React, {
     useEffect,
     useState,
 } from 'react';
-import { type AppTheme } from '../theme/theme.types';
-import { DEFAULT_THEME } from '../theme/theme.defaults.ts';
+import { type AppTheme, DEFAULT_THEME } from '../theme';
 import { computeSplineColors, getColors } from '../styles';
 
 // =========
@@ -64,7 +63,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     useEffect(() => {
         const root = document.documentElement;
         const colors = getColors(theme); // Apply high-contrast logic
-        // const splineColors = computeSplineColors(colors);
 
         root.style.setProperty('--color-primary', colors.primary);
         root.style.setProperty('--color-primary-glow', colors.primaryGlow);
@@ -109,7 +107,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         (key: 'primary' | 'secondary' | 'background' | 'primaryGlow', value: string) => {
             setTheme(prev => {
                 const updatedColors = { ...prev.colors, [key]: value };
-                const splineColors = computeSplineColors(updatedColors);
+                const splineColors = computeSplineColors(updatedColors, prev.highContrast);
 
                 console.log('updateColor called:', {
                     key,

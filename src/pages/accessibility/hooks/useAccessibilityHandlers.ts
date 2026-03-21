@@ -1,9 +1,8 @@
 // src/pages/accessibility/hooks/useAccessibilityHandlers.ts
 import { useCallback } from 'react';
 import { useTheme } from '../../../context/themeContext';
-import { updateSplineColors } from '../../../components/Home/utils/splineColors';
+import { updateSplineColors } from '../../../components/Home/utils';
 import { computeSplineColors } from '../../../styles';
-// import { lightenColor } from '../../../styles';
 
 
 export const useAccessibilityHandlers = () => {

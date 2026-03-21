@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Header } from '../Header';
-import { updateSplineColors } from './utils/splineColors';
-import { HOME_TRANSLATIONS } from '../../locales/home.ts';
+import { HOME_TRANSLATIONS } from '../../locales';
 
 // Imports
 import {
@@ -18,14 +17,13 @@ import {
     updateCanvasResolution,
     getCanvasStyle,
     updateSplineSection,
+    updateSplineColors,
 } from './utils';
 import { LoadingIndicator, UpArrowButton, DownArrowButton } from '../common';
-import { KEYFRAMES } from '../../styles/utils.ts';
+import { KEYFRAMES } from '../../styles';
 import { HOME_CONFIG } from '../../constants/home.config.ts';
-
 import { useTheme } from "../../context/themeContext";
 import { WelcomeSection, AboutSection, SandboxSection } from "./sections";
-// import { updateSplineColors } from './utils/splineColors.ts';
 
 // last correct version - but still probleme with scrolling on mobile; 19/03 16:00
 export const Home: React.FC = () => {
