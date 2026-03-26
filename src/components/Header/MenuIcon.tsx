@@ -11,7 +11,7 @@ export const MenuIcon: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
     return (
         <button
             onClick={handleClick}
-            className="menu-icon"
+            className="hidden menu-icon"
             data-open={isOpen}
             style={{
                 background: 'transparent',

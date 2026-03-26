@@ -85,7 +85,11 @@ export const Header: React.FC<HeaderProps> = ({
                         background: 'var(--color-primary)'
                     }}
                 /> */}
-                <MenuIcon />
+                <div
+                    className="hidden"
+                >
+                    <MenuIcon />
+                </div>
             </div>
         </header>
     );
