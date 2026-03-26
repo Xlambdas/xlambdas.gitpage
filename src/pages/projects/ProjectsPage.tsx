@@ -32,7 +32,13 @@ export const ProjectsPage: React.FC = () => {
                 className="fixed left-4 sm:left-6 lg:left-8 top-17 sm:top-17 z-50 text-lg sm:text-xl font-light italic transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent rounded"
                 style={{
                     color: 'var(--color-primary)',
-                    // focusRingColor: 'var(--color-primary)'
+                    backdropFilter: 'blur(8px)',
+                    backgroundColor: 'rgba(11, 14, 22, 0.7)',
+                    padding: 'clamp(0.4rem, 1.5vw, 0.8rem) clamp(0.6rem, 2vw, 1.2rem)',
+                    borderRadius: '8px',
+                    fontSize: 'clamp(0.85rem, 2vw, 1.25rem)',
+                    fontWeight: 300,
+                    fontStyle: 'italic',
                 }}
                 aria-label={t.backAriaLabel}
             >

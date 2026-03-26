@@ -420,258 +420,258 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
     );
 };
 
-export const SideNavigation_new: React.FC<SideNavigationProps> = ({
-    t,
-    activeSection,
-    onNavigate,
-}) => {
-    const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
-        new Set(['portfolio', 'sections'])
-    );
+// export const SideNavigation_new: React.FC<SideNavigationProps> = ({
+//     t,
+//     activeSection,
+//     onNavigate,
+// }) => {
+//     const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
+//         new Set(['portfolio', 'sections'])
+//     );
 
-    const fileStructure: FileItem[] = [
-        {
-            name: 'portfolio',
-            type: 'folder',
-            depth: 0,
-            children: [
-                {
-                    name: 'PortfolioHero.tsx',
-                    type: 'file',
-                    id: 'hero',
-                    depth: 2,
-                    comment: '# Hero section',
-                },
-                {
-                    name: 'AboutMe.tsx',
-                    type: 'file',
-                    id: 'about',
-                    depth: 2,
-                    comment: '# About section',
-                },
-                {
-                    name: 'Websites.tsx',
-                    type: 'folder',
-                    depth: 2,
-                    comment: '# Other websites',
-                    children: [
-                        {
-                            name: 'Websitescolfe.tsx',
-                            type: 'folder',
-                            depth: 3,
-                            children: [
-                                {
-                                    name: 'XLS.studio.tsx',
-                                    type: 'file',
-                                    id: 'xls-studio',
-                                    depth: 4,
-                                    comment: '# This website',
-                                }
-                            ],
-                        },
-                        {
-                            name: 'PersonalBlog.tsx',
-                            type: 'file',
-                            id: 'personal-blog',
-                            depth: 3,
-                            comment: '# Personal blog',
-                        },
-                    ],
-                },
-                {
-                    name: 'CaseStudies.tsx',
-                    type: 'file',
-                    id: 'work',
-                    depth: 2,
-                    comment: '# Case studies',
-                },
-                {
-                    name: 'Skills.tsx',
-                    type: 'file',
-                    id: 'skills',
-                    depth: 2,
-                    comment: '# Skills & expertise',
-                },
-                {
-                    name: 'Contact.tsx',
-                    type: 'file',
-                    id: 'contact',
-                    depth: 2,
-                    comment: '# Contact section',
-                },
-            ],
-        },
-    ];
+//     const fileStructure: FileItem[] = [
+//         {
+//             name: 'portfolio',
+//             type: 'folder',
+//             depth: 0,
+//             children: [
+//                 {
+//                     name: 'PortfolioHero.tsx',
+//                     type: 'file',
+//                     id: 'hero',
+//                     depth: 2,
+//                     comment: '# Hero section',
+//                 },
+//                 {
+//                     name: 'AboutMe.tsx',
+//                     type: 'file',
+//                     id: 'about',
+//                     depth: 2,
+//                     comment: '# About section',
+//                 },
+//                 {
+//                     name: 'Websites.tsx',
+//                     type: 'folder',
+//                     depth: 2,
+//                     comment: '# Other websites',
+//                     children: [
+//                         {
+//                             name: 'Websitescolfe.tsx',
+//                             type: 'folder',
+//                             depth: 3,
+//                             children: [
+//                                 {
+//                                     name: 'XLS.studio.tsx',
+//                                     type: 'file',
+//                                     id: 'xls-studio',
+//                                     depth: 4,
+//                                     comment: '# This website',
+//                                 }
+//                             ],
+//                         },
+//                         {
+//                             name: 'PersonalBlog.tsx',
+//                             type: 'file',
+//                             id: 'personal-blog',
+//                             depth: 3,
+//                             comment: '# Personal blog',
+//                         },
+//                     ],
+//                 },
+//                 {
+//                     name: 'CaseStudies.tsx',
+//                     type: 'file',
+//                     id: 'work',
+//                     depth: 2,
+//                     comment: '# Case studies',
+//                 },
+//                 {
+//                     name: 'Skills.tsx',
+//                     type: 'file',
+//                     id: 'skills',
+//                     depth: 2,
+//                     comment: '# Skills & expertise',
+//                 },
+//                 {
+//                     name: 'Contact.tsx',
+//                     type: 'file',
+//                     id: 'contact',
+//                     depth: 2,
+//                     comment: '# Contact section',
+//                 },
+//             ],
+//         },
+//     ];
 
-    const toggleFolder = (folderName: string) => {
-        setExpandedFolders((prev) => {
-            const newSet = new Set(prev);
-            if (newSet.has(folderName)) {
-                newSet.delete(folderName);
-            } else {
-                newSet.add(folderName);
-            }
-            return newSet;
-        });
-    };
+//     const toggleFolder = (folderName: string) => {
+//         setExpandedFolders((prev) => {
+//             const newSet = new Set(prev);
+//             if (newSet.has(folderName)) {
+//                 newSet.delete(folderName);
+//             } else {
+//                 newSet.add(folderName);
+//             }
+//             return newSet;
+//         });
+//     };
 
-    const renderTree = (items: FileItem[], parentIsLast: boolean[] = []): React.ReactNode[] => {
-        return items.flatMap((item, index, array) => {
-            const isLast = index === array.length - 1;
-            const isFolder = item.type === 'folder';
-            const isExpanded = expandedFolders.has(item.name);
-            const isActive = item.id === activeSection;
+//     const renderTree = (items: FileItem[], parentIsLast: boolean[] = []): React.ReactNode[] => {
+//         return items.flatMap((item, index, array) => {
+//             const isLast = index === array.length - 1;
+//             const isFolder = item.type === 'folder';
+//             const isExpanded = expandedFolders.has(item.name);
+//             const isActive = item.id === activeSection;
 
-            // Build vertical lines for parent folders
-            const lines = parentIsLast.map((last, i) => (last ? '    ' : '│   ')).join('');
-            const branch = isLast ? '└── ' : '├── ';
-            const prefix = item.depth === 0 ? '' : lines + branch;
+//             // Build vertical lines for parent folders
+//             const lines = parentIsLast.map((last, i) => (last ? '    ' : '│   ')).join('');
+//             const branch = isLast ? '└── ' : '├── ';
+//             const prefix = item.depth === 0 ? '' : lines + branch;
 
-            return [
-                <div
-                    key={`${item.name}-${item.depth}`}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        fontFamily: 'monospace',
-                        fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)',
-                        lineHeight: '1.7',
-                    }}
-                >
-                    {/* Tree lines and branch */}
-                    <span
-                        style={{
-                            color: 'var(--color-primary-transparent)',
-                            flexShrink: 0,
-                            whiteSpace: 'pre',
-                        }}
-                    >
-                        {prefix}
-                    </span>
+//             return [
+//                 <div
+//                     key={`${item.name}-${item.depth}`}
+//                     style={{
+//                         display: 'flex',
+//                         alignItems: 'center',
+//                         fontFamily: 'monospace',
+//                         fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)',
+//                         lineHeight: '1.7',
+//                     }}
+//                 >
+//                     {/* Tree lines and branch */}
+//                     <span
+//                         style={{
+//                             color: 'var(--color-primary-transparent)',
+//                             flexShrink: 0,
+//                             whiteSpace: 'pre',
+//                         }}
+//                     >
+//                         {prefix}
+//                     </span>
 
-                    {/* Button with icon and name */}
-                    <button
-                        onClick={() =>
-                            isFolder ? toggleFolder(item.name) : onNavigate(item.id || '')
-                        }
-                        style={{
-                            background: isActive ? 'var(--color-primary-transparent)' : 'transparent',
-                            border: 'none',
-                            borderLeft: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
-                            padding: '0.3rem 0.4rem 0.3rem calc(0.4rem - 1px)',
-                            color: 'var(--color-primary)',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.3rem',
-                            fontSize: 'inherit',
-                            fontFamily: 'monospace',
-                            transition: 'all 0.2s ease',
-                            opacity: isActive ? 1 : 0.7,
-                            fontWeight: isActive ? 500 : 400,
-                            fontStyle: isActive && !isFolder ? 'italic' : 'normal',
-                            flex: 1,
-                            minWidth: 0,
-                        }}
-                        aria-current={isActive ? 'page' : undefined}
-                    >
-                        {isFolder && (
-                            <ChevronRight
-                                size={13}
-                                style={{
-                                    transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
-                                    transition: 'transform 0.2s ease',
-                                    flexShrink: 0,
-                                }}
-                            />
-                        )}
+//                     {/* Button with icon and name */}
+//                     <button
+//                         onClick={() =>
+//                             isFolder ? toggleFolder(item.name) : onNavigate(item.id || '')
+//                         }
+//                         style={{
+//                             background: isActive ? 'var(--color-primary-transparent)' : 'transparent',
+//                             border: 'none',
+//                             borderLeft: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
+//                             padding: '0.3rem 0.4rem 0.3rem calc(0.4rem - 1px)',
+//                             color: 'var(--color-primary)',
+//                             cursor: 'pointer',
+//                             display: 'flex',
+//                             alignItems: 'center',
+//                             gap: '0.3rem',
+//                             fontSize: 'inherit',
+//                             fontFamily: 'monospace',
+//                             transition: 'all 0.2s ease',
+//                             opacity: isActive ? 1 : 0.7,
+//                             fontWeight: isActive ? 500 : 400,
+//                             fontStyle: isActive && !isFolder ? 'italic' : 'normal',
+//                             flex: 1,
+//                             minWidth: 0,
+//                         }}
+//                         aria-current={isActive ? 'page' : undefined}
+//                     >
+//                         {isFolder && (
+//                             <ChevronRight
+//                                 size={13}
+//                                 style={{
+//                                     transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+//                                     transition: 'transform 0.2s ease',
+//                                     flexShrink: 0,
+//                                 }}
+//                             />
+//                         )}
 
-                        {isFolder ? (
-                            <Folder size={13} style={{ flexShrink: 0, opacity: 0.8 }} />
-                        ) : (
-                            <FileText size={12} style={{ flexShrink: 0, opacity: isActive ? 1 : 0.6 }} />
-                        )}
+//                         {isFolder ? (
+//                             <Folder size={13} style={{ flexShrink: 0, opacity: 0.8 }} />
+//                         ) : (
+//                             <FileText size={12} style={{ flexShrink: 0, opacity: isActive ? 1 : 0.6 }} />
+//                         )}
 
-                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {item.name}
-                        </span>
-                    </button>
+//                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+//                             {item.name}
+//                         </span>
+//                     </button>
 
-                    {/* Comment */}
-                    {item.comment && (
-                        <span
-                            style={{
-                                color: 'var(--color-primary-transparent)',
-                                marginLeft: '0.4rem',
-                                fontSize: '0.8em',
-                                whiteSpace: 'nowrap',
-                                opacity: 0.4,
-                                flexShrink: 0,
-                            }}
-                        >
-                            {item.comment}
-                        </span>
-                    )}
-                </div>,
-                isFolder && isExpanded && item.children &&
-                renderTree(item.children, [...parentIsLast, isLast]),
-            ];
-        });
-    };
+//                     {/* Comment */}
+//                     {item.comment && (
+//                         <span
+//                             style={{
+//                                 color: 'var(--color-primary-transparent)',
+//                                 marginLeft: '0.4rem',
+//                                 fontSize: '0.8em',
+//                                 whiteSpace: 'nowrap',
+//                                 opacity: 0.4,
+//                                 flexShrink: 0,
+//                             }}
+//                         >
+//                             {item.comment}
+//                         </span>
+//                     )}
+//                 </div>,
+//                 isFolder && isExpanded && item.children &&
+//                 renderTree(item.children, [...parentIsLast, isLast]),
+//             ];
+//         });
+//     };
 
-    return (
-        <nav
-            className="fixed left-0 w-full sm:w-80 md:w-72 lg:w-80 overflow-y-auto hidden lg:flex flex-col z-20"
-            style={{
-                top: 'clamp(60px, 6vh, 70px)',
-                height: 'calc(100vh - clamp(60px, 6vh, 70px))',
-                backgroundColor: 'var(--color-background)',
-                borderRight: '1px solid var(--color-primary-transparent)',
-                fontFamily: 'monospace',
-                padding: 'clamp(1rem, 2vh, 1.5rem) 0.75rem',
-            }}
-            aria-label="Portfolio file tree navigation"
-        >
-            {/* Root indicator */}
-            <div
-                style={{
-                    color: 'var(--color-primary)',
-                    fontSize: 'clamp(0.85rem, 1vw, 0.95rem)',
-                    fontWeight: 600,
-                    marginBottom: '0.5rem',
-                    letterSpacing: '0.5px',
-                }}
-            >
-                src/
-            </div>
+//     return (
+//         <nav
+//             className="fixed left-0 w-full sm:w-80 md:w-72 lg:w-80 overflow-y-auto hidden lg:flex flex-col z-20"
+//             style={{
+//                 top: 'clamp(60px, 6vh, 70px)',
+//                 height: 'calc(100vh - clamp(60px, 6vh, 70px))',
+//                 backgroundColor: 'var(--color-background)',
+//                 borderRight: '1px solid var(--color-primary-transparent)',
+//                 fontFamily: 'monospace',
+//                 padding: 'clamp(1rem, 2vh, 1.5rem) 0.75rem',
+//             }}
+//             aria-label="Portfolio file tree navigation"
+//         >
+//             {/* Root indicator */}
+//             <div
+//                 style={{
+//                     color: 'var(--color-primary)',
+//                     fontSize: 'clamp(0.85rem, 1vw, 0.95rem)',
+//                     fontWeight: 600,
+//                     marginBottom: '0.5rem',
+//                     letterSpacing: '0.5px',
+//                 }}
+//             >
+//                 src/
+//             </div>
 
-            {/* File tree */}
-            <div
-                className="flex-1 overflow-y-auto"
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
-            >
-                {renderTree(fileStructure, [])}
-            </div>
+//             {/* File tree */}
+//             <div
+//                 className="flex-1 overflow-y-auto"
+//                 style={{
+//                     display: 'flex',
+//                     flexDirection: 'column',
+//                 }}
+//             >
+//                 {renderTree(fileStructure, [])}
+//             </div>
 
-            {/* Footer */}
-            <div
-                style={{
-                    padding: '0.75rem',
-                    borderTop: '1px solid var(--color-primary-transparent)',
-                    marginTop: 'auto',
-                    fontSize: 'clamp(0.65rem, 0.8vw, 0.75rem)',
-                    color: 'var(--color-primary)',
-                    opacity: 0.5,
-                }}
-            >
-                <span style={{ fontFamily: 'var(--font-secondary)' }}>© {new Date().getFullYear()}</span>
-            </div>
-        </nav>
-    );
-};
+//             {/* Footer */}
+//             <div
+//                 style={{
+//                     padding: '0.75rem',
+//                     borderTop: '1px solid var(--color-primary-transparent)',
+//                     marginTop: 'auto',
+//                     fontSize: 'clamp(0.65rem, 0.8vw, 0.75rem)',
+//                     color: 'var(--color-primary)',
+//                     opacity: 0.5,
+//                 }}
+//             >
+//                 <span style={{ fontFamily: 'var(--font-secondary)' }}>© {new Date().getFullYear()}</span>
+//             </div>
+//         </nav>
+//     );
+// };
 
 
 export const SideNavigation_claude: React.FC<SideNavigationProps> = ({

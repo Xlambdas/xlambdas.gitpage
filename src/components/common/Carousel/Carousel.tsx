@@ -2,12 +2,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../../../context/themeContext';
 import { type CarouselProps } from '../types';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const Carousel: React.FC<CarouselProps> = ({ children }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme();
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
+    const [isScrolling, setIsScrolling] = useState(false);
 
     const updateScrollButtons = () => {
         if (!scrollRef.current) return;
@@ -18,14 +20,18 @@ export const Carousel: React.FC<CarouselProps> = ({ children }) => {
 
     const scrollLeft = () => {
         if (!scrollRef.current) return;
+        setIsScrolling(true);
         const cardWidth = scrollRef.current.children[0].clientWidth + 32; // gap-8
         scrollRef.current.scrollBy({ left: -cardWidth, behavior: "smooth" });
+        setTimeout(() => setIsScrolling(false), 500); // Adjust the timeout duration as needed
     };
 
     const scrollRight = () => {
         if (!scrollRef.current) return;
+        setIsScrolling(true);
         const cardWidth = scrollRef.current.children[0].clientWidth + 32;
         scrollRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
+        setTimeout(() => setIsScrolling(false), 500); // Adjust the timeout duration as needed
     };
 
     useEffect(() => {
@@ -41,10 +47,18 @@ export const Carousel: React.FC<CarouselProps> = ({ children }) => {
             {canScrollLeft && (
                 <button
                     onClick={scrollLeft}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-40 text-3xl transition hover:opacity-70 hover:scale-90"
-                    style={{ color: theme.colors.primary }}
+                    className="absolute left-0.5 top-1/2 -translate-y-1/2 z-40 text-3xl transition hover:opacity-70"
+                    style={{
+                        color: theme.colors.primary,
+                        backdropFilter: 'blur(2px)',
+                        backgroundColor: 'rgba(11, 14, 22, 0.5)',
+                        borderRadius: '0 20px 20px 0',
+                        opacity: isScrolling ? 0 : 1,
+                        transition: 'opacity 0.3s ease',
+                        pointerEvents: isScrolling ? 'none' : 'auto',
+                    }}
                 >
-                    ←
+                    <ChevronLeft className="w-8 h-10 transition hover:scale-90" />
                 </button>
             )}
 
@@ -58,10 +72,18 @@ export const Carousel: React.FC<CarouselProps> = ({ children }) => {
             {canScrollRight && (
                 <button
                     onClick={scrollRight}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-40 text-3xl transition hover:opacity-70 hover:scale-90"
-                    style={{ color: theme.colors.primary }}
+                    className="absolute right-0.5 top-1/2 -translate-y-1/2 z-40 transition hover:opacity-90"
+                    style={{
+                        color: theme.colors.primary,
+                        backdropFilter: 'blur(2px)',
+                        backgroundColor: 'rgba(11, 14, 22, 0.5)',
+                        borderRadius: '20px 0 0 20px',
+                        opacity: isScrolling ? 0 : 1,
+                        transition: 'opacity 0.3s ease',
+                        pointerEvents: isScrolling ? 'none' : 'auto',
+                    }}
                 >
-                    →
+                    <ChevronRight className="w-8 h-10 transition hover:scale-90" />
                 </button>
             )}
         </div>
