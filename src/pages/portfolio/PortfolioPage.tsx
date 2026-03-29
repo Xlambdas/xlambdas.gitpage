@@ -14,7 +14,7 @@ import {
 import { SideNavigation } from './components/SideNavigator';
 import { useNavigate } from 'react-router-dom';
 
-type SectionId = 'hero' | 'about' | 'skills' | 'timeline' | 'contact';
+type SectionId = 'hero' | 'about' | 'skills' | 'timeline' | 'interests' | 'values' | 'contact';
 
 interface SectionRefs {
     [key: string]: HTMLElement | null;
@@ -138,29 +138,40 @@ interface BackButtonProps {
 }
 
 const MobileBackButton: React.FC<BackButtonProps> = ({ onClick, label }) => (
-    <div
-        className="fixed top-0 left-0 right-0 lg:hidden z-50 px-4 sm:px-6 py-3 sm:py-4"
+    <button
+        onClick={onClick}
+        className="fixed left-4 sm:left-6 top-17 sm:top-17 lg:hidden z-50 font-light italic transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent rounded"
         style={{
-            backgroundColor: 'var(--color-background)',
-            borderBottomWidth: '2px',
-            borderColor: 'var(--color-primary)',
+            color: 'var(--color-primary)',
+            backdropFilter: 'blur(8px)',
+            backgroundColor: 'rgba(11, 14, 22, 0.7)',
+            padding: 'clamp(0.4rem, 1.5vw, 0.8rem) clamp(0.6rem, 2vw, 1.2rem)',
+            borderRadius: '8px',
+            fontSize: 'clamp(0.85rem, 2vw, 1.25rem)',
+            fontWeight: 300,
+            fontStyle: 'italic',
         }}
+        aria-label="Go back"
     >
-        <button
-            onClick={onClick}
-            className="text-lg font-light italic transition-opacity hover:opacity-70"
-            style={{ color: 'var(--color-primary)' }}
-        >
-            {label}
-        </button>
-    </div>
+        {label}
+    </button>
 );
 
 const DesktopBackButton: React.FC<BackButtonProps> = ({ onClick, label }) => (
     <button
         onClick={onClick}
-        className="hidden lg:block fixed left-8 top-18 z-50 text-xl font-light italic transition-opacity hover:opacity-70"
-        style={{ color: 'var(--color-primary)' }}
+        className="hidden lg:block fixed left-8 top-17 z-50 font-light italic transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent rounded"
+        style={{
+            color: 'var(--color-primary)',
+            backdropFilter: 'blur(8px)',
+            backgroundColor: 'rgba(11, 14, 22, 0.7)',
+            padding: 'clamp(0.4rem, 1.5vw, 0.8rem) clamp(0.6rem, 2vw, 1.2rem)',
+            borderRadius: '8px',
+            fontSize: 'clamp(0.85rem, 2vw, 1.25rem)',
+            fontWeight: 300,
+            fontStyle: 'italic',
+        }}
+        aria-label="Go back"
     >
         {label}
     </button>
@@ -180,7 +191,7 @@ const MainContent: React.FC<MainContentProps> = ({
     t,
 }) => (
     <main
-        className="min-h-screen hidden lg:block"
+        className="w-full"
         style={{
             marginLeft: sidebarCollapsed ? '0' : `${sidebarWidth}px`,
             transition: 'margin-left 0.3s ease',

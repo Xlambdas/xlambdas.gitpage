@@ -58,6 +58,23 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
         localStorage.setItem('portfolio-sidebar', JSON.stringify({ width, collapsed: isCollapsed }));
     }, [width, isCollapsed]);
 
+    // Auto-collapse sidebar on small screens
+    useEffect(() => {
+        const checkScreenSize = () => {
+            if (window.innerWidth < 1024) {
+                if (!isCollapsed) {
+                    setIsCollapsed(true);
+                    onCollapseChange(true);
+                }
+            }
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, [isCollapsed, onCollapseChange]);
+
     // Build file structure from translations
     const fileStructure: FileItem[] = [
         {
@@ -110,7 +127,7 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
                             name: t.sidebar.files.contact.name,
                             type: 'file',
                             id: 'contact',
-                            depth: 1,
+                            depth: 2,
                             comment: t.sidebar.files.contact.comment,
                         },
                     ],
@@ -277,13 +294,14 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
                 style={{
                     top: 'clamp(60px, 6vh, 70px)',
                     height: 'calc(100vh - clamp(60px, 6vh, 70px))',
-                    width: isCollapsed ? '0px' : `${width}px`,
+                    width: isCollapsed ? '0px' : `${Math.min(width, window.innerWidth * 0.3)}px`,
                     backgroundColor: 'var(--color-background)',
                     borderRight: '1px solid var(--color-primary-transparent)',
                     fontFamily: 'monospace',
-                    padding: isCollapsed ? '1rem 0.5rem' : 'clamp(1rem, 2vh, 1.5rem) 0.75rem',
+                    padding: isCollapsed ? '0.75rem 0.5rem' : `clamp(0.75rem, 2vh, 1.5rem) clamp(0.5rem, 1.5vw, 0.75rem)`,
                     transition: isResizing ? 'none' : 'width 0.3s ease, padding 0.3s ease',
                     overflow: 'hidden',
+                    fontSize: 'clamp(0.65rem, 0.85vw, 0.8rem)',
                 }}
                 aria-label={t.ariaLabel}
             >
@@ -370,10 +388,10 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
                 className='hidden lg:block group'
                 style={{
                     position: 'fixed',
-                    left: isCollapsed ? '-1px' : `calc(${width}px - 2px)`,
+                    left: isCollapsed ? '-1px' : `calc(${Math.min(width, window.innerWidth * 0.3)}px - 2px)`,
                     top: 'clamp(60px, 6vh, 70px)',
                     height: 'calc(100vh - clamp(60px, 6vh, 70px))',
-                    width: '16px',
+                    width: 'clamp(12px, 1.5vw, 16px)',
                     backgroundColor: 'transparent',
                     cursor: 'col-resize',
                     zIndex: 21,
@@ -406,11 +424,11 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
                 }}
                 className="fixed hidden lg:flex items-center justify-center z-30 hover:opacity-80 transition-opacity"
                 style={{
-                    left: isCollapsed ? '16px' : `${width}px`,
+                    left: isCollapsed ? 'clamp(12px, 1.5vw, 16px)' : `${Math.min(width, window.innerWidth * 0.3)}px`,
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    width: '24px',
-                    height: '40px',
+                    width: 'clamp(20px, 2vw, 24px)',
+                    height: 'clamp(32px, 4vh, 40px)',
                     backgroundColor: 'var(--color-primary-transparent)',
                     border: '1px solid var(--color-primary-transparent)',
                     borderRadius: '0 8px 8px 0',
@@ -432,7 +450,7 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
             {/* Space for content */}
             <div
                 style={{
-                    marginLeft: isCollapsed ? '16px' : `${width}px`,
+                    marginLeft: isCollapsed ? 'clamp(12px, 1.5vw, 16px)' : `${Math.min(width, window.innerWidth * 0.3)}px`,
                     transition: 'margin-left 0.3s ease',
                 }}
             />
