@@ -61,7 +61,7 @@ export const Timeline: React.FC<TimelineProps> = ({ t }) => {
     if (!tl) return null;
 
     const [hoveredKey, setHoveredKey] = useState<number | null>(null);
-    const [period, setPeriod] = useState<PeriodKey>('all');
+    const [period, setPeriod] = useState<PeriodKey>('1y');
     const [tooltip, setTooltip] = useState<{ x: number; y: number } | null>(null);
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
     const svgRef = useRef<SVGSVGElement>(null);

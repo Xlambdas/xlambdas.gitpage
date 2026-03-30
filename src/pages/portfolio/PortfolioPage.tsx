@@ -194,7 +194,9 @@ const MainContent: React.FC<MainContentProps> = ({
         className="w-full"
         style={{
             marginLeft: sidebarCollapsed ? '0' : `${sidebarWidth}px`,
-            transition: 'margin-left 0.3s ease',
+            width: sidebarCollapsed ? '100vw' : `calc(100vw - ${sidebarWidth}px)`,
+            transition: 'margin-left 0.3s ease, width 0.3s ease',
+            overflow: 'hidden',
         }}
     >
         <Section
