@@ -269,7 +269,7 @@ const MainContent: React.FC<MainContentProps> = ({
     sectionRefs,
     t,
 }) => {
-    const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+    const [, setViewportWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         const handleResize = () => {
@@ -280,8 +280,6 @@ const MainContent: React.FC<MainContentProps> = ({
         return () => window.removeEventListener('resize', handleResize);
     }, []);
     const effectiveMargin = sidebarCollapsed ? 0 : sidebarWidth;
-
-    const effectiveWidth = `calc(100vw - ${effectiveMargin}px)`;
 
     return (
         <main
