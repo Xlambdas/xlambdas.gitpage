@@ -110,18 +110,18 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
                     comment: t.sidebar.files.timeline.comment,
                 },
                 {
-                    name: t.sidebar.files.interests.name,
-                    type: 'file',
-                    id: 'interests',
-                    depth: 1,
-                    comment: t.sidebar.files.interests.comment,
-                },
-                {
                     name: `${t.sidebar.folders.aboutme.name}/`,
                     type: 'folder',
                     depth: 1,
                     comment: t.sidebar.folders.aboutme.comment,
                     children: [
+                        {
+                            name: t.sidebar.files.interests.name,
+                            type: 'file',
+                            id: 'interests',
+                            depth: 1,
+                            comment: t.sidebar.files.interests.comment,
+                        },
                         {
                             name: t.sidebar.files.values.name,
                             type: 'file',
@@ -129,14 +129,14 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
                             depth: 2,
                             comment: t.sidebar.files.values.comment,
                         },
-                        {
-                            name: t.sidebar.files.contact.name,
-                            type: 'file',
-                            id: 'contact',
-                            depth: 2,
-                            comment: t.sidebar.files.contact.comment,
-                        },
                     ],
+                },
+                {
+                    name: t.sidebar.files.contact.name,
+                    type: 'file',
+                    id: 'contact',
+                    depth: 2,
+                    comment: t.sidebar.files.contact.comment,
                 },
             ],
         },

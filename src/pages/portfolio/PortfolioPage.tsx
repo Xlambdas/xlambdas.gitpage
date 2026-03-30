@@ -7,8 +7,8 @@ import {
     AboutMe,
     Skills,
     Timeline,
-    // Interests,
-    // Values,
+    Interests,
+    Values,
     Contact,
 } from './section';
 import { SideNavigation } from './components/SideNavigator';
@@ -314,12 +314,12 @@ const MainContent: React.FC<MainContentProps> = ({
             <Section
                 id="interests"
                 sectionRefs={sectionRefs}
-                component={<PlaceholderSection title={t.interests?.title || 'Interests'} />}
+                component={<Interests t={t} />}
             />
             <Section
                 id="values"
                 sectionRefs={sectionRefs}
-                component={<PlaceholderSection title={t.values?.title || 'Values'} description={t.values?.description} />}
+                component={<Values t={t} />}
             />
             <Section
                 id="contact"

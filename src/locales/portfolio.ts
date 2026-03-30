@@ -148,7 +148,7 @@ export interface PortfolioTranslations {
         };
     };
 
-    // Timeline Section (for future use)
+    // Timeline Section
     timeline?: {
         title: string;
         description: string;
@@ -164,21 +164,35 @@ export interface PortfolioTranslations {
         };
     };
 
-    // Interests Section (for future use)
+    // Interests Section
     interests?: {
         title: string;
         description: string;
         ariaLabel: string;
+        note?: string;
+        entries?: {
+            [key: number]: {
+                name: string;
+                description: string;
+            };
+        };
     };
 
-    // Values Section (for future use)
+    // Values Section
     values?: {
         title: string;
-        description: string;
+        description?: string;
         ariaLabel: string;
+        entries: {
+            [key: number]: {
+                title: string;
+                quote: string;        // short motto / italic pull-quote
+                description: string;  // revealed on click
+            };
+        };
     };
 
-    // Contact Section (for future use)
+    // Contact Section
     contact?: {
         title: string;
         description: string;
@@ -226,7 +240,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                 },
                 values: {
                     name: 'Values',
-                    comment: '# Personal values and philosophy',
+                    comment: '# Personal values',
                 },
                 contact: {
                     name: 'Contact',
@@ -239,7 +253,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                     comment: '',
                 },
                 aboutme: {
-                    name: 'About_me',
+                    name: 'details',
                     comment: '# About me subfolder',
                 },
             },
@@ -381,13 +395,57 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
             title: 'Interests',
             description: 'Areas I explore and continue learning about',
             ariaLabel: 'Interests section',
+            note: 'These interests deeply influence my design and development approaches. I believe that understanding human behavior, learning, and interaction is fundamental to creating meaningful digital experiences.',
+            entries: {
+                0: {
+                    name: 'Cognitive Science',
+                    description: 'Understanding how humans learn, perceive, and interact with systems',
+                },
+                1: {
+                    name: 'Human-Computer Interaction',
+                    description: 'Designing interfaces that feel natural and intuitive for users',
+                },
+                2: {
+                    name: 'Game Design',
+                    description: 'Exploring interactive systems, player psychology, and emerging game mechanics',
+                },
+                3: {
+                    name: 'Learning Systems',
+                    description: 'Creating engaging educational experiences and knowledge transfer',
+                },
+                4: {
+                    name: 'AI & Machine Learning',
+                    description: 'Exploring how AI can enhance user experience and design processes',
+                },
+                5: {
+                    name: 'Design Systems',
+                    description: 'Building scalable, maintainable design frameworks for large-scale products',
+                },
+            },
         },
 
-        // Values Section (placeholder for future implementation)
+        // Values Section
         values: {
             title: 'Values',
-            description: 'Core principles that guide my work',
+            description: 'Principles that guide my work',
             ariaLabel: 'Values section',
+            entries: {
+                0: {
+                    title: "Clarity",
+                    quote: "If you can't explain it simply, you don't understand it well enough.",
+                    description: "I believe good design and good thinking share the same root — precision. Complexity is easy; clarity takes work.",
+                },
+                1: {
+                    title: "Depth",
+                    quote: "Surface is where amateurs stop. Depth is where craft begins.",
+                    description: "I push past the obvious solution. Every layer of understanding — technical, cognitive, human — makes the work more honest and more durable.",
+                },
+                2: {
+                    title: "Intention",
+                    quote: "Every decision is a statement. Make them deliberately.",
+                    description: "I don't add features, colors, or interactions without reason. Design is the sum of its decisions — and each one either serves the person using it or it doesn't.",
+                },
+            },
         },
 
         // Contact Section (placeholder for future implementation)
@@ -417,22 +475,47 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
             back: '← Volver',
             github: 'github',
         },
+
         ariaLabel: 'Página de portafolio',
 
         sidebar: {
-            labelExpand: 'Mostrar barra lateral',
-            labelCollapse: 'Ocultar barra lateral',
+            labelCollapse: 'Contraer barra lateral',
+            labelExpand: 'Expandir barra lateral',
             files: {
-                about: { name: 'SobreMi', comment: '# Sección sobre mí' },
-                skills: { name: 'Habilidades', comment: '# Habilidades y experiencia' },
-                timeline: { name: 'Cronología', comment: '# Mi cronología' },
-                interests: { name: 'Intereses', comment: '# Mis intereses' },
-                values: { name: 'Valores', comment: '# Valores personales y filosofía' },
-                contact: { name: 'Contacto', comment: '# Sección de contacto' },
+                about: {
+                    name: 'SobreMí',
+                    comment: '# Sección sobre mí',
+                },
+                skills: {
+                    name: 'Habilidades',
+                    comment: '# Habilidades y experiencia',
+                },
+                timeline: {
+                    name: 'Cronología',
+                    comment: '# Mi cronología',
+                },
+                interests: {
+                    name: 'Intereses',
+                    comment: '# Mis intereses',
+                },
+                values: {
+                    name: 'Valores',
+                    comment: '# Valores personales',
+                },
+                contact: {
+                    name: 'Contacto',
+                    comment: '# Sección de contacto',
+                },
             },
             folders: {
-                portfolio: { name: 'portafolio', comment: '' },
-                aboutme: { name: 'Sobre_mi', comment: '# Subcarpeta sobre mí' },
+                portfolio: {
+                    name: 'portafolio',
+                    comment: '',
+                },
+                aboutme: {
+                    name: 'detalles',
+                    comment: '# Subcarpeta sobre mí',
+                },
             },
             footer: {
                 copyright: '©',
@@ -441,38 +524,38 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
         },
 
         hero: {
-            title: 'Diseñador y Desarrollador',
-            subtitle: 'Creando experiencias intuitivas en la intersección del diseño, el código y la ciencia cognitiva',
+            title: 'Diseñador & Desarrollador',
+            subtitle: 'Creando experiencias intuitivas en la intersección del diseño, el código y las ciencias cognitivas',
             ariaLabel: 'Introducción del portafolio',
         },
 
         about: {
             title: 'Sobre mí',
-            description: 'Soy un diseñador y desarrollador apasionado por crear experiencias digitales centradas en el usuario...',
+            description: 'Soy diseñador y desarrollador apasionado por crear experiencias digitales centradas en el ser humano. Con una base en ciencias cognitivas y experiencia en desarrollo de videojuegos, diseño UI/UX y tecnologías web, abordo cada proyecto con claridad e intención.',
             ariaLabel: 'Sección sobre mí',
         },
 
         skills: {
             title: 'Habilidades',
-            description: 'Una visión completa de mi experiencia en desarrollo de juegos, diseño, tecnologías web y ciencia cognitiva.',
+            description: 'Una visión completa de mi experiencia en desarrollo de videojuegos, diseño, tecnologías web y ciencias cognitivas.',
             ariaLabel: 'Sección de habilidades',
             finalNote: 'Exploro continuamente nuevas tecnologías y metodologías. Siempre aprendiendo, siempre construyendo.',
             categories: {
                 gamedev: {
-                    title: 'Desarrollo y Diseño de Juegos',
+                    title: 'Desarrollo y Diseño de Videojuegos',
                     description: 'Sistemas interactivos y mecánicas de juego',
                     subcategories: {
                         design: {
                             name: 'Diseño de Juegos',
-                            skills: ['Mecánicas de juego', 'Diseño de niveles', 'Psicología del jugador', 'Diseño de sistemas'],
+                            skills: ['Mecánicas de Juego', 'Diseño de Niveles', 'Psicología del Jugador', 'Diseño de Sistemas'],
                         },
                         development: {
                             name: 'Desarrollo de Juegos',
-                            skills: ['Unity', 'C#', 'Sistemas de física', 'UI/UX para juegos'],
+                            skills: ['Unity', 'C#', 'Sistemas de Física', 'UI/UX para Juegos'],
                         },
                         relatedSkills: {
-                            name: 'Habilidades relacionadas',
-                            skills: ['Prototipado', 'Playtesting', 'Narrativa de juego', 'Modelado 3D básico'],
+                            name: 'Habilidades Relacionadas',
+                            skills: ['Prototipado', 'Pruebas de Juego', 'Narrativa de Juego', 'Modelado 3D básico'],
                         },
                     },
                 },
@@ -481,34 +564,34 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                     description: 'Diseño de productos digitales y experiencia de usuario',
                     subcategories: {
                         tools: {
-                            name: 'Herramientas y métodos',
-                            skills: ['Figma', 'Wireframing', 'Prototipado', 'Sistemas de diseño'],
+                            name: 'Herramientas y Métodos de Diseño',
+                            skills: ['Figma', 'Wireframing', 'Prototipado', 'Sistemas de Diseño'],
                         },
                         principles: {
-                            name: 'Principios de diseño',
-                            skills: ['Investigación de usuarios', 'Pruebas de usabilidad', 'Arquitectura de la información', 'Diseño responsivo'],
+                            name: 'Principios de Diseño',
+                            skills: ['Investigación de Usuarios', 'Pruebas de Usabilidad', 'Arquitectura de la Información', 'Diseño Responsivo'],
                         },
                         advanced: {
-                            name: 'Diseño avanzado',
-                            skills: ['Diseño adaptativo', 'Diseño de interacción', 'Accesibilidad (A11y)', 'Pruebas de usuario'],
+                            name: 'Diseño Avanzado',
+                            skills: ['Diseño Adaptativo', 'Diseño de Interacción', 'Accesibilidad (A11y)', 'Pruebas con Usuarios'],
                         },
                     },
                 },
                 webdev: {
                     title: 'Desarrollo Web',
-                    description: 'Tecnologías frontend y full-stack',
+                    description: 'Tecnologías web frontend y full-stack',
                     subcategories: {
                         frontend: {
                             name: 'Frontend',
                             skills: ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Tailwind CSS'],
                         },
                         tools: {
-                            name: 'Herramientas frontend',
+                            name: 'Herramientas Frontend y Build',
                             skills: ['Vite', 'Node.js', 'npm/yarn', 'Git & GitHub', 'Terminal/CLI'],
                         },
                         backend: {
                             name: 'Backend y APIs',
-                            skills: ['Node.js', 'PHP', 'APIs REST', 'Diseño de bases de datos'],
+                            skills: ['Node.js', 'PHP', 'REST APIs', 'Diseño de Bases de Datos'],
                         },
                     },
                 },
@@ -517,34 +600,34 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                     description: 'Pensamiento computacional y ciencia de datos',
                     subcategories: {
                         algorithms: {
-                            name: 'Algoritmos y resolución de problemas',
-                            skills: ['Diseño de algoritmos', 'Estructuras de datos', 'Pensamiento computacional', 'Optimización de código'],
+                            name: 'Algoritmos y Resolución de Problemas',
+                            skills: ['Diseño de Algoritmos', 'Estructuras de Datos', 'Pensamiento Computacional', 'Optimización de Código'],
                         },
                         datascience: {
-                            name: 'Ciencia de datos',
-                            skills: ['Python', 'Análisis de datos', 'Pensamiento estadístico', 'Visualización de datos'],
+                            name: 'Ciencia de Datos',
+                            skills: ['Python', 'Análisis de Datos', 'Pensamiento Estadístico', 'Visualización de Datos'],
                         },
                         mathematics: {
-                            name: 'Pensamiento matemático',
-                            skills: ['Álgebra lineal', 'Matemática discreta', 'Probabilidad', 'Reconocimiento de patrones'],
+                            name: 'Pensamiento Matemático',
+                            skills: ['Álgebra Lineal', 'Matemática Discreta', 'Probabilidad', 'Reconocimiento de Patrones'],
                         },
                     },
                 },
                 cognitivescience: {
-                    title: 'Ciencia Cognitiva y Diseño Centrado en el Usuario',
-                    description: 'Comprender el comportamiento humano',
+                    title: 'Ciencias Cognitivas y Diseño Centrado en el Humano',
+                    description: 'Comprensión del comportamiento humano e interacción',
                     subcategories: {
                         cognitive: {
-                            name: 'Ciencia cognitiva',
-                            skills: ['Psicología cognitiva', 'Sistemas de aprendizaje', 'Memoria y atención', 'Toma de decisiones'],
+                            name: 'Ciencias Cognitivas',
+                            skills: ['Psicología Cognitiva', 'Sistemas de Aprendizaje', 'Memoria y Atención', 'Toma de Decisiones'],
                         },
                         hci: {
-                            name: 'Interacción humano-computadora',
-                            skills: ['Diseño de interacción', 'Investigación de usabilidad', 'Accesibilidad', 'Análisis del comportamiento'],
+                            name: 'Interacción Humano-Computadora',
+                            skills: ['Diseño de Interacción', 'Investigación de Usabilidad', 'Accesibilidad', 'Análisis del Comportamiento del Usuario'],
                         },
                         learning: {
-                            name: 'Aprendizaje y comportamiento',
-                            skills: ['Diseño de aprendizaje', 'Gamificación', 'Engagement', 'Psicología conductual'],
+                            name: 'Aprendizaje y Comportamiento',
+                            skills: ['Diseño del Aprendizaje', 'Gamificación', 'Participación del Usuario', 'Psicología del Comportamiento'],
                         },
                     },
                 },
@@ -552,168 +635,254 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
         },
 
         timeline: {
-            title: 'Trayectoria',
-            description: 'Mi evolución profesional y hitos',
+            title: 'Cronología',
+            description: 'Un recorrido por el diseño, el código y la investigación.',
             ariaLabel: 'Sección de cronología',
             entries: {
-                0: { endDate: '2024', title: 'Proyecto reciente', type: 'project', description: 'Descripción próximamente' },
-                1: { endDate: '2023', title: 'Experiencia', type: 'event', description: 'Descripción próximamente' },
-                2: { endDate: '2022', title: 'Educación', type: 'education', description: 'Descripción próximamente' },
+                0: { startDate: '2026-02-02', endDate: '2026-06-30', title: 'Prácticas en desarrollo de videojuegos', type: 'education', description: 'Desarrollé un concepto y prototipo de juego usando Unity y C#.' },
+                1: { startDate: '2021-09', endDate: '2026-01', title: 'Grado MIASHS', type: 'education', description: 'En la Universidad de Burdeos, con especialización en ciencias cognitivas e interacción humano-computadora.' },
+                2: { endDate: '2021-06', title: 'Bachillerato francés', type: 'education', description: 'Educación secundaria completada con orientación en ciencias y matemáticas.' },
+                3: { startDate: '2026-02', endDate: '2026-03', title: 'Lanzamiento del portafolio', type: 'work', description: 'Lanzamiento de este portafolio para mostrar mi trabajo y trayectoria.' },
+                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Desarrollo de un plugin para la aplicación de toma de notas (Obsidian).' },
             },
         },
 
         interests: {
             title: 'Intereses',
-            description: 'Áreas que exploro y en las que sigo aprendiendo',
+            description: 'Áreas que exploro y sigo aprendiendo',
             ariaLabel: 'Sección de intereses',
+            note: 'Estos intereses influyen profundamente en mi enfoque del diseño y el desarrollo. Creo que entender el comportamiento humano, el aprendizaje y la interacción es fundamental para crear experiencias digitales con sentido.',
+            entries: {
+                0: {
+                    name: 'Ciencias Cognitivas',
+                    description: 'Comprender cómo los humanos aprenden, perciben e interactúan con los sistemas',
+                },
+                1: {
+                    name: 'Interacción Humano-Computadora',
+                    description: 'Diseñar interfaces que resulten naturales e intuitivas para los usuarios',
+                },
+                2: {
+                    name: 'Diseño de Videojuegos',
+                    description: 'Explorar sistemas interactivos, psicología del jugador y mecánicas emergentes',
+                },
+                3: {
+                    name: 'Sistemas de Aprendizaje',
+                    description: 'Crear experiencias educativas atractivas y transferencia de conocimiento',
+                },
+                4: {
+                    name: 'IA y Aprendizaje Automático',
+                    description: 'Explorar cómo la IA puede mejorar la experiencia de usuario y los procesos de diseño',
+                },
+                5: {
+                    name: 'Sistemas de Diseño',
+                    description: 'Construir marcos de diseño escalables y mantenibles para productos a gran escala',
+                },
+            },
         },
 
         values: {
             title: 'Valores',
             description: 'Principios que guían mi trabajo',
             ariaLabel: 'Sección de valores',
+            entries: {
+                0: {
+                    title: 'Claridad',
+                    quote: 'Si no puedes explicarlo de forma sencilla, es que no lo entiendes suficientemente bien.',
+                    description: 'Creo que el buen diseño y el buen pensamiento comparten la misma raíz: la precisión. La complejidad es fácil; la claridad requiere esfuerzo.',
+                },
+                1: {
+                    title: 'Profundidad',
+                    quote: 'La superficie es donde se detienen los aficionados. La profundidad es donde empieza el oficio.',
+                    description: 'Voy más allá de la solución obvia. Cada capa de comprensión — técnica, cognitiva, humana — hace el trabajo más honesto y más duradero.',
+                },
+                2: {
+                    title: 'Intención',
+                    quote: 'Cada decisión es una declaración. Tómalas de forma deliberada.',
+                    description: 'No añado funcionalidades, colores ni interacciones sin razón. El diseño es la suma de sus decisiones — y cada una sirve a la persona que lo usa, o no.',
+                },
+            },
         },
 
         contact: {
             title: 'Contacto',
             description: 'Conectemos y exploremos oportunidades juntos.',
             ariaLabel: 'Sección de contacto',
-            getInTouch: 'Contactar',
+            getInTouch: 'Contáctame',
             links: {
-                email: { label: 'Email', href: 'mailto:cogassien@hotmail.com' },
-                linkedin: { label: 'LinkedIn', href: 'https://fr.linkedin.com/in/corentin-gassien-1b7289261' },
-                github: { label: 'GitHub', href: 'https://github.com/Xlambdas' },
+                email: {
+                    label: 'Correo electrónico',
+                    href: 'mailto:cogassien@hotmail.com',
+                },
+                linkedin: {
+                    label: 'LinkedIn',
+                    href: 'https://fr.linkedin.com/in/corentin-gassien-1b7289261',
+                },
+                github: {
+                    label: 'GitHub',
+                    href: 'https://github.com/Xlambdas',
+                },
             },
         },
     },
 
     fr: {
-        navigation: { back: '← Retour', github: 'github' },
-        ariaLabel: 'Page portfolio',
+        navigation: {
+            back: '← Retour',
+            github: 'github',
+        },
+
+        ariaLabel: 'Page de portfolio',
 
         sidebar: {
-            labelExpand: 'Afficher la barre latérale',
-            labelCollapse: 'Masquer la barre latérale',
+            labelCollapse: 'Réduire la barre latérale',
+            labelExpand: 'Développer la barre latérale',
             files: {
-                about: { name: 'À_propos', comment: '# Section à propos' },
-                skills: { name: 'Compétences', comment: '# Compétences et expertise' },
-                timeline: { name: 'Chronologie', comment: '# Mon parcours' },
-                interests: { name: 'Intérêts', comment: '# Mes intérêts' },
-                values: { name: 'Valeurs', comment: '# Valeurs et philosophie' },
-                contact: { name: 'Contact', comment: '# Section contact' },
+                about: {
+                    name: 'ÀProposDeMoi',
+                    comment: '# Section à propos',
+                },
+                skills: {
+                    name: 'Compétences',
+                    comment: '# Compétences et expertise',
+                },
+                timeline: {
+                    name: 'Chronologie',
+                    comment: '# Ma chronologie',
+                },
+                interests: {
+                    name: 'Intérêts',
+                    comment: '# Mes intérêts',
+                },
+                values: {
+                    name: 'Valeurs',
+                    comment: '# Valeurs personnelles',
+                },
+                contact: {
+                    name: 'Contact',
+                    comment: '# Section contact',
+                },
             },
             folders: {
-                portfolio: { name: 'portfolio', comment: '' },
-                aboutme: { name: 'A_propos', comment: '# Dossier à propos' },
+                portfolio: {
+                    name: 'portfolio',
+                    comment: '',
+                },
+                aboutme: {
+                    name: 'détails',
+                    comment: '# Sous-dossier à propos',
+                },
             },
-            footer: { copyright: '©', githubLabel: 'github' },
+            footer: {
+                copyright: '©',
+                githubLabel: 'github',
+            },
         },
 
         hero: {
             title: 'Designer & Développeur',
-            subtitle: 'Créer des expériences intuitives à l’intersection du design, du code et de la science cognitive',
+            subtitle: 'Créer des expériences intuitives à l\'intersection du design, du code et des sciences cognitives',
             ariaLabel: 'Introduction du portfolio',
         },
 
         about: {
-            title: 'À propos',
-            description: 'Je suis un designer et développeur passionné par la création d’expériences numériques centrées sur l’humain...',
-            ariaLabel: 'Section à propos',
+            title: 'À propos de moi',
+            description: 'Je suis designer et développeur passionné par la création d\'expériences numériques centrées sur l\'humain. Avec une formation en sciences cognitives et une expertise couvrant le développement de jeux, le design UI/UX et les technologies web, j\'aborde chaque projet avec clarté et intention.',
+            ariaLabel: 'Section à propos de moi',
         },
 
         skills: {
             title: 'Compétences',
-            description: 'Une vue d’ensemble de mon expertise en développement de jeux, design, technologies web et science cognitive.',
+            description: 'Une vue d\'ensemble de mon expertise en développement de jeux, design, technologies web et sciences cognitives.',
             ariaLabel: 'Section compétences',
-            finalNote: 'J’explore en continu de nouvelles technologies et méthodes. Toujours apprendre, toujours construire.',
+            finalNote: 'J\'explore continuellement de nouvelles technologies et méthodologies. Toujours en apprentissage, toujours en construction.',
             categories: {
                 gamedev: {
-                    title: 'Développement & Design de Jeux',
-                    description: 'Systèmes interactifs et mécaniques de jeu',
+                    title: 'Développement et Design de Jeux',
+                    description: 'Systèmes interactifs et méchaniques de jeu',
                     subcategories: {
                         design: {
                             name: 'Game Design',
-                            skills: ['Mécaniques de jeu', 'Level design', 'Psychologie du joueur', 'Design de systèmes'],
+                            skills: ['Mécaniques de Jeu', 'Level Design', 'Psychologie du Joueur', 'Design de Systèmes'],
                         },
                         development: {
-                            name: 'Développement de jeux',
-                            skills: ['Unity', 'C#', 'Systèmes physiques', 'UI/UX pour jeux'],
+                            name: 'Développement de Jeux',
+                            skills: ['Unity', 'C#', 'Systèmes Physiques', 'UI/UX pour Jeux'],
                         },
                         relatedSkills: {
-                            name: 'Compétences associées',
-                            skills: ['Prototypage', 'Playtesting', 'Narration', 'Bases en modélisation 3D'],
+                            name: 'Compétences Associées',
+                            skills: ['Prototypage', 'Playtesting', 'Narration de Jeu', 'Modélisation 3D basique'],
                         },
                     },
                 },
                 uiux: {
                     title: 'Design UI/UX',
-                    description: 'Design de produits digitaux',
+                    description: 'Design de produits numériques et expérience utilisateur',
                     subcategories: {
                         tools: {
-                            name: 'Outils & méthodes',
-                            skills: ['Figma', 'Wireframing', 'Prototypage', 'Design systems'],
+                            name: 'Outils et Méthodes de Design',
+                            skills: ['Figma', 'Wireframing', 'Prototypage', 'Systèmes de Design'],
                         },
                         principles: {
-                            name: 'Principes de design',
-                            skills: ['Recherche utilisateur', 'Tests d’utilisabilité', 'Architecture de l’information', 'Responsive design'],
+                            name: 'Principes de Design',
+                            skills: ['Recherche Utilisateur', 'Tests d\'Utilisabilité', 'Architecture de l\'Information', 'Design Responsif'],
                         },
                         advanced: {
-                            name: 'Design avancé',
-                            skills: ['Design adaptatif', 'Design d’interaction', 'Accessibilité (A11y)', 'Tests utilisateurs'],
+                            name: 'Design Avancé',
+                            skills: ['Design Adaptatif', 'Design d\'Interaction', 'Accessibilité (A11y)', 'Tests Utilisateurs'],
                         },
                     },
                 },
                 webdev: {
                     title: 'Développement Web',
-                    description: 'Technologies frontend et full-stack',
+                    description: 'Technologies web frontend et full-stack',
                     subcategories: {
                         frontend: {
                             name: 'Frontend',
                             skills: ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Tailwind CSS'],
                         },
                         tools: {
-                            name: 'Outils frontend',
-                            skills: ['Vite', 'Node.js', 'npm/yarn', 'Git & GitHub', 'CLI'],
+                            name: 'Outils Frontend et Build',
+                            skills: ['Vite', 'Node.js', 'npm/yarn', 'Git & GitHub', 'Terminal/CLI'],
                         },
                         backend: {
-                            name: 'Backend & APIs',
-                            skills: ['Node.js', 'PHP', 'APIs REST', 'Bases de données'],
+                            name: 'Backend et APIs',
+                            skills: ['Node.js', 'PHP', 'REST APIs', 'Conception de Bases de Données'],
                         },
                     },
                 },
                 dataAlgorithms: {
-                    title: 'Données & Algorithmes',
-                    description: 'Pensée computationnelle',
+                    title: 'Données et Algorithmes',
+                    description: 'Pensée computationnelle et science des données',
                     subcategories: {
                         algorithms: {
-                            name: 'Algorithmes',
-                            skills: ['Conception d’algorithmes', 'Structures de données', 'Pensée computationnelle', 'Optimisation'],
+                            name: 'Algorithmes et Résolution de Problèmes',
+                            skills: ['Conception d\'Algorithmes', 'Structures de Données', 'Pensée Computationnelle', 'Optimisation de Code'],
                         },
                         datascience: {
-                            name: 'Data Science',
-                            skills: ['Python', 'Analyse de données', 'Statistiques', 'Visualisation'],
+                            name: 'Science des Données',
+                            skills: ['Python', 'Analyse de Données', 'Pensée Statistique', 'Visualisation de Données'],
                         },
                         mathematics: {
-                            name: 'Mathématiques',
-                            skills: ['Algèbre linéaire', 'Maths discrètes', 'Probabilités', 'Patterns'],
+                            name: 'Pensée Mathématique',
+                            skills: ['Algèbre Linéaire', 'Mathématiques Discrètes', 'Probabilités', 'Reconnaissance de Motifs'],
                         },
                     },
                 },
                 cognitivescience: {
-                    title: 'Science Cognitive & Design Centré Humain',
-                    description: 'Comprendre le comportement humain',
+                    title: 'Sciences Cognitives et Design Centré sur l\'Humain',
+                    description: 'Compréhension du comportement humain et de l\'interaction',
                     subcategories: {
                         cognitive: {
-                            name: 'Science cognitive',
-                            skills: ['Psychologie cognitive', 'Apprentissage', 'Mémoire & attention', 'Décision'],
+                            name: 'Sciences Cognitives',
+                            skills: ['Psychologie Cognitive', 'Systèmes d\'Apprentissage', 'Mémoire et Attention', 'Prise de Décision'],
                         },
                         hci: {
-                            name: 'IHM',
-                            skills: ['Interaction', 'UX research', 'Accessibilité', 'Analyse comportementale'],
+                            name: 'Interaction Humain-Machine',
+                            skills: ['Design d\'Interaction', 'Recherche en Utilisabilité', 'Accessibilité', 'Analyse du Comportement Utilisateur'],
                         },
                         learning: {
-                            name: 'Apprentissage',
-                            skills: ['Learning design', 'Gamification', 'Engagement', 'Psychologie'],
+                            name: 'Apprentissage et Comportement',
+                            skills: ['Ingénierie Pédagogique', 'Gamification', 'Engagement Utilisateur', 'Psychologie Comportementale'],
                         },
                     },
                 },
@@ -721,52 +890,143 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
         },
 
         timeline: {
-            title: 'Parcours',
-            description: 'Mon évolution et mes étapes clés',
+            title: 'Chronologie',
+            description: 'Un parcours à travers le design, le code et la recherche.',
             ariaLabel: 'Section chronologie',
             entries: {
-                0: { endDate: '2024', title: 'Projet récent', type: 'project', description: 'Description bientôt disponible' },
-                1: { endDate: '2023', title: 'Expérience', type: 'event', description: 'Description bientôt disponible' },
-                2: { endDate: '2022', title: 'Formation', type: 'education', description: 'Description bientôt disponible' },
+                0: { startDate: '2026-02-02', endDate: '2026-06-30', title: 'Stage en développement de jeux', type: 'education', description: 'Développement d\'un concept et d\'un prototype de jeu avec Unity et C#.' },
+                1: { startDate: '2021-09', endDate: '2026-01', title: 'Licence MIASHS', type: 'education', description: 'À l\'Université de Bordeaux, spécialisation en sciences cognitives et interaction humain-machine.' },
+                2: { endDate: '2021-06', title: 'Baccalauréat français', type: 'education', description: 'Diplôme de fin d\'études secondaires avec spécialisation en sciences et mathématiques.' },
+                3: { startDate: '2026-02', endDate: '2026-03', title: 'Lancement du portfolio', type: 'work', description: 'Mise en ligne de ce portfolio pour présenter mon travail et mon parcours.' },
+                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Développement d\'un plugin pour l\'application de prise de notes Obsidian.' },
             },
         },
 
-        interests: { title: 'Intérêts', description: 'Domaines que j’explore', ariaLabel: 'Section intérêts' },
-        values: { title: 'Valeurs', description: 'Principes qui guident mon travail', ariaLabel: 'Section valeurs' },
+        interests: {
+            title: 'Intérêts',
+            description: 'Des domaines que j\'explore et que je continue d\'apprendre',
+            ariaLabel: 'Section intérêts',
+            note: 'Ces intérêts influencent profondément mes approches du design et du développement. Je crois que comprendre le comportement humain, l\'apprentissage et l\'interaction est fondamental pour créer des expériences numériques porteuses de sens.',
+            entries: {
+                0: {
+                    name: 'Sciences Cognitives',
+                    description: 'Comprendre comment les humains apprennent, perçoivent et interagissent avec les systèmes',
+                },
+                1: {
+                    name: 'Interaction Humain-Machine',
+                    description: 'Concevoir des interfaces qui semblent naturelles et intuitives pour les utilisateurs',
+                },
+                2: {
+                    name: 'Game Design',
+                    description: 'Explorer les systèmes interactifs, la psychologie du joueur et les mécaniques émergentes',
+                },
+                3: {
+                    name: 'Systèmes d\'Apprentissage',
+                    description: 'Créer des expériences éducatives engageantes et favoriser le transfert de connaissances',
+                },
+                4: {
+                    name: 'IA et Apprentissage Automatique',
+                    description: 'Explorer comment l\'IA peut améliorer l\'expérience utilisateur et les processus de design',
+                },
+                5: {
+                    name: 'Systèmes de Design',
+                    description: 'Construire des référentiels de design évolutifs et maintenables pour des produits à grande échelle',
+                },
+            },
+        },
+
+        values: {
+            title: 'Valeurs',
+            description: 'Les principes qui guident mon travail',
+            ariaLabel: 'Section valeurs',
+            entries: {
+                0: {
+                    title: 'Clarté',
+                    quote: 'Si tu ne peux pas l\'expliquer simplement, c\'est que tu ne le comprends pas assez bien.',
+                    description: 'Je crois que le bon design et la bonne pensée partagent la même racine — la précision. La complexité est facile ; la clarté demande du travail.',
+                },
+                1: {
+                    title: 'Profondeur',
+                    quote: 'La surface, c\'est là que s\'arrêtent les amateurs. La profondeur, c\'est là que commence le métier.',
+                    description: 'Je vais au-delà de la solution évidente. Chaque couche de compréhension — technique, cognitive, humaine — rend le travail plus honnête et plus durable.',
+                },
+                2: {
+                    title: 'Intention',
+                    quote: 'Chaque décision est une affirmation. Prenez-les délibérément.',
+                    description: 'Je n\'ajoute pas de fonctionnalités, de couleurs ou d\'interactions sans raison. Le design est la somme de ses décisions — et chacune sert la personne qui l\'utilise, ou pas.',
+                },
+            },
+        },
 
         contact: {
-            title: 'Contact',
-            description: 'Discutons et explorons des opportunités.',
+            title: 'Me Contacter',
+            description: 'Connectons-nous et explorons des opportunités ensemble.',
             ariaLabel: 'Section contact',
-            getInTouch: 'Me contacter',
+            getInTouch: 'Prendre contact',
             links: {
-                email: { label: 'Email', href: 'mailto:cogassien@hotmail.com' },
-                linkedin: { label: 'LinkedIn', href: '...' },
-                github: { label: 'GitHub', href: '...' },
+                email: {
+                    label: 'E-mail',
+                    href: 'mailto:cogassien@hotmail.com',
+                },
+                linkedin: {
+                    label: 'LinkedIn',
+                    href: 'https://fr.linkedin.com/in/corentin-gassien-1b7289261',
+                },
+                github: {
+                    label: 'GitHub',
+                    href: 'https://github.com/Xlambdas',
+                },
             },
         },
     },
+
+
     de: {
         navigation: {
             back: '← Zurück',
             github: 'github',
         },
+
         ariaLabel: 'Portfolio-Seite',
 
         sidebar: {
-            labelExpand: 'Seitenleiste erweitern',
-            labelCollapse: 'Seitenleiste reduzieren',
+            labelCollapse: 'Seitenleiste einklappen',
+            labelExpand: 'Seitenleiste ausklappen',
             files: {
-                about: { name: 'ÜberMich', comment: '# Über mich Bereich' },
-                skills: { name: 'Fähigkeiten', comment: '# Fähigkeiten & Expertise' },
-                timeline: { name: 'Zeitachse', comment: '# Mein Werdegang' },
-                interests: { name: 'Interessen', comment: '# Meine Interessen' },
-                values: { name: 'Werte', comment: '# Werte und Philosophie' },
-                contact: { name: 'Kontakt', comment: '# Kontaktbereich' },
+                about: {
+                    name: 'ÜberMich',
+                    comment: '# Über-mich-Bereich',
+                },
+                skills: {
+                    name: 'Fähigkeiten',
+                    comment: '# Fähigkeiten und Expertise',
+                },
+                timeline: {
+                    name: 'Zeitstrahl',
+                    comment: '# Mein Zeitstrahl',
+                },
+                interests: {
+                    name: 'Interessen',
+                    comment: '# Meine Interessen',
+                },
+                values: {
+                    name: 'Werte',
+                    comment: '# Persönliche Werte',
+                },
+                contact: {
+                    name: 'Kontakt',
+                    comment: '# Kontaktbereich',
+                },
             },
             folders: {
-                portfolio: { name: 'portfolio', comment: '' },
-                aboutme: { name: 'Über_mich', comment: '# Über mich Unterordner' },
+                portfolio: {
+                    name: 'portfolio',
+                    comment: '',
+                },
+                aboutme: {
+                    name: 'details',
+                    comment: '# Über-mich-Unterordner',
+                },
             },
             footer: {
                 copyright: '©',
@@ -776,29 +1036,29 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
 
         hero: {
             title: 'Designer & Entwickler',
-            subtitle: 'Gestaltung intuitiver Erfahrungen an der Schnittstelle von Design, Code und Kognitionswissenschaft',
-            ariaLabel: 'Portfolio Einführung',
+            subtitle: 'Intuitive Erlebnisse an der Schnittstelle von Design, Code und Kognitionswissenschaft',
+            ariaLabel: 'Portfolio-Einleitung',
         },
 
         about: {
             title: 'Über mich',
-            description: 'Ich bin ein Designer und Entwickler mit Leidenschaft für menschenzentrierte digitale Erfahrungen...',
-            ariaLabel: 'Über mich Bereich',
+            description: 'Ich bin Designer und Entwickler mit einer Leidenschaft für die Gestaltung menschenzentrierter digitaler Erlebnisse. Mit einem Hintergrund in der Kognitionswissenschaft und Expertise in Spieleentwicklung, UI/UX-Design und Webtechnologien gehe ich jedes Projekt mit Klarheit und Absicht an.',
+            ariaLabel: 'Über-mich-Bereich',
         },
 
         skills: {
             title: 'Fähigkeiten',
-            description: 'Überblick über meine Expertise in Spieleentwicklung, Design, Webtechnologien und Kognitionswissenschaft.',
-            ariaLabel: 'Fähigkeiten Bereich',
-            finalNote: 'Ich erforsche kontinuierlich neue Technologien und Methoden. Immer lernen, immer bauen.',
+            description: 'Ein umfassender Überblick über meine Expertise in Spieleentwicklung, Design, Webtechnologien und Kognitionswissenschaft.',
+            ariaLabel: 'Fähigkeitenbereich',
+            finalNote: 'Ich erkunde kontinuierlich neue Technologien und Methoden. Immer am Lernen, immer am Bauen.',
             categories: {
                 gamedev: {
-                    title: 'Spieleentwicklung & Design',
+                    title: 'Spieleentwicklung und -design',
                     description: 'Interaktive Systeme und Spielmechaniken',
                     subcategories: {
                         design: {
-                            name: 'Game Design',
-                            skills: ['Spielmechaniken', 'Leveldesign', 'Spielerpsychologie', 'Systemdesign'],
+                            name: 'Spieldesign',
+                            skills: ['Spielmechaniken', 'Level-Design', 'Spielerpsychologie', 'Systemdesign'],
                         },
                         development: {
                             name: 'Spieleentwicklung',
@@ -806,79 +1066,79 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                         },
                         relatedSkills: {
                             name: 'Verwandte Fähigkeiten',
-                            skills: ['Prototyping', 'Playtesting', 'Spielnarrative', '3D-Modellierung (Grundlagen)'],
+                            skills: ['Prototyping', 'Spieltests', 'Spielnarrative', '3D-Modellierung Grundlagen'],
                         },
                     },
                 },
                 uiux: {
-                    title: 'UI/UX Design',
-                    description: 'Digitale Produktgestaltung und Nutzererfahrung',
+                    title: 'UI/UX-Design',
+                    description: 'Digitales Produktdesign und Nutzererfahrung',
                     subcategories: {
                         tools: {
-                            name: 'Tools & Methoden',
-                            skills: ['Figma', 'Wireframing', 'Prototyping', 'Designsysteme'],
+                            name: 'Design-Werkzeuge und Methoden',
+                            skills: ['Figma', 'Wireframing', 'Prototyping', 'Design-Systeme'],
                         },
                         principles: {
                             name: 'Designprinzipien',
-                            skills: ['User Research', 'Usability-Tests', 'Informationsarchitektur', 'Responsives Design'],
+                            skills: ['Nutzerforschung', 'Usability-Tests', 'Informationsarchitektur', 'Responsives Design'],
                         },
                         advanced: {
                             name: 'Fortgeschrittenes Design',
-                            skills: ['Adaptives Design', 'Interaktionsdesign', 'Barrierefreiheit (A11y)', 'User Testing'],
+                            skills: ['Adaptives Design', 'Interaktionsdesign', 'Barrierefreiheit (A11y)', 'Nutzertests'],
                         },
                     },
                 },
                 webdev: {
                     title: 'Webentwicklung',
-                    description: 'Frontend- und Full-Stack-Technologien',
+                    description: 'Frontend- und Full-Stack-Webtechnologien',
                     subcategories: {
                         frontend: {
                             name: 'Frontend',
                             skills: ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Tailwind CSS'],
                         },
                         tools: {
-                            name: 'Frontend Tools',
+                            name: 'Frontend-Werkzeuge und Build',
                             skills: ['Vite', 'Node.js', 'npm/yarn', 'Git & GitHub', 'Terminal/CLI'],
                         },
                         backend: {
-                            name: 'Backend & APIs',
-                            skills: ['Node.js', 'PHP', 'REST APIs', 'Datenbankdesign'],
+                            name: 'Backend und APIs',
+                            skills: ['Node.js', 'PHP', 'REST-APIs', 'Datenbankdesign'],
                         },
                     },
                 },
                 dataAlgorithms: {
-                    title: 'Daten & Algorithmen',
-                    description: 'Computational Thinking und Data Science',
+                    title: 'Daten und Algorithmen',
+                    description: 'Algorithmisches Denken und Datenwissenschaft',
                     subcategories: {
                         algorithms: {
-                            name: 'Algorithmen & Problemlösung',
-                            skills: ['Algorithmendesign', 'Datenstrukturen', 'Computational Thinking', 'Code-Optimierung'],
+                            name: 'Algorithmen und Problemlösung',
+                            skills: ['Algorithmendesign', 'Datenstrukturen', 'Algorithmisches Denken', 'Code-Optimierung'],
                         },
                         datascience: {
-                            name: 'Data Science',
+                            name: 'Datenwissenschaft',
                             skills: ['Python', 'Datenanalyse', 'Statistisches Denken', 'Datenvisualisierung'],
                         },
                         mathematics: {
                             name: 'Mathematisches Denken',
-                            skills: ['Lineare Algebra', 'Diskrete Mathematik', 'Wahrscheinlichkeit', 'Mustererkennung'],
+                            skills: ['Lineare Algebra', 'Diskrete Mathematik', 'Wahrscheinlichkeitsrechnung', 'Mustererkennung'],
                         },
                     },
                 },
                 cognitivescience: {
-                    title: 'Kognitionswissenschaft & Human-Centered Design',
-                    description: 'Verständnis menschlichen Verhaltens',
+                    title: 'Kognitionswissenschaft und menschenzentriertes Design',
+                    description: 'Verständnis menschlichen Verhaltens und Interaktion',
                     subcategories: {
                         cognitive: {
                             name: 'Kognitionswissenschaft',
-                            skills: ['Kognitive Psychologie', 'Lernsysteme', 'Gedächtnis & Aufmerksamkeit', 'Entscheidungsfindung'],
+                            skills: ['Kognitive Psychologie', 'Lernsysteme', 'Gedächtnis und Aufmerksamkeit', 'Entscheidungsfindung'],
                         },
                         hci: {
                             name: 'Mensch-Computer-Interaktion',
-                            skills: ['Interaktionsdesign', 'Usability-Forschung', 'Barrierefreiheit', 'Verhaltensanalyse'],
+                            skills: ['Interaktionsdesign', 'Usability-Forschung', 'Barrierefreiheit', 'Nutzerverhaltenanalyse'],
                         },
                         learning: {
-                            name: 'Lernen & Verhalten',
-                            skills: ['Lerndesign', 'Gamification', 'User Engagement', 'Verhaltenspsychologie'],
+                            name: 'Lernen und Verhalten',
+                            skills: ['Lerndesign', 'Gamifizierung', 'Nutzerengagement', 'Verhaltenspsychologie'],
                         },
                     },
                 },
@@ -886,37 +1146,92 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
         },
 
         timeline: {
-            title: 'Werdegang',
-            description: 'Mein beruflicher Weg und wichtige Meilensteine',
-            ariaLabel: 'Zeitachsen Bereich',
+            title: 'Zeitstrahl',
+            description: 'Ein Weg durch Design, Code und Forschung.',
+            ariaLabel: 'Zeitstrahlbereich',
             entries: {
-                0: { endDate: '2024', title: 'Aktuelles Projekt', type: 'project', description: 'Beschreibung folgt' },
-                1: { endDate: '2023', title: 'Erfahrung', type: 'event', description: 'Beschreibung folgt' },
-                2: { endDate: '2022', title: 'Ausbildung', type: 'education', description: 'Beschreibung folgt' },
+                0: { startDate: '2026-02-02', endDate: '2026-06-30', title: 'Praktikum Spieleentwicklung', type: 'education', description: 'Entwicklung eines Spielkonzepts und Prototyps mit Unity und C#.' },
+                1: { startDate: '2021-09', endDate: '2026-01', title: 'Bachelor MIASHS', type: 'education', description: 'An der Universität Bordeaux mit Schwerpunkt Kognitionswissenschaft und Mensch-Computer-Interaktion.' },
+                2: { endDate: '2021-06', title: 'Französisches Abitur', type: 'education', description: 'Abschluss der Sekundarschule mit Schwerpunkt Naturwissenschaften und Mathematik.' },
+                3: { startDate: '2026-02', endDate: '2026-03', title: 'Portfolio-Launch', type: 'work', description: 'Veröffentlichung dieses Portfolios zur Präsentation meiner Arbeit und meines Werdegangs.' },
+                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Entwicklung eines Plugins für die Notiz-Anwendung Obsidian.' },
             },
         },
 
         interests: {
             title: 'Interessen',
-            description: 'Bereiche, die ich erforsche und weiterentwickle',
-            ariaLabel: 'Interessen Bereich',
+            description: 'Bereiche, die ich erkunde und weiter erforsche',
+            ariaLabel: 'Interessenbereich',
+            note: 'Diese Interessen beeinflussen meine Design- und Entwicklungsansätze nachhaltig. Ich glaube, dass das Verständnis menschlichen Verhaltens, Lernens und Interagierens grundlegend dafür ist, bedeutungsvolle digitale Erlebnisse zu schaffen.',
+            entries: {
+                0: {
+                    name: 'Kognitionswissenschaft',
+                    description: 'Verstehen, wie Menschen lernen, wahrnehmen und mit Systemen interagieren',
+                },
+                1: {
+                    name: 'Mensch-Computer-Interaktion',
+                    description: 'Gestaltung von Oberflächen, die sich für Nutzer natürlich und intuitiv anfühlen',
+                },
+                2: {
+                    name: 'Spieldesign',
+                    description: 'Erkundung interaktiver Systeme, Spielerpsychologie und emergenter Spielmechaniken',
+                },
+                3: {
+                    name: 'Lernsysteme',
+                    description: 'Entwicklung ansprechender Lernerfahrungen und Wissenstransfer',
+                },
+                4: {
+                    name: 'KI und Maschinelles Lernen',
+                    description: 'Erkundung, wie KI die Nutzererfahrung und Designprozesse verbessern kann',
+                },
+                5: {
+                    name: 'Design-Systeme',
+                    description: 'Aufbau skalierbarer und wartbarer Design-Frameworks für große Produkte',
+                },
+            },
         },
 
         values: {
             title: 'Werte',
-            description: 'Grundprinzipien, die meine Arbeit leiten',
-            ariaLabel: 'Werte Bereich',
+            description: 'Grundsätze, die meine Arbeit leiten',
+            ariaLabel: 'Wertebereich',
+            entries: {
+                0: {
+                    title: 'Klarheit',
+                    quote: 'Wenn du es nicht einfach erklären kannst, hast du es nicht gut genug verstanden.',
+                    description: 'Ich glaube, dass gutes Design und gutes Denken dieselbe Wurzel haben — Präzision. Komplexität ist einfach; Klarheit erfordert Arbeit.',
+                },
+                1: {
+                    title: 'Tiefe',
+                    quote: 'An der Oberfläche hören Amateure auf. In der Tiefe beginnt das Handwerk.',
+                    description: 'Ich gehe über die naheliegende Lösung hinaus. Jede Verständnisschicht — technisch, kognitiv, menschlich — macht die Arbeit ehrlicher und beständiger.',
+                },
+                2: {
+                    title: 'Absicht',
+                    quote: 'Jede Entscheidung ist eine Aussage. Triff sie bewusst.',
+                    description: 'Ich füge keine Funktionen, Farben oder Interaktionen ohne Grund hinzu. Design ist die Summe seiner Entscheidungen — und jede dient der Person, die es nutzt, oder eben nicht.',
+                },
+            },
         },
 
         contact: {
-            title: 'Kontakt',
+            title: 'Kontakt aufnehmen',
             description: 'Lass uns vernetzen und gemeinsam Möglichkeiten erkunden.',
-            ariaLabel: 'Kontakt Bereich',
-            getInTouch: 'Kontakt aufnehmen',
+            ariaLabel: 'Kontaktbereich',
+            getInTouch: 'Kontaktiere mich',
             links: {
-                email: { label: 'Email', href: 'mailto:cogassien@hotmail.com' },
-                linkedin: { label: 'LinkedIn', href: 'https://fr.linkedin.com/in/corentin-gassien-1b7289261' },
-                github: { label: 'GitHub', href: 'https://github.com/Xlambdas' },
+                email: {
+                    label: 'E-Mail',
+                    href: 'mailto:cogassien@hotmail.com',
+                },
+                linkedin: {
+                    label: 'LinkedIn',
+                    href: 'https://fr.linkedin.com/in/corentin-gassien-1b7289261',
+                },
+                github: {
+                    label: 'GitHub',
+                    href: 'https://github.com/Xlambdas',
+                },
             },
         },
     },
@@ -926,22 +1241,47 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
             back: '← Indietro',
             github: 'github',
         },
-        ariaLabel: 'Pagina portfolio',
+
+        ariaLabel: 'Pagina del portfolio',
 
         sidebar: {
-            labelExpand: 'Espandi barra laterale',
-            labelCollapse: 'Riduci barra laterale',
+            labelCollapse: 'Comprimi la barra laterale',
+            labelExpand: 'Espandi la barra laterale',
             files: {
-                about: { name: 'ChiSono', comment: '# Sezione su di me' },
-                skills: { name: 'Competenze', comment: '# Competenze ed esperienza' },
-                timeline: { name: 'Cronologia', comment: '# Il mio percorso' },
-                interests: { name: 'Interessi', comment: '# I miei interessi' },
-                values: { name: 'Valori', comment: '# Valori e filosofia' },
-                contact: { name: 'Contatto', comment: '# Sezione contatto' },
+                about: {
+                    name: 'DiMe',
+                    comment: '# Sezione su di me',
+                },
+                skills: {
+                    name: 'Competenze',
+                    comment: '# Competenze ed esperienza',
+                },
+                timeline: {
+                    name: 'Cronologia',
+                    comment: '# La mia cronologia',
+                },
+                interests: {
+                    name: 'Interessi',
+                    comment: '# I miei interessi',
+                },
+                values: {
+                    name: 'Valori',
+                    comment: '# Valori personali',
+                },
+                contact: {
+                    name: 'Contatti',
+                    comment: '# Sezione contatti',
+                },
             },
             folders: {
-                portfolio: { name: 'portfolio', comment: '' },
-                aboutme: { name: 'Chi_sono', comment: '# Cartella su di me' },
+                portfolio: {
+                    name: 'portfolio',
+                    comment: '',
+                },
+                aboutme: {
+                    name: 'dettagli',
+                    comment: '# Sottocartella su di me',
+                },
             },
             footer: {
                 copyright: '©',
@@ -951,109 +1291,109 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
 
         hero: {
             title: 'Designer & Sviluppatore',
-            subtitle: 'Creo esperienze intuitive all\'intersezione tra design, codice e scienza cognitiva',
-            ariaLabel: 'Introduzione al portfolio',
+            subtitle: 'Creare esperienze intuitive all\'intersezione tra design, codice e scienze cognitive',
+            ariaLabel: 'Introduzione del portfolio',
         },
 
         about: {
             title: 'Chi sono',
-            description: 'Sono un designer e sviluppatore appassionato di creare esperienze digitali centrate sull’utente...',
-            ariaLabel: 'Sezione su di me',
+            description: 'Sono un designer e sviluppatore appassionato dalla creazione di esperienze digitali centrate sull\'essere umano. Con una formazione nelle scienze cognitive e competenze che spaziano dallo sviluppo di videogiochi al design UI/UX fino alle tecnologie web, affronto ogni progetto con chiarezza e intenzionalità.',
+            ariaLabel: 'Sezione chi sono',
         },
 
         skills: {
             title: 'Competenze',
-            description: 'Panoramica completa delle mie competenze in sviluppo di giochi, design, tecnologie web e scienza cognitiva.',
+            description: 'Una panoramica completa della mia esperienza nello sviluppo di videogiochi, nel design, nelle tecnologie web e nelle scienze cognitive.',
             ariaLabel: 'Sezione competenze',
-            finalNote: 'Esploro continuamente nuove tecnologie e metodologie. Sempre imparando, sempre costruendo.',
+            finalNote: 'Esploro continuamente nuove tecnologie e metodologie. Sempre in apprendimento, sempre in costruzione.',
             categories: {
                 gamedev: {
-                    title: 'Sviluppo e Design di Giochi',
+                    title: 'Sviluppo e Design di Videogiochi',
                     description: 'Sistemi interattivi e meccaniche di gioco',
                     subcategories: {
                         design: {
                             name: 'Game Design',
-                            skills: ['Meccaniche di gioco', 'Level design', 'Psicologia del giocatore', 'Design di sistemi'],
+                            skills: ['Meccaniche di Gioco', 'Level Design', 'Psicologia del Giocatore', 'Design dei Sistemi'],
                         },
                         development: {
-                            name: 'Sviluppo di giochi',
-                            skills: ['Unity', 'C#', 'Sistemi fisici', 'UI/UX per giochi'],
+                            name: 'Sviluppo di Videogiochi',
+                            skills: ['Unity', 'C#', 'Sistemi Fisici', 'UI/UX per Giochi'],
                         },
                         relatedSkills: {
-                            name: 'Competenze correlate',
-                            skills: ['Prototipazione', 'Playtesting', 'Narrativa di gioco', 'Modellazione 3D (base)'],
+                            name: 'Competenze Correlate',
+                            skills: ['Prototipazione', 'Playtest', 'Narrativa di Gioco', 'Modellazione 3D base'],
                         },
                     },
                 },
                 uiux: {
                     title: 'Design UI/UX',
-                    description: 'Progettazione di prodotti digitali e esperienza utente',
+                    description: 'Design di prodotti digitali ed esperienza utente',
                     subcategories: {
                         tools: {
-                            name: 'Strumenti e metodi',
-                            skills: ['Figma', 'Wireframing', 'Prototipazione', 'Design system'],
+                            name: 'Strumenti e Metodi di Design',
+                            skills: ['Figma', 'Wireframing', 'Prototipazione', 'Sistemi di Design'],
                         },
                         principles: {
-                            name: 'Principi di design',
-                            skills: ['User research', 'Test di usabilità', 'Architettura dell’informazione', 'Responsive design'],
+                            name: 'Principi di Design',
+                            skills: ['Ricerca Utente', 'Test di Usabilità', 'Architettura dell\'Informazione', 'Design Responsivo'],
                         },
                         advanced: {
-                            name: 'Design avanzato',
-                            skills: ['Design adattivo', 'Interaction design', 'Accessibilità (A11y)', 'User testing'],
+                            name: 'Design Avanzato',
+                            skills: ['Design Adattivo', 'Design dell\'Interazione', 'Accessibilità (A11y)', 'Test con Utenti'],
                         },
                     },
                 },
                 webdev: {
                     title: 'Sviluppo Web',
-                    description: 'Tecnologie frontend e full-stack',
+                    description: 'Tecnologie web frontend e full-stack',
                     subcategories: {
                         frontend: {
                             name: 'Frontend',
                             skills: ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Tailwind CSS'],
                         },
                         tools: {
-                            name: 'Strumenti frontend',
-                            skills: ['Vite', 'Node.js', 'npm/yarn', 'Git & GitHub', 'Terminal/CLI'],
+                            name: 'Strumenti Frontend e Build',
+                            skills: ['Vite', 'Node.js', 'npm/yarn', 'Git & GitHub', 'Terminale/CLI'],
                         },
                         backend: {
                             name: 'Backend e API',
-                            skills: ['Node.js', 'PHP', 'API REST', 'Progettazione database'],
+                            skills: ['Node.js', 'PHP', 'REST API', 'Progettazione di Database'],
                         },
                     },
                 },
                 dataAlgorithms: {
                     title: 'Dati e Algoritmi',
-                    description: 'Pensiero computazionale e data science',
+                    description: 'Pensiero computazionale e scienza dei dati',
                     subcategories: {
                         algorithms: {
-                            name: 'Algoritmi e problem solving',
-                            skills: ['Progettazione algoritmi', 'Strutture dati', 'Pensiero computazionale', 'Ottimizzazione codice'],
+                            name: 'Algoritmi e Risoluzione dei Problemi',
+                            skills: ['Progettazione di Algoritmi', 'Strutture Dati', 'Pensiero Computazionale', 'Ottimizzazione del Codice'],
                         },
                         datascience: {
-                            name: 'Data science',
-                            skills: ['Python', 'Analisi dati', 'Pensiero statistico', 'Visualizzazione dati'],
+                            name: 'Scienza dei Dati',
+                            skills: ['Python', 'Analisi dei Dati', 'Pensiero Statistico', 'Visualizzazione dei Dati'],
                         },
                         mathematics: {
-                            name: 'Pensiero matematico',
-                            skills: ['Algebra lineare', 'Matematica discreta', 'Probabilità', 'Riconoscimento pattern'],
+                            name: 'Pensiero Matematico',
+                            skills: ['Algebra Lineare', 'Matematica Discreta', 'Probabilità', 'Riconoscimento di Pattern'],
                         },
                     },
                 },
                 cognitivescience: {
-                    title: 'Scienza Cognitiva e Design Human-Centered',
-                    description: 'Comprendere il comportamento umano',
+                    title: 'Scienze Cognitive e Design Centrato sull\'Umano',
+                    description: 'Comprensione del comportamento umano e dell\'interazione',
                     subcategories: {
                         cognitive: {
-                            name: 'Scienza cognitiva',
-                            skills: ['Psicologia cognitiva', 'Sistemi di apprendimento', 'Memoria e attenzione', 'Decision making'],
+                            name: 'Scienze Cognitive',
+                            skills: ['Psicologia Cognitiva', 'Sistemi di Apprendimento', 'Memoria e Attenzione', 'Processo Decisionale'],
                         },
                         hci: {
-                            name: 'Interazione uomo-computer',
-                            skills: ['Interaction design', 'Ricerca di usabilità', 'Accessibilità', 'Analisi comportamentale'],
+                            name: 'Interazione Uomo-Macchina',
+                            skills: ['Design dell\'Interazione', 'Ricerca sull\'Usabilità', 'Accessibilità', 'Analisi del Comportamento Utente'],
                         },
                         learning: {
-                            name: 'Apprendimento e comportamento',
-                            skills: ['Learning design', 'Gamification', 'Coinvolgimento utente', 'Psicologia comportamentale'],
+                            name: 'Apprendimento e Comportamento',
+                            skills: ['Progettazione Didattica', 'Gamification', 'Coinvolgimento dell\'Utente', 'Psicologia Comportamentale'],
                         },
                     },
                 },
@@ -1061,13 +1401,15 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
         },
 
         timeline: {
-            title: 'Percorso',
-            description: 'Il mio percorso professionale e le tappe principali',
+            title: 'Cronologia',
+            description: 'Un percorso attraverso il design, il codice e la ricerca.',
             ariaLabel: 'Sezione cronologia',
             entries: {
-                0: { endDate: '2024', title: 'Progetto recente', type: 'project', description: 'Descrizione in arrivo' },
-                1: { endDate: '2023', title: 'Esperienza', type: 'event', description: 'Descrizione in arrivo' },
-                2: { endDate: '2022', title: 'Formazione', type: 'education', description: 'Descrizione in arrivo' },
+                0: { startDate: '2026-02-02', endDate: '2026-06-30', title: 'Stage in sviluppo di videogiochi', type: 'education', description: 'Sviluppo di un concept e prototipo di gioco con Unity e C#.' },
+                1: { startDate: '2021-09', endDate: '2026-01', title: 'Laurea triennale MIASHS', type: 'education', description: 'All\'Università di Bordeaux, con specializzazione in scienze cognitive e interazione uomo-macchina.' },
+                2: { endDate: '2021-06', title: 'Baccalauréat francese', type: 'education', description: 'Diploma di scuola superiore con orientamento in scienze e matematica.' },
+                3: { startDate: '2026-02', endDate: '2026-03', title: 'Lancio del portfolio', type: 'work', description: 'Pubblicazione di questo portfolio per presentare il mio lavoro e il mio percorso.' },
+                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Sviluppo di un plugin per l\'applicazione di presa di appunti Obsidian.' },
             },
         },
 
@@ -1075,23 +1417,76 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
             title: 'Interessi',
             description: 'Aree che esploro e continuo ad approfondire',
             ariaLabel: 'Sezione interessi',
+            note: 'Questi interessi influenzano profondamente il mio approccio al design e allo sviluppo. Credo che comprendere il comportamento umano, l\'apprendimento e l\'interazione sia fondamentale per creare esperienze digitali significative.',
+            entries: {
+                0: {
+                    name: 'Scienze Cognitive',
+                    description: 'Capire come gli esseri umani apprendono, percepiscono e interagiscono con i sistemi',
+                },
+                1: {
+                    name: 'Interazione Uomo-Macchina',
+                    description: 'Progettare interfacce che risultino naturali e intuitive per gli utenti',
+                },
+                2: {
+                    name: 'Game Design',
+                    description: 'Esplorare sistemi interattivi, psicologia del giocatore e meccaniche emergenti',
+                },
+                3: {
+                    name: 'Sistemi di Apprendimento',
+                    description: 'Creare esperienze educative coinvolgenti e favorire il trasferimento di conoscenze',
+                },
+                4: {
+                    name: 'IA e Apprendimento Automatico',
+                    description: 'Esplorare come l\'IA può migliorare l\'esperienza utente e i processi di design',
+                },
+                5: {
+                    name: 'Sistemi di Design',
+                    description: 'Costruire framework di design scalabili e manutenibili per prodotti di grande scala',
+                },
+            },
         },
 
         values: {
             title: 'Valori',
-            description: 'Principi che guidano il mio lavoro',
+            description: 'I principi che guidano il mio lavoro',
             ariaLabel: 'Sezione valori',
+            entries: {
+                0: {
+                    title: 'Chiarezza',
+                    quote: 'Se non riesci a spiegarlo in modo semplice, non lo hai capito abbastanza bene.',
+                    description: 'Credo che il buon design e il buon pensiero condividano la stessa radice — la precisione. La complessità è facile; la chiarezza richiede lavoro.',
+                },
+                1: {
+                    title: 'Profondità',
+                    quote: 'La superficie è dove si fermano i dilettanti. La profondità è dove inizia il mestiere.',
+                    description: 'Vado oltre la soluzione ovvia. Ogni strato di comprensione — tecnico, cognitivo, umano — rende il lavoro più onesto e più duraturo.',
+                },
+                2: {
+                    title: 'Intenzione',
+                    quote: 'Ogni decisione è un\'affermazione. Prendile deliberatamente.',
+                    description: 'Non aggiungo funzionalità, colori o interazioni senza una ragione. Il design è la somma delle sue decisioni — e ognuna serve la persona che lo utilizza, o non lo fa.',
+                },
+            },
         },
 
         contact: {
-            title: 'Contatto',
-            description: 'Connettiamoci ed esploriamo nuove opportunità.',
-            ariaLabel: 'Sezione contatto',
-            getInTouch: 'Contattami',
+            title: 'Contattami',
+            description: 'Connettiamoci ed esploriamo opportunità insieme.',
+            ariaLabel: 'Sezione contatti',
+            getInTouch: 'Scrivimi',
             links: {
-                email: { label: 'Email', href: 'mailto:cogassien@hotmail.com' },
-                linkedin: { label: 'LinkedIn', href: 'https://fr.linkedin.com/in/corentin-gassien-1b7289261' },
-                github: { label: 'GitHub', href: 'https://github.com/Xlambdas' },
+                email: {
+                    label: 'Email',
+                    href: 'mailto:cogassien@hotmail.com',
+                },
+                linkedin: {
+                    label: 'LinkedIn',
+                    href: 'https://fr.linkedin.com/in/corentin-gassien-1b7289261',
+                },
+                github: {
+                    label: 'GitHub',
+                    href: 'https://github.com/Xlambdas',
+                },
             },
         },
     },
