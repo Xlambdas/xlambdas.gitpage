@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "docs:structure": "node scripts/update-readme-structure.mjs",
+    "docs:sync": "npm run docs:structure",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
