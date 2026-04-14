@@ -232,6 +232,6 @@ All visual tokens are CSS variables, making theme changes a single-file edit:
 
 ## License
 
-© 2026 Corentin Gassien — All rights reserved.
+MIT License — see [LICENSE](./LICENSE)
 
-The source code, design, content, and assets in this repository are the exclusive property of Corentin Gassien. No part of this project may be reproduced, distributed, modified, or used in any form without explicit written permission from the author.
+© 2026 XLS.studio — All rights reserved.
