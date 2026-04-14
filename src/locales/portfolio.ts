@@ -387,6 +387,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                 2: { endDate: "2021-06", title: "French baccalauréat", type: "education", description: "Completed high school education with a focus on science and mathematics." },
                 3: { startDate: "2026-02", endDate: "2026-03", title: "Portfolio Launch", type: "work", description: "Launching this portfolio to showcase my work and journey." },
                 4: { startDate: "2025-05", endDate: "2026-01", title: "Plugin GOL", type: "project", description: "Developed a plugin for the note taking application (Obsidian)." },
+                5: { startDate: "2026-03", endDate: "2026-05", title: "Small Tools", type: "project", description: "Built a series of exploratory projects to deepen my skills across different domains of software development, including CLI tools (px-cli), an email automation manager, and a hand gesture interaction system. Upcoming experiments include a voice-based assistant (Jarvi-like), a smart meal suggestion tool based on budget and seasonal/local food availability, and an improved hand gesture control system." },
             }
         },
 
