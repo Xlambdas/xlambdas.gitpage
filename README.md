@@ -232,6 +232,6 @@ All visual tokens are CSS variables, making theme changes a single-file edit:
 
 ## License
 
-MIT License — see [LICENSE](./LICENSE)
+MIT License — see [LICENSE](./LICENSE.md)
 
 © 2026 XLS.studio — All rights reserved.
