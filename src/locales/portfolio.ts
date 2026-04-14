@@ -386,7 +386,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                 1: { startDate: "2021-09", endDate: "2026-01", title: "Bachelor MIASHS", type: "education", description: "At the University of Bordeaux, focusing on cognitive science and human-computer interaction." },
                 2: { endDate: "2021-06", title: "French baccalauréat", type: "education", description: "Completed high school education with a focus on science and mathematics." },
                 3: { startDate: "2026-02", endDate: "2026-03", title: "Portfolio Launch", type: "work", description: "Launching this portfolio to showcase my work and journey." },
-                4: { startDate: "2025-05", endDate: "2026-09", title: "Plugin GOL", type: "project", description: "Developed a plugin for the note taking application (Obsidian)." },
+                4: { startDate: "2025-05", endDate: "2026-01", title: "Plugin GOL", type: "project", description: "Developed a plugin for the note taking application (Obsidian)." },
             }
         },
 
@@ -643,7 +643,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                 1: { startDate: '2021-09', endDate: '2026-01', title: 'Grado MIASHS', type: 'education', description: 'En la Universidad de Burdeos, con especialización en ciencias cognitivas e interacción humano-computadora.' },
                 2: { endDate: '2021-06', title: 'Bachillerato francés', type: 'education', description: 'Educación secundaria completada con orientación en ciencias y matemáticas.' },
                 3: { startDate: '2026-02', endDate: '2026-03', title: 'Lanzamiento del portafolio', type: 'work', description: 'Lanzamiento de este portafolio para mostrar mi trabajo y trayectoria.' },
-                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Desarrollo de un plugin para la aplicación de toma de notas (Obsidian).' },
+                4: { startDate: '2025-05', endDate: '2026-01', title: 'Plugin GOL', type: 'project', description: 'Desarrollo de un plugin para la aplicación de toma de notas (Obsidian).' },
             },
         },
 
@@ -898,7 +898,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                 1: { startDate: '2021-09', endDate: '2026-01', title: 'Licence MIASHS', type: 'education', description: 'À l\'Université de Bordeaux, spécialisation en sciences cognitives et interaction humain-machine.' },
                 2: { endDate: '2021-06', title: 'Baccalauréat français', type: 'education', description: 'Diplôme de fin d\'études secondaires avec spécialisation en sciences et mathématiques.' },
                 3: { startDate: '2026-02', endDate: '2026-03', title: 'Lancement du portfolio', type: 'work', description: 'Mise en ligne de ce portfolio pour présenter mon travail et mon parcours.' },
-                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Développement d\'un plugin pour l\'application de prise de notes Obsidian.' },
+                4: { startDate: '2025-05', endDate: '2026-01', title: 'Plugin GOL', type: 'project', description: 'Développement d\'un plugin pour l\'application de prise de notes Obsidian.' },
             },
         },
 
@@ -1154,7 +1154,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                 1: { startDate: '2021-09', endDate: '2026-01', title: 'Bachelor MIASHS', type: 'education', description: 'An der Universität Bordeaux mit Schwerpunkt Kognitionswissenschaft und Mensch-Computer-Interaktion.' },
                 2: { endDate: '2021-06', title: 'Französisches Abitur', type: 'education', description: 'Abschluss der Sekundarschule mit Schwerpunkt Naturwissenschaften und Mathematik.' },
                 3: { startDate: '2026-02', endDate: '2026-03', title: 'Portfolio-Launch', type: 'work', description: 'Veröffentlichung dieses Portfolios zur Präsentation meiner Arbeit und meines Werdegangs.' },
-                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Entwicklung eines Plugins für die Notiz-Anwendung Obsidian.' },
+                4: { startDate: '2025-05', endDate: '2026-01', title: 'Plugin GOL', type: 'project', description: 'Entwicklung eines Plugins für die Notiz-Anwendung Obsidian.' },
             },
         },
 
@@ -1409,7 +1409,7 @@ export const PORTFOLIO_TRANSLATIONS: Record<Language, PortfolioTranslations> = {
                 1: { startDate: '2021-09', endDate: '2026-01', title: 'Laurea triennale MIASHS', type: 'education', description: 'All\'Università di Bordeaux, con specializzazione in scienze cognitive e interazione uomo-macchina.' },
                 2: { endDate: '2021-06', title: 'Baccalauréat francese', type: 'education', description: 'Diploma di scuola superiore con orientamento in scienze e matematica.' },
                 3: { startDate: '2026-02', endDate: '2026-03', title: 'Lancio del portfolio', type: 'work', description: 'Pubblicazione di questo portfolio per presentare il mio lavoro e il mio percorso.' },
-                4: { startDate: '2025-05', endDate: '2026-09', title: 'Plugin GOL', type: 'project', description: 'Sviluppo di un plugin per l\'applicazione di presa di appunti Obsidian.' },
+                4: { startDate: '2025-05', endDate: '2026-01', title: 'Plugin GOL', type: 'project', description: 'Sviluppo di un plugin per l\'applicazione di presa di appunti Obsidian.' },
             },
         },
 
