@@ -19,36 +19,7 @@ Main principles:
 
 ---
 
-# 2. Project Structure
-
-src/
-
-components/
-│
-├─ layout/
-│   Header.tsx
-│
-├─ sections/
-│   SectionWelcome.tsx
-│   SectionKnowledge.tsx
-│   SectionSandbox.tsx
-
-hooks/
-│
-├─ useSplineScene.ts
-├─ useSectionScroll.ts
-
-pages/
-│
-└─ Home.tsx
-
-styles/
-│
-└─ globals.css
-
----
-
-# 3. Rendering System
+# 2. Rendering System
 
 The application renders **two main layers**:
 
@@ -95,7 +66,7 @@ Each section corresponds to a **Spline variable state**.
 
 ---
 
-# 4. Scroll Navigation System
+# 3. Scroll Navigation System
 
 Instead of default page scrolling, navigation uses a **controlled section system**.
 
@@ -113,7 +84,7 @@ Smooth synchronized UI + 3D transitions.
 
 ---
 
-# 5. Performance System
+# 4. Performance System
 
 The application includes a **dynamic performance monitor**.
 
@@ -140,7 +111,7 @@ This ensures stable performance across devices.
 
 ---
 
-# 6. Animation Control
+# 5. Animation Control
 
 Animations can be disabled through the interface.
 
@@ -154,7 +125,7 @@ This improves accessibility and low-power device performance.
 
 ---
 
-# 7. Accessibility
+# 6. Accessibility
 
 The application respects the system preference:
 
@@ -166,7 +137,7 @@ Animations are automatically disabled.
 
 ---
 
-# 8. Deployment Architecture
+# 7. Deployment Architecture
 
 Deployment uses **GitHub Pages**.
 
@@ -184,7 +155,7 @@ This ensures correct asset loading on GitHub Pages.
 
 ---
 
-# 9. Future Architectural Improvements
+# 8. Future Architectural Improvements
 
 Planned improvements include:
 
@@ -196,7 +167,7 @@ Planned improvements include:
 
 ---
 
-# 10. Design Philosophy
+# 9. Design Philosophy
 
 The architecture is designed around three principles:
 
